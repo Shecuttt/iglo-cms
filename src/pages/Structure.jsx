@@ -3,7 +3,7 @@ import Sidebar from "../components/Sidebar";
 import TopNav from "../components/TopNav";
 import NotFound from "../components/NotFound";
 
-const Dashboard = () => {
+const Structure = () => {
     return (
         <div className="flex">
             {/* Sidebar */}
@@ -17,4 +17,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default Structure;

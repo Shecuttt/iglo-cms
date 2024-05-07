@@ -1,6 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
-const Login = () => {
+const Login = ( {value, onChange} ) => {
+  const [showPassword, setShowPassword] = useState(false);
+  
+  const handleShowPasswordClick = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className='overflow-hidden'>
       <section className="bg-red-100 h-screen relative">
@@ -32,7 +40,7 @@ const Login = () => {
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                     </svg>                      
                   </div>
-                  <input name="username" type="username" autocomplete="username" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-1 sm:text-sm sm:leading-6 px-4 ps-10 bg-slate-200" placeholder="Username" />
+                  <input name="username" type="username" autocomplete="username" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring focus:ring-red-700 focus:bg-white shadow-md outline-none px-4 ps-10 bg-slate-200" placeholder="Username" />
                 </div>
           
                 <div className="relative">
@@ -41,22 +49,24 @@ const Login = () => {
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z" />
                     </svg>                      
                   </div>
-                  <input name="password" type="password" autocomplete="current-password" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-1 sm:text-sm sm:leading-6 px-4 ps-10 bg-slate-200" placeholder="Password" />
+                  <input name="password" type={showPassword? 'text' : 'password'} value={value} onChange={onChange} autocomplete="current-password" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring focus:ring-red-700 focus:bg-white shadow-md outline-none px-4 ps-10 bg-slate-200" placeholder="Password" />
                   <div className="absolute inset-y-0 end-0 flex items-center pe-2.5 text-gray-400">
-                    <button>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 hidden">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                        </svg>
-                    </button>
+                  <button
+                    type="button"
+                    onClick={handleShowPasswordClick}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  >
+                    {showPassword? (
+                      <FontAwesomeIcon icon={faEye} className="w-4 h-4 text-gray-500" />
+                    ) : (
+                      <FontAwesomeIcon icon={faEyeSlash} className="w-4 h-4 text-gray-500" />
+                    )}
+                  </button>
                   </div>
                 </div>
           
                 <div>
-                  <button type="submit" className="flex w-full justify-center rounded-md bg-red-900 px-3 py-1.5 font-semibold leading-6 text-white shadow-sm hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 text-lg">Sign in</button>
+                  <button type="submit" className="flex w-full justify-center rounded-md bg-red-800 px-3 py-2 font-semibold leading-6 text-white shadow-sm hover:bg-red-600 text-lg mt-8">Sign in</button>
                 </div>
               </form>
             </div>
