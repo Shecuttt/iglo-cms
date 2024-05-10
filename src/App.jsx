@@ -7,6 +7,8 @@ import Login from "./pages/Login";
 import UserLog from "./pages/UserLog";
 import NotFound from "./components/NotFound";
 import Structure from "./pages/Structure";
+import EditUser from "./pages/EditUser";
+import ReadUser from "./pages/ReadUser";
 
 function App() {
     return (
@@ -18,6 +20,8 @@ function App() {
                 <Route path="/structure" element={<Structure />} />
                 <Route path="/userlog" element={<UserLog />} />
                 <Route path="/adduser" element={<AddUser />} />
+                <Route path="/edit" element={<EditUser />} />
+                <Route path="/readonly" element={<ReadUser />} />
                 <Route path="/login" element={<Login />} />
             </Routes>
         </>

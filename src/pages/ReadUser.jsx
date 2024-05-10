@@ -1,9 +1,10 @@
 import React from "react";
 import TopNav from "../components/TopNav";
-import FormAdd from "../components/FormAdd";
 import Sidebar from "../components/Sidebar";
+import FormRead from "../components/FormRead";
+import BackButton from "../components/BackButton";
 
-const AddUser = () => {
+const ReadUser = () => {
     return (
         <div className="flex">
             {/* Sidebar */}
@@ -11,12 +12,13 @@ const AddUser = () => {
             {/* Main */}
             <main className="w-full bg-red-50">
                 <TopNav />
+                <BackButton />
                 <div className="px-10 py-4">
-                    <FormAdd />
+                    <FormRead />
                 </div>
             </main>
         </div>
     );
 };
 
-export default AddUser;
+export default ReadUser;

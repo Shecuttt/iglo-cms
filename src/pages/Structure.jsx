@@ -1,7 +1,7 @@
 import React from "react";
 import Sidebar from "../components/Sidebar";
 import TopNav from "../components/TopNav";
-import NotFound from "../components/NotFound";
+import Tabs from "../components/Tabs";
 
 const Structure = () => {
     return (
@@ -11,7 +11,7 @@ const Structure = () => {
             {/* Main */}
             <main className="w-full bg-red-50">
                 <TopNav />
-                <NotFound />
+                <Tabs />
             </main>
         </div>
     );

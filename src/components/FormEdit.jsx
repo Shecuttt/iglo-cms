@@ -5,9 +5,9 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { optionDepart, optionPosition, optionRole, optionStatus, workGroup } from "../data/MyData";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const FormAdd = () => {
+const FormEdit = () => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [id, setId] = useState("");
@@ -34,11 +34,6 @@ const FormAdd = () => {
                 <Link to={"/usermanage"}></Link>;
             }
         });
-    };
-
-    const backPrevious = useNavigate();
-    const handleBack = () => {
-        backPrevious(-1);
     };
 
     return (
@@ -191,10 +186,10 @@ const FormAdd = () => {
                     </div>
                     <div className="my-8 flex justify-end items-center">
                         <button type="submit" onClick={() => successAdd()} className="bg-green-300 text-green-800 hover:bg-green-500 hover:text-green-100 rounded-md px-8 py-2 mr-2">
-                            Add
+                            Submit
                         </button>
-                        <button onClick={handleBack} className="bg-gray-300 text-gray-800 hover:bg-gray-500 hover:text-gray-100 rounded-md px-8 py-2 ml-2">
-                            Cancel
+                        <button type="reset" className="bg-gray-300 text-gray-800 hover:bg-gray-500 hover:text-gray-100 rounded-md px-8 py-2 ml-2">
+                            Reset
                         </button>
                     </div>
                 </form>
@@ -203,4 +198,4 @@ const FormAdd = () => {
     );
 };
 
-export default FormAdd;
+export default FormEdit;

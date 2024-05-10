@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown, faHouse, faUser, faBorderAll, faSignIn, faUsers, faUserGroup, faUserGear } from "@fortawesome/free-solid-svg-icons";
+import { faCaretDown, faHouse, faUser, faBorderAll, faUsers, faUserGroup, faUserGear } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 
 function Sidebar() {
