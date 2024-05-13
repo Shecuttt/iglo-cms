@@ -3,10 +3,10 @@ import React from "react";
 const TabContext = ({ tabs, activeTab, setActiveTab }) => {
     const Tab = ({ label, onClick, isActive }) => {
         return (
-            <div className="">
+            <div>
                 <button
                     onClick={onClick}
-                    className={isActive ? "bg-red-500 text-white font-bold py-2 px-4 rounded" : "bg-white hover:text-white hover:bg-red-700 text-red-500 font-bold py-2 px-4 rounded"}
+                    className={isActive ? "bg-red-700 text-white font-bold py-2 px-4 rounded shadow-md" : "bg-white hover:text-white hover:bg-red-700 text-red-500 font-bold py-2 px-4 rounded"}
                 >
                     {label}
                 </button>
@@ -15,7 +15,7 @@ const TabContext = ({ tabs, activeTab, setActiveTab }) => {
     };
 
     return (
-        <div>
+        <div className="w-full">
             <div className="p-8 flex">
                 {tabs.map((tab) => (
                     <button key={tab.label} className="flex mx-2">
@@ -23,7 +23,7 @@ const TabContext = ({ tabs, activeTab, setActiveTab }) => {
                     </button>
                 ))}
             </div>
-            <div className="tab-content">
+            <div className="tab-content px-8">
                 {tabs.map((tab) => (
                     <div key={tab.label} className={tab.label === activeTab ? "active" : "hidden"}>
                         {tab.component}

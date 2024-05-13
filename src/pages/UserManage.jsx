@@ -5,33 +5,33 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faEye, faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "axios";
-import Api from "../api/API";
+// import axios from "axios";
+// import Api from "../api/API";
 
 const UserManage = () => {
-    const [users, setUsers] = useState([]);
+    // const [users, setUsers] = useState([]);
 
-    // Fetch data
+    // // Fetch data
 
-    const fetchData = async () => {
-        // PERHATIKAN DISINI!!!
-        await Api.get("/api/data").then((response) => {
-            setData(response.data.data.data);
-        });
-    };
-    useEffect(() => {
-        fetchData();
-    }, []);
+    // const fetchData = async () => {
+    //     // PERHATIKAN DISINI!!!
+    //     await Api.get("/api/data").then((response) => {
+    //         setData(response.data.data.data);
+    //     });
+    // };
+    // useEffect(() => {
+    //     fetchData();
+    // }, []);
 
-    // Loader
+    // // Loader
 
-    if (!data.length) {
-        return (
-            <div className="flex items-center justify-center h-screen">
-                <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 animate-ping"></div>
-            </div>
-        );
-    }
+    // if (!data.length) {
+    //     return (
+    //         <div className="flex items-center justify-center h-screen">
+    //             <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 animate-ping"></div>
+    //         </div>
+    //     );
+    // }
 
     const confirmDel = () => {
         Swal.fire({
@@ -68,14 +68,6 @@ const UserManage = () => {
                                 Dashboard
                             </a>
                         </li>
-                        {/* <!-- <li>
-              <div className="flex items-center">
-              <svg className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-              </svg>
-              <a href="#" className="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">User Management</a>
-              </div>
-          </li> --> */}
                         <li aria-current="page">
                             <div className="flex items-center">
                                 <svg className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
@@ -154,7 +146,7 @@ const UserManage = () => {
 
                             {/* <!-- Table content --> */}
                             <tbody>
-                                {data.map((item, index) => (
+                                {/* {data.map((item, index) => (
                                     <tr key={item.id} className="odd:bg-white even:bg-red-50 border-b">
                                         <td className="px-6 py-4">{index + 1}</td>
                                         <td className="px-6 py-4">{item.nama}</td>
@@ -177,127 +169,95 @@ const UserManage = () => {
                                             </div>
                                         </td>
                                     </tr>
-                                ))}
-                                {/* <tr className="odd:bg-white even:bg-red-50 border-b">
-                          <td className="px-6 py-4">
-                              2
-                          </td>
-                          <td className="px-6 py-4">
-                              Fitri Anisa
-                          </td>
-                          <td className="px-6 py-4">
-                              fitrianissa@gmail.com
-                          </td>
-                          <td className="px-6 py-4">
-                              Admin
-                          </td>
-                          <td className="px-6 py-4">
-                              <span className="bg-red-200 hover:bg-red-400 text-red-800 rounded-full py-2 px-4">Inactive</span>
-                          </td>
-                          <td className="px-6 py-4">
-                              <div className="flex items-center space-x-2">
-                                  <a href="" className="rounded-full text-white bg-blue-600 hover:bg-blue-800 active:text-blue-600 active:bg-white flex items-center">
-                                  <FontAwesomeIcon icon={faEye} className='p-2 items-center' />
-                                  </a>
-                                  <a href="" className="rounded-full text-white bg-green-600 hover:bg-green-800 active:text-green-600 active:bg-white flex items-center">
-                                  <FontAwesomeIcon icon={faPenToSquare} className='p-2' />
-                                  </a>
-                                  <a href="" className="rounded-full text-white bg-red-600 hover:bg-red-800 active:text-red-600 active:bg-white flex items-center">
-                                  <FontAwesomeIcon icon={faTrash} className='p-2' />
-                                  </a>
-                              </div>
-                          </td>
-                      </tr>
-                      <tr className="odd:bg-white even:bg-red-50 border-b">
-                          <td className="px-6 py-4">
-                              3
-                          </td>
-                          <td className="px-6 py-4">
-                              Juan Saputra
-                          </td>
-                          <td className="px-6 py-4">
-                              juan75@gmail.com
-                          </td>
-                          <td className="px-6 py-4">
-                              Admin
-                          </td>
-                          <td className="px-6 py-4">
-                              <span className="bg-green-200 hover:bg-green-400 text-green-800 rounded-full py-2 px-4">Active</span>
-                          </td>
-                          <td className="px-6 py-4">
-                              <div className="flex items-center space-x-2">
-                                  <a href="" className="rounded-full text-white bg-blue-600 hover:bg-blue-800 active:text-blue-600 active:bg-white flex items-center">
-                                  <FontAwesomeIcon icon={faEye} className='p-2 items-center' />
-                                  </a>
-                                  <a href="" className="rounded-full text-white bg-green-600 hover:bg-green-800 active:text-green-600 active:bg-white flex items-center">
-                                  <FontAwesomeIcon icon={faPenToSquare} className='p-2' />
-                                  </a>
-                                  <a href="" className="rounded-full text-white bg-red-600 hover:bg-red-800 active:text-red-600 active:bg-white flex items-center">
-                                  <FontAwesomeIcon icon={faTrash} className='p-2' />
-                                  </a>
-                              </div>
-                          </td>
-                      </tr>
-                      <tr className="odd:bg-white even:bg-red-50 border-b">
-                          <td className="px-6 py-4">
-                              4
-                          </td>
-                          <td className="px-6 py-4">
-                              Yosua
-                          </td>
-                          <td className="px-6 py-4">
-                              yosuaalx@gmail.com
-                          </td>
-                          <td className="px-6 py-4">
-                              Admin
-                          </td>
-                          <td className="px-6 py-4">
-                              <span className="bg-green-200 hover:bg-green-400 text-green-800 rounded-full py-2 px-4">Active</span>
-                          </td>
-                          <td className="px-6 py-4">
-                              <div className="flex items-center space-x-2">
-                                  <a href="" className="rounded-full text-white bg-blue-600 hover:bg-blue-800 active:text-blue-600 active:bg-white flex items-center">
-                                  <FontAwesomeIcon icon={faEye} className='p-2 items-center' />
-                                  </a>
-                                  <a href="" className="rounded-full text-white bg-green-600 hover:bg-green-800 active:text-green-600 active:bg-white flex items-center">
-                                  <FontAwesomeIcon icon={faPenToSquare} className='p-2' />
-                                  </a>
-                                  <a href="" className="rounded-full text-white bg-red-600 hover:bg-red-800 active:text-red-600 active:bg-white flex items-center">
-                                  <FontAwesomeIcon icon={faTrash} className='p-2' />
-                                  </a>
-                              </div>
-                          </td>
-                      </tr>
-                      <tr className="odd:bg-white even:bg-red-50 border-b">
-                          <td className="px-6 py-4">
-                              5
-                          </td>
-                          <td className="px-6 py-4">
-                              Wilian
-                          </td>
-                          <td className="px-6 py-4">
-                              wili37@gmail.com
-                          </td>
-                          <td className="px-6 py-4">
-                              Admin
-                          </td>
-                          <td className="px-6 py-4">
-                              <span className="bg-red-200 hover:bg-red-400 text-red-800 rounded-full py-2 px-4">Inactive</span>
-                          </td>
-                          <td className="px-6 py-4">
-                              <div className="flex items-center space-x-2">
-                                  <a href="" className="rounded-full text-white bg-blue-600 hover:bg-blue-800 active:text-blue-600 active:bg-white flex items-center">
-                                  <FontAwesomeIcon icon={faEye} className='p-2 items-center' />
-                                  </a>
-                                  <a href="" className="rounded-full text-white bg-green-600 hover:bg-green-800 active:text-green-600 active:bg-white flex items-center">
-                                  <FontAwesomeIcon icon={faPenToSquare} className='p-2' />
-                                  </a>
-                                  <a href="" className="rounded-full text-white bg-red-600 hover:bg-red-800 active:text-red-600 active:bg-white flex items-center">
-                                  <FontAwesomeIcon icon={faTrash} className='p-2' />
-                                  </a>
-                              </div>
-                          </td>
-                      </tr> */}
+                                ))} */}
+                                <tr className="odd:bg-white even:bg-red-50 border-b">
+                                    <td className="px-6 py-4">2</td>
+                                    <td className="px-6 py-4">Fitri Anisa</td>
+                                    <td className="px-6 py-4">fitrianissa@gmail.com</td>
+                                    <td className="px-6 py-4">Admin</td>
+                                    <td className="px-6 py-4">
+                                        <span className="bg-red-200 hover:bg-red-400 text-red-800 rounded-full py-2 px-4">Inactive</span>
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center space-x-2">
+                                            <a href="" className="rounded-full text-white bg-blue-600 hover:bg-blue-800 active:text-blue-600 active:bg-white flex items-center">
+                                                <FontAwesomeIcon icon={faEye} className="p-2 items-center" />
+                                            </a>
+                                            <a href="" className="rounded-full text-white bg-green-600 hover:bg-green-800 active:text-green-600 active:bg-white flex items-center">
+                                                <FontAwesomeIcon icon={faPenToSquare} className="p-2" />
+                                            </a>
+                                            <a href="" className="rounded-full text-white bg-red-600 hover:bg-red-800 active:text-red-600 active:bg-white flex items-center">
+                                                <FontAwesomeIcon icon={faTrash} className="p-2" />
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr className="odd:bg-white even:bg-red-50 border-b">
+                                    <td className="px-6 py-4">3</td>
+                                    <td className="px-6 py-4">Juan Saputra</td>
+                                    <td className="px-6 py-4">juan75@gmail.com</td>
+                                    <td className="px-6 py-4">Admin</td>
+                                    <td className="px-6 py-4">
+                                        <span className="bg-green-200 hover:bg-green-400 text-green-800 rounded-full py-2 px-4">Active</span>
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center space-x-2">
+                                            <a href="" className="rounded-full text-white bg-blue-600 hover:bg-blue-800 active:text-blue-600 active:bg-white flex items-center">
+                                                <FontAwesomeIcon icon={faEye} className="p-2 items-center" />
+                                            </a>
+                                            <a href="" className="rounded-full text-white bg-green-600 hover:bg-green-800 active:text-green-600 active:bg-white flex items-center">
+                                                <FontAwesomeIcon icon={faPenToSquare} className="p-2" />
+                                            </a>
+                                            <a href="" className="rounded-full text-white bg-red-600 hover:bg-red-800 active:text-red-600 active:bg-white flex items-center">
+                                                <FontAwesomeIcon icon={faTrash} className="p-2" />
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr className="odd:bg-white even:bg-red-50 border-b">
+                                    <td className="px-6 py-4">4</td>
+                                    <td className="px-6 py-4">Yosua</td>
+                                    <td className="px-6 py-4">yosuaalx@gmail.com</td>
+                                    <td className="px-6 py-4">Admin</td>
+                                    <td className="px-6 py-4">
+                                        <span className="bg-green-200 hover:bg-green-400 text-green-800 rounded-full py-2 px-4">Active</span>
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center space-x-2">
+                                            <a href="" className="rounded-full text-white bg-blue-600 hover:bg-blue-800 active:text-blue-600 active:bg-white flex items-center">
+                                                <FontAwesomeIcon icon={faEye} className="p-2 items-center" />
+                                            </a>
+                                            <a href="" className="rounded-full text-white bg-green-600 hover:bg-green-800 active:text-green-600 active:bg-white flex items-center">
+                                                <FontAwesomeIcon icon={faPenToSquare} className="p-2" />
+                                            </a>
+                                            <a href="" className="rounded-full text-white bg-red-600 hover:bg-red-800 active:text-red-600 active:bg-white flex items-center">
+                                                <FontAwesomeIcon icon={faTrash} className="p-2" />
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr className="odd:bg-white even:bg-red-50 border-b">
+                                    <td className="px-6 py-4">5</td>
+                                    <td className="px-6 py-4">Wilian</td>
+                                    <td className="px-6 py-4">wili37@gmail.com</td>
+                                    <td className="px-6 py-4">Admin</td>
+                                    <td className="px-6 py-4">
+                                        <span className="bg-red-200 hover:bg-red-400 text-red-800 rounded-full py-2 px-4">Inactive</span>
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center space-x-2">
+                                            <a href="" className="rounded-full text-white bg-blue-600 hover:bg-blue-800 active:text-blue-600 active:bg-white flex items-center">
+                                                <FontAwesomeIcon icon={faEye} className="p-2 items-center" />
+                                            </a>
+                                            <a href="" className="rounded-full text-white bg-green-600 hover:bg-green-800 active:text-green-600 active:bg-white flex items-center">
+                                                <FontAwesomeIcon icon={faPenToSquare} className="p-2" />
+                                            </a>
+                                            <a href="" className="rounded-full text-white bg-red-600 hover:bg-red-800 active:text-red-600 active:bg-white flex items-center">
+                                                <FontAwesomeIcon icon={faTrash} className="p-2" />
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                         <div className="flex items-center justify-end bg-red-800 text-white">
