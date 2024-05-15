@@ -1,9 +1,9 @@
 import { useState } from "react";
 import React from "react";
-import Company from "./structureComponent/Company";
-import Employee from "./structureComponent/Employee";
-import TimeReport from "./structureComponent/TimeReport";
-import Knowledge from "./structureComponent/Knowledge";
+import Company from "./Company";
+import Employee from "./Employee";
+import TimeReport from "./TimeReport";
+import Knowledge from "./Knowledge";
 
 import TabContext from "./TabContext";
 

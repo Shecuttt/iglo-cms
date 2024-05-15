@@ -45,12 +45,6 @@ function Sidebar() {
                             <NavLink to={"/userlog"} className="block px-4 py-2 hover:bg-gray-100">
                                 Detail Activity
                             </NavLink>
-                            <NavLink to={"/structure"} className="block px-4 py-2 hover:bg-gray-100">
-                                Structure
-                            </NavLink>
-                            <NavLink to={"/"} className="block px-4 py-2 hover:bg-gray-100">
-                                Item 3
-                            </NavLink>
                         </div>
                     )}
                 </li>
@@ -70,12 +64,16 @@ function Sidebar() {
                             </NavLink>
                         </li>
                         <li>
-                            <a href="" className="p-2 hover:bg-red-100 rounded-md flex items-center">
+                            <NavLink
+                                to={"/structure"}
+                                className={({ isActive }) => (isActive ? "p-2 bg-red-700 text-red-50 rounded-md flex items-center shadow-md" : "p-2 hover:bg-red-100 rounded-md flex items-center")}
+                                end
+                            >
                                 <FontAwesomeIcon icon={faUserGroup} />
                                 <span href="" className="ml-4">
                                     Lead
                                 </span>
-                            </a>
+                            </NavLink>
                         </li>
                         <li>
                             <a href="" className="p-2 hover:bg-red-100 rounded-md flex items-center sidebar-dropdown-toggle">
@@ -87,13 +85,17 @@ function Sidebar() {
                             </a>
                         </li>
                         <li>
-                            <a href="" className="p-2 hover:bg-red-100 rounded-md flex items-center sidebar-dropdown-toggle">
+                            <NavLink
+                                to={"/salesplan"}
+                                className={({ isActive }) => (isActive ? "p-2 bg-red-700 text-red-50 rounded-md flex items-center shadow-md" : "p-2 hover:bg-red-100 rounded-md flex items-center")}
+                                end
+                            >
                                 <FontAwesomeIcon icon={faUsers} />
                                 <span href="" className="mx-4">
                                     Sales Plan
                                 </span>
                                 <i className="fa-solid fa-caret-down ml-auto"></i>
-                            </a>
+                            </NavLink>
                         </li>
                     </ul>
                 </li>

@@ -1,4 +1,4 @@
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash, faArrowUpFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import ReactSelect from "react-select";
@@ -40,8 +40,6 @@ const EmployeeForm = () => {
         if (file && file.type.startsWith("image/")) {
             if (file.type === "image/*") {
                 setSelectedImage(URL.createObjectURL(file));
-            } else {
-                console.warn("Yang bener gambarnya jancok!");
             }
             setIsUploading(true);
 
@@ -73,9 +71,7 @@ const EmployeeForm = () => {
                                 </svg>
                             ) : (
                                 <label htmlFor="imageInput" className="cursor-pointer">
-                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 5v16m0-8l-6 6l6-6z" />
-                                    </svg>
+                                    <FontAwesomeIcon icon={faArrowUpFromBracket} />
                                     <span className="ml-2">Pilih Gambar</span>
                                 </label>
                             )}
@@ -87,26 +83,26 @@ const EmployeeForm = () => {
                     <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">
                         Name
                     </label>
-                    <input type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} className="w-full bg-red-50 px-3 py-2 rounded-md outline-none" />
+                    <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} className="w-full bg-red-50 px-3 py-2 rounded-md outline-none" autoComplete="off" />
                 </div>
                 <div className="my-2">
-                    <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">
+                    <label htmlFor="id" className="block mb-2 text-sm font-medium text-gray-900">
                         Employee ID
                     </label>
-                    <input type="text" id="id" name="id" value={id} onChange={(e) => setId(e.target.value)} className="w-full bg-red-50 px-3 py-2 rounded-md outline-none" />
+                    <input type="text" id="id" value={id} onChange={(e) => setId(e.target.value)} className="w-full bg-red-50 px-3 py-2 rounded-md outline-none" autoComplete="off" />
                 </div>
                 <div className="my-2 flex space-x-2">
                     <div className="w-full">
                         <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">
                             Email
                         </label>
-                        <input type="email" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full bg-red-50 px-3 py-2 rounded-md outline-none" />
+                        <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full bg-red-50 px-3 py-2 rounded-md outline-none" autoComplete="off" />
                     </div>
                     <div className="w-full">
                         <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900">
                             Phone
                         </label>
-                        <input type="tel" id="phone" name="phone" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full bg-red-50 px-3 py-2 rounded-md outline-none" />
+                        <input type="tel" id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full bg-red-50 px-3 py-2 rounded-md outline-none" autoComplete="off" />
                     </div>
                 </div>
                 <div className="my-2">
@@ -117,7 +113,6 @@ const EmployeeForm = () => {
                         <input
                             type={showPassword ? "text" : "password"}
                             id="password"
-                            name="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             className="w-full bg-red-50 px-3 py-2 rounded-md outline-none"
@@ -128,41 +123,31 @@ const EmployeeForm = () => {
                     </div>
                 </div>
                 <div className="my-2">
-                    <label htmlFor="position" className="block mb-2 text-sm font-medium text-gray-900">
-                        Position
-                    </label>
-                    <ReactSelect id="position" name="position" options={optionPosition} className="w-full bg-red-50 p-1 rounded-md" styles={customStyles} />
+                    <span className="block mb-2 text-sm font-medium text-gray-900">Position</span>
+                    <ReactSelect id="position" options={optionPosition} className="w-full bg-red-50 p-1 rounded-md" styles={customStyles} />
                 </div>
                 <div className="my-2">
-                    <label htmlFor="department" className="block mb-2 text-sm font-medium text-gray-900">
-                        Department
-                    </label>
-                    <ReactSelect id="department" name="department" options={optionDepart} className="w-full bg-red-50 p-1 rounded-md" styles={customStyles} />
+                    <span className="block mb-2 text-sm font-medium text-gray-900">Department</span>
+                    <ReactSelect id="department" options={optionDepart} className="w-full bg-red-50 p-1 rounded-md" styles={customStyles} />
                 </div>
                 <div className="my-2">
-                    <label htmlFor="role" className="block mb-2 text-sm font-medium text-gray-900">
-                        Role
-                    </label>
-                    <ReactSelect id="role" name="role" options={optionRole} className="w-full bg-red-50 p-1 rounded-md" styles={customStyles} />
+                    <span className="block mb-2 text-sm font-medium text-gray-900">Role</span>
+                    <ReactSelect id="role" options={optionRole} className="w-full bg-red-50 p-1 rounded-md" styles={customStyles} />
                 </div>
                 <div className="my-2">
-                    <label htmlFor="workgroup" className="block mb-2 text-sm font-medium text-gray-900">
-                        Work Group
-                    </label>
-                    <ReactSelect id="workgroup" name="workgroup" options={workGroup} className="w-full bg-red-50 p-1 rounded-md" styles={customStyles} />
+                    <span className="block mb-2 text-sm font-medium text-gray-900">Work Group</span>
+                    <ReactSelect id="workgroup" options={workGroup} className="w-full bg-red-50 p-1 rounded-md" styles={customStyles} />
                 </div>
                 <div className="my-2">
-                    <label htmlFor="status" className="block mb-2 text-sm font-medium text-gray-900">
-                        Status
-                    </label>
-                    <ReactSelect id="status" name="status" options={optionStatus} className="w-full bg-red-50 p-1 rounded-md" styles={customStyles} />
+                    <span className="block mb-2 text-sm font-medium text-gray-900">Status</span>
+                    <ReactSelect id="status" options={optionStatus} className="w-full bg-red-50 p-1 rounded-md" styles={customStyles} />
                 </div>
-                <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                     <button
-                        type="button"
+                        type="submit"
                         className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
                     >
-                        Cancel
+                        Save
                     </button>
                 </div>
             </form>

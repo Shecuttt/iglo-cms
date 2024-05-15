@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import ModalEdit from "./ModalEdit";
+import ModalForm from "./ModalForm";
+import DataTable from "react-data-table-component";
+import { userList } from "../../data/MyData";
 
 const Employee = () => {
     const [modalOpen, setModalOpen] = useState(false);
@@ -10,21 +12,65 @@ const Employee = () => {
         setModalOpen(false);
     };
 
+    const columns = [
+        {
+            name: "Photo",
+            selector: (row) => row.photo,
+            cell: (row) => <img src={row.photo} alt="Profile Image" className="w-8 h-8 rounded-full my-2 overflow-hidden object-cover" />,
+            sortable: false,
+            width: "7%",
+        },
+        {
+            name: "Name",
+            selector: (row) => row.name,
+            sortable: true,
+        },
+        {
+            name: "Email",
+            selector: (row) => row.email,
+            sortable: true,
+            width: "25%",
+        },
+        {
+            name: "Phone",
+            selector: (row) => row.phone,
+        },
+        {
+            name: "Position",
+            selector: (row) => row.position,
+            sortable: true,
+        },
+        {
+            name: "Department",
+            selector: (row) => row.department,
+            sortable: true,
+        },
+        {
+            name: "Action",
+            selector: (row) => row.action,
+            cell: (row) => (
+                <button className="bg-red-700 hover:bg-red-800 px-4 py-2 rounded-md text-white" onClick={() => handleOpenModal(row)}>
+                    Edit
+                </button>
+            ),
+        },
+    ];
+
     return (
         <>
+            <ModalForm isOpen={modalOpen} onClose={handleCloseModal} />
             <div className="flex items-center justify-end space-x-3">
-                <div className="bg-red-600 text-white px-4 py-2 rounded-md shadow-sm">
-                    <button type="button">Add user</button>
-                </div>
-                <div className="bg-red-600 text-white px-4 py-2 rounded-md shadow-sm">
-                    <button type="button">Filter</button>
+                <div className="bg-red-600 hover:bg-red-800 text-white px-4 py-2 rounded-md shadow-sm active:outline-none">
+                    <button type="button" onClick={handleOpenModal}>
+                        Add user
+                    </button>
                 </div>
                 <div className="bg-red-600 text-white px-4 py-2 rounded-md shadow-sm">
                     <button type="button">Import</button>
                 </div>
             </div>
-            <div className="py-4">
-                <table className="w-full">
+            <div className="my-4 rounded-lg shadow-md">
+                {/* <table className="w-full">
                     <thead>
                         <tr>
                             <th className="bg-red-700 text-white py-4 text-sm">Photo</th>
@@ -51,10 +97,9 @@ const Employee = () => {
                             <td className="py-2">Head of Marketing</td>
                             <td className="py-2">Marketing</td>
                             <td className="py-2">
-                                <button onClick={handleOpenModal} className="bg-red-700 px-4 py-2 rounded-md text-white">
+                                <button className="bg-red-700 px-4 py-2 rounded-md text-white" onClick={handleOpenModal}>
                                     Edit
                                 </button>
-                                <ModalEdit isOpen={modalOpen} onClose={handleCloseModal} />
                             </td>
                         </tr>
                         <tr className="bg-white text-center text-sm">
@@ -71,16 +116,12 @@ const Employee = () => {
                             <td className="py-2">Head of Marketing</td>
                             <td className="py-2">Marketing</td>
                             <td className="py-2">
-                                <button onClick={handleOpenModal} className="bg-red-700 px-4 py-2 rounded-md text-white">
-                                    Edit
-                                </button>
-                                <ModalEdit isOpen={modalOpen} onClose={handleCloseModal} />
+                                <button className="bg-red-700 px-4 py-2 rounded-md text-white">Edit</button>
                             </td>
                         </tr>
                     </tbody>
-                </table>
-                {/* pagination */}
-                <div className="flex flex-row space-x-5 justify-between py-4 px-8"></div>
+                </table> */}
+                <DataTable columns={columns} data={userList} pagination fixedHeader></DataTable>
             </div>
         </>
     );

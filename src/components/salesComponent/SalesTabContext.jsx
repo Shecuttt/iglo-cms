@@ -1,16 +1,11 @@
 import React from "react";
 
-const TabContext = ({ tabs, activeTab, setActiveTab }) => {
+const SalesTabContext = ({ tabs, activeTab, setActiveTab }) => {
     const Tab = ({ label, onClick, isActive }) => {
         return (
-            <div>
-                <button
-                    onClick={onClick}
-                    className={isActive ? "bg-red-700 text-white font-bold py-2 px-4 rounded shadow-md" : "bg-white hover:text-white hover:bg-red-700 text-red-500 font-bold py-2 px-4 rounded"}
-                >
-                    {label}
-                </button>
-            </div>
+            <button onClick={onClick} className={isActive ? "text-red-700 border-b-2 border-b-red-500 font-bold py-2 px-4" : "hover:text-red-700 text-red-500 font-semibold py-2 px-4"}>
+                {label}
+            </button>
         );
     };
 
@@ -18,12 +13,12 @@ const TabContext = ({ tabs, activeTab, setActiveTab }) => {
         <div className="w-full">
             <div className="p-8 flex">
                 {tabs.map((tab) => (
-                    <button key={tab.label} className="flex mx-2">
+                    <div key={tab.label} className="flex mx-2">
                         <Tab label={tab.label} onClick={() => setActiveTab(tab.label)} isActive={tab.label === activeTab} />
-                    </button>
+                    </div>
                 ))}
             </div>
-            <div className="tab-content px-8">
+            <div className="px-8">
                 {tabs.map((tab) => (
                     <div key={tab.label} className={tab.label === activeTab ? "active" : "hidden"}>
                         {tab.component}
@@ -34,4 +29,4 @@ const TabContext = ({ tabs, activeTab, setActiveTab }) => {
     );
 };
 
-export default TabContext;
+export default SalesTabContext;

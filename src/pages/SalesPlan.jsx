@@ -1,20 +1,18 @@
 import React from "react";
 import Sidebar from "../components/Sidebar";
 import TopNav from "../components/TopNav";
-import Tabs from "../components/structureComponent/Tabs";
+import SalesTabs from "../components/salesComponent/SalesTabs";
 
-const Structure = () => {
+const SalesPlan = () => {
     return (
         <div className="flex">
-            {/* Sidebar */}
             <Sidebar />
-            {/* Main */}
             <main className="w-full bg-red-50">
                 <TopNav />
-                <Tabs />
+                <SalesTabs />
             </main>
         </div>
     );
 };
 
-export default Structure;
+export default SalesPlan;

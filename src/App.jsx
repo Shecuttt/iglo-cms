@@ -9,6 +9,7 @@ import NotFound from "./components/NotFound";
 import Structure from "./pages/Structure";
 import EditUser from "./pages/EditUser";
 import ReadUser from "./pages/ReadUser";
+import SalesPlan from "./pages/SalesPlan";
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                 <Route path="*" element={<NotFound />} />
                 <Route path="/usermanage" element={<UserManage />} />
                 <Route path="/structure" element={<Structure />} />
+                <Route path="/salesplan" element={<SalesPlan />} />
                 <Route path="/userlog" element={<UserLog />} />
                 <Route path="/adduser" element={<AddUser />} />
                 <Route path="/edit" element={<EditUser />} />
