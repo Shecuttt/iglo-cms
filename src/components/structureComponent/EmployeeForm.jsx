@@ -54,7 +54,7 @@ const EmployeeForm = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log({ name, id, email, phone, password });
+        console.log({ name, id, email, phone, password }); //sementara
     };
 
     return (

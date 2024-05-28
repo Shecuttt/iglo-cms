@@ -37,6 +37,7 @@ export const userList = [
         phone: "1234567890",
         position: "Manager",
         department: "HR",
+        status: "Active",
     },
     {
         id: 2,
@@ -46,6 +47,7 @@ export const userList = [
         phone: "9876543210",
         position: "Software Engineer",
         department: "IT",
+        status: "Inactive",
     },
 
     {
@@ -56,6 +58,7 @@ export const userList = [
         phone: "5551234567",
         position: "Marketing Manager",
         department: "Sales",
+        status: "Active",
     },
 
     {
@@ -66,6 +69,7 @@ export const userList = [
         phone: "8765432109",
         position: "HR Generalist",
         department: "HR",
+        status: "Active",
     },
 
     {
@@ -76,6 +80,7 @@ export const userList = [
         phone: "3456789012",
         position: "Data Analyst",
         department: "Finance",
+        status: "Inactive",
     },
 
     {
@@ -86,6 +91,7 @@ export const userList = [
         phone: "2345678901",
         position: "Graphic Designer",
         department: "Creative",
+        status: "Active",
     },
     {
         id: 7,
@@ -94,6 +100,7 @@ export const userList = [
         phone: "1234567890",
         position: "Product Manager",
         department: "Product",
+        status: "Active",
     },
 
     {
@@ -103,6 +110,7 @@ export const userList = [
         phone: "0987654321",
         position: "UX Designer",
         department: "Design",
+        status: "Active",
     },
 
     {
@@ -112,6 +120,7 @@ export const userList = [
         phone: "4561237890",
         position: "Sales Representative",
         department: "Sales",
+        status: "Inactive",
     },
 
     {
@@ -121,6 +130,7 @@ export const userList = [
         phone: "6541237890",
         position: "Customer Service Representative",
         department: "Customer Service",
+        status: "Inactive",
     },
     {
         id: 11,
@@ -129,5 +139,6 @@ export const userList = [
         phone: "6541237890",
         position: "Customer Service Representative",
         department: "Customer Service",
+        status: "Inactive",
     },
 ];

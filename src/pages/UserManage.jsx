@@ -1,39 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import TopNav from "../components/TopNav";
 import Sidebar from "../components/Sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter, faEye, faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faFilter, faEye, faPenToSquare, faTrash, faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-// import axios from "axios";
-// import Api from "../api/API";
+import { userList } from "../data/MyData";
 
 const UserManage = () => {
-    // const [users, setUsers] = useState([]);
+    const [userData, setUserData] = useState(userList);
+    const [searchUser, setSearchUser] = useState("");
 
-    // // Fetch data
-
-    // const fetchData = async () => {
-    //     // PERHATIKAN DISINI!!!
-    //     await Api.get("/api/data").then((response) => {
-    //         setData(response.data.data.data);
-    //     });
-    // };
-    // useEffect(() => {
-    //     fetchData();
-    // }, []);
-
-    // // Loader
-
-    // if (!data.length) {
-    //     return (
-    //         <div className="flex items-center justify-center h-screen">
-    //             <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 animate-ping"></div>
-    //         </div>
-    //     );
-    // }
-
-    const confirmDel = () => {
+    const confirmDel = (id) => {
         Swal.fire({
             icon: "question",
             title: "Hapus data?",
@@ -42,6 +20,9 @@ const UserManage = () => {
             denyButtonText: "Tidak",
         }).then((result) => {
             if (result.isConfirmed) {
+                const listData = userData.filter((data) => data.id !== id);
+                setUserData(listData);
+                localStorage.setItem("userlist", JSON.stringify(listData));
                 Swal.fire("Berhasil dihapus", "", "success");
             }
         });
@@ -95,10 +76,10 @@ const UserManage = () => {
                                     <span>Sort by</span>
                                 </a>
                             </div>
-                            <div className="flex items-center ml-4">
-                                <label htmlFor="table-search" className="sr-only">
+                            <form searchUser={searchUser} setSearchUser={setSearchUser} onSubmit={(e) => e.preventDefault()} className="flex items-center ml-4">
+                                <span htmlFor="table-search-users" className="sr-only">
                                     Search
-                                </label>
+                                </span>
                                 <div className="relative">
                                     <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                         <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -108,11 +89,14 @@ const UserManage = () => {
                                     <input
                                         type="text"
                                         id="table-search-users"
+                                        role="searchbox"
                                         className="py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:bg-white focus:ring-1 focus:ring-red-700 outline-none focus:shadow-lg"
                                         placeholder="Search for users"
+                                        value={searchUser}
+                                        onChange={(e) => setSearchUser(e.target.value)}
                                     />
                                 </div>
-                            </div>
+                            </form>
                             <div className="flex ml-auto">
                                 <Link to={"/adduser"} className="text-sm bg-red-800 hover:bg-red-600 active:bg-white active:text-red-800 text-white rounded-md px-4 py-2">
                                     Tambah
@@ -145,122 +129,50 @@ const UserManage = () => {
                             </thead>
 
                             {/* <!-- Table content --> */}
-                            <tbody>
-                                {/* {data.map((item, index) => (
-                                    <tr key={item.id} className="odd:bg-white even:bg-red-50 border-b">
-                                        <td className="px-6 py-4">{index + 1}</td>
-                                        <td className="px-6 py-4">{item.nama}</td>
-                                        <td className="px-6 py-4">{item.email}</td>
-                                        <td className="px-6 py-4">{item.status}</td>
-                                        <td className="px-6 py-4">
-                                            <span className="bg-green-200 hover:bg-green-400 text-green-800 rounded-full py-2 px-4">Active</span>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center space-x-2">
-                                                <Link to={"/readonly"} className="rounded-full text-white bg-blue-600 hover:bg-blue-800 active:text-blue-600 active:bg-white flex items-center">
-                                                    <FontAwesomeIcon icon={faEye} className="p-2 items-center" />
-                                                </Link>
-                                                <Link to={"/edit"} className="rounded-full text-white bg-green-600 hover:bg-green-800 active:text-green-600 active:bg-white flex items-center">
-                                                    <FontAwesomeIcon icon={faPenToSquare} className="p-2" />
-                                                </Link>
-                                                <button onClick={confirmDel} className="rounded-full text-white bg-red-600 hover:bg-red-800 active:text-red-600 active:bg-white flex items-center">
-                                                    <FontAwesomeIcon icon={faTrash} className="p-2" />
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))} */}
-                                <tr className="odd:bg-white even:bg-red-50 border-b">
-                                    <td className="px-6 py-4">2</td>
-                                    <td className="px-6 py-4">Fitri Anisa</td>
-                                    <td className="px-6 py-4">fitrianissa@gmail.com</td>
-                                    <td className="px-6 py-4">Admin</td>
-                                    <td className="px-6 py-4">
-                                        <span className="bg-red-200 hover:bg-red-400 text-red-800 rounded-full py-2 px-4">Inactive</span>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center space-x-2">
-                                            <a href="" className="rounded-full text-white bg-blue-600 hover:bg-blue-800 active:text-blue-600 active:bg-white flex items-center">
-                                                <FontAwesomeIcon icon={faEye} className="p-2 items-center" />
-                                            </a>
-                                            <a href="" className="rounded-full text-white bg-green-600 hover:bg-green-800 active:text-green-600 active:bg-white flex items-center">
-                                                <FontAwesomeIcon icon={faPenToSquare} className="p-2" />
-                                            </a>
-                                            <a href="" className="rounded-full text-white bg-red-600 hover:bg-red-800 active:text-red-600 active:bg-white flex items-center">
-                                                <FontAwesomeIcon icon={faTrash} className="p-2" />
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr className="odd:bg-white even:bg-red-50 border-b">
-                                    <td className="px-6 py-4">3</td>
-                                    <td className="px-6 py-4">Juan Saputra</td>
-                                    <td className="px-6 py-4">juan75@gmail.com</td>
-                                    <td className="px-6 py-4">Admin</td>
-                                    <td className="px-6 py-4">
-                                        <span className="bg-green-200 hover:bg-green-400 text-green-800 rounded-full py-2 px-4">Active</span>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center space-x-2">
-                                            <a href="" className="rounded-full text-white bg-blue-600 hover:bg-blue-800 active:text-blue-600 active:bg-white flex items-center">
-                                                <FontAwesomeIcon icon={faEye} className="p-2 items-center" />
-                                            </a>
-                                            <a href="" className="rounded-full text-white bg-green-600 hover:bg-green-800 active:text-green-600 active:bg-white flex items-center">
-                                                <FontAwesomeIcon icon={faPenToSquare} className="p-2" />
-                                            </a>
-                                            <a href="" className="rounded-full text-white bg-red-600 hover:bg-red-800 active:text-red-600 active:bg-white flex items-center">
-                                                <FontAwesomeIcon icon={faTrash} className="p-2" />
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr className="odd:bg-white even:bg-red-50 border-b">
-                                    <td className="px-6 py-4">4</td>
-                                    <td className="px-6 py-4">Yosua</td>
-                                    <td className="px-6 py-4">yosuaalx@gmail.com</td>
-                                    <td className="px-6 py-4">Admin</td>
-                                    <td className="px-6 py-4">
-                                        <span className="bg-green-200 hover:bg-green-400 text-green-800 rounded-full py-2 px-4">Active</span>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center space-x-2">
-                                            <a href="" className="rounded-full text-white bg-blue-600 hover:bg-blue-800 active:text-blue-600 active:bg-white flex items-center">
-                                                <FontAwesomeIcon icon={faEye} className="p-2 items-center" />
-                                            </a>
-                                            <a href="" className="rounded-full text-white bg-green-600 hover:bg-green-800 active:text-green-600 active:bg-white flex items-center">
-                                                <FontAwesomeIcon icon={faPenToSquare} className="p-2" />
-                                            </a>
-                                            <a href="" className="rounded-full text-white bg-red-600 hover:bg-red-800 active:text-red-600 active:bg-white flex items-center">
-                                                <FontAwesomeIcon icon={faTrash} className="p-2" />
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr className="odd:bg-white even:bg-red-50 border-b">
-                                    <td className="px-6 py-4">5</td>
-                                    <td className="px-6 py-4">Wilian</td>
-                                    <td className="px-6 py-4">wili37@gmail.com</td>
-                                    <td className="px-6 py-4">Admin</td>
-                                    <td className="px-6 py-4">
-                                        <span className="bg-red-200 hover:bg-red-400 text-red-800 rounded-full py-2 px-4">Inactive</span>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center space-x-2">
-                                            <a href="" className="rounded-full text-white bg-blue-600 hover:bg-blue-800 active:text-blue-600 active:bg-white flex items-center">
-                                                <FontAwesomeIcon icon={faEye} className="p-2 items-center" />
-                                            </a>
-                                            <a href="" className="rounded-full text-white bg-green-600 hover:bg-green-800 active:text-green-600 active:bg-white flex items-center">
-                                                <FontAwesomeIcon icon={faPenToSquare} className="p-2" />
-                                            </a>
-                                            <a href="" className="rounded-full text-white bg-red-600 hover:bg-red-800 active:text-red-600 active:bg-white flex items-center">
-                                                <FontAwesomeIcon icon={faTrash} className="p-2" />
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
+                            {userData.length ? (
+                                <tbody>
+                                    {userData.map((data, index) => (
+                                        <tr key={`row_${index}_${data.id}`} className="odd:bg-white even:bg-red-50 border-b">
+                                            <td className="px-6 py-4">{index + 1}</td>
+                                            <td className="px-6 py-4">{data.name}</td>
+                                            <td className="px-6 py-4">{data.email}</td>
+                                            <td className="px-6 py-4">{data.position}</td>
+                                            <td className="px-6 py-4">
+                                                {data.status === "Active" ? (
+                                                    <span className="bg-green-200 hover:bg-green-400 text-green-800 rounded-full py-2 px-4">{data.status}</span>
+                                                ) : (
+                                                    <span className="bg-red-200 hover:bg-red-400 text-red-800 rounded-full py-2 px-4">{data.status}</span>
+                                                )}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center space-x-2">
+                                                    <Link to={"/readonly"} className="rounded-full text-white bg-blue-600 hover:bg-blue-800 active:text-blue-600 active:bg-white flex items-center">
+                                                        <FontAwesomeIcon icon={faEye} className="p-2 items-center" />
+                                                    </Link>
+                                                    <Link to={"/edit"} className="rounded-full text-white bg-green-600 hover:bg-green-800 active:text-green-600 active:bg-white flex items-center">
+                                                        <FontAwesomeIcon icon={faPenToSquare} className="p-2" />
+                                                    </Link>
+                                                    <button
+                                                        onClick={() => confirmDel(data.id)}
+                                                        className="rounded-full text-white bg-red-600 hover:bg-red-800 active:text-red-600 active:bg-white flex items-center"
+                                                    >
+                                                        <FontAwesomeIcon icon={faTrash} className="p-2" />
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            ) : (
+                                <div className="my-8">No Data Found</div>
+                            )}
                         </table>
                         <div className="flex items-center justify-end bg-red-800 text-white">
+                            <div className="mr-auto ml-6 text-sm">
+                                <span>
+                                    {userData.length} {userData.length === 1 ? "user" : "users"}
+                                </span>
+                            </div>
                             <div className="p-2 text-sm">
                                 <nav className="flex items-center space-x-1">
                                     <button

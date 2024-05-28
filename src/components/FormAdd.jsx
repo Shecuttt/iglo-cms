@@ -22,6 +22,8 @@ const FormAdd = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        if (!firstName) {
+        }
 
         const isValid = firstName != "" && lastName != "" && id != "" && email != "" && phone != "" && password != "";
 
@@ -47,27 +49,26 @@ const FormAdd = () => {
                 <form onSubmit={handleSubmit}>
                     <div className="flex items-center space-x-3">
                         <div className="mt-4 text-sm w-full">
-                            <label htmlFor="name" className="font-semibold">
+                            <label htmlFor="fname" className="font-semibold">
                                 First Name
                             </label>
                             <input
                                 type="text"
                                 value={firstName}
-                                name="fname"
                                 id="fname"
+                                aria-label=""
                                 className="rounded-md bg-gray-100 focus:bg-white w-full p-2 hover:shadow-md mt-2 focus:outline-none focus:ring-red-600 focus:border-red-500 border"
                                 placeholder="Kirana"
                                 onChange={(e) => setFirstName(e.target.value)}
                             />
                         </div>
                         <div className="mt-4 text-sm w-full">
-                            <label htmlFor="name" className="font-semibold">
+                            <label htmlFor="lname" className="font-semibold">
                                 Last Name
                             </label>
                             <input
                                 type="text"
                                 value={lastName}
-                                name="lname"
                                 id="lname"
                                 className="rounded-md bg-gray-100 focus:bg-white w-full p-2 hover:shadow-md mt-2 focus:outline-none focus:ring-red-600 focus:border-red-500 border"
                                 placeholder="Spakbor"
@@ -82,7 +83,6 @@ const FormAdd = () => {
                         <input
                             type="text"
                             value={id}
-                            name="id"
                             id="id"
                             className="rounded-md bg-gray-100 focus:bg-white w-full p-2 hover:shadow-md mt-2 focus:outline-none focus:ring-red-600 focus:border-red-500 border"
                             placeholder="Kirana001"
@@ -96,8 +96,8 @@ const FormAdd = () => {
                         <input
                             type="text"
                             value={email}
-                            name="email"
                             id="email"
+                            autoComplete="off"
                             className="rounded-md bg-gray-100 focus:bg-white w-full p-2 hover:shadow-md mt-2 focus:outline-none focus:ring-red-600 focus:border-red-500 border"
                             placeholder="kirana123@gmail.com"
                             onChange={(e) => setEmail(e.target.value)}
@@ -110,8 +110,8 @@ const FormAdd = () => {
                         <input
                             type="text"
                             value={phone}
-                            name="phone"
                             id="phone"
+                            autoComplete="off"
                             className="rounded-md bg-gray-100 focus:bg-white w-full p-2 hover:shadow-md mt-2 focus:outline-none focus:ring-red-600 focus:border-red-500 border"
                             placeholder="01234567890"
                             onChange={(e) => setPhone(e.target.value)}
@@ -126,6 +126,7 @@ const FormAdd = () => {
                                 type={showPassword ? "text" : "password"}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
+                                id="password"
                                 placeholder="Password"
                                 className="block w-full mt-1 rounded-md bg-gray-100 p-2 focus:outline-none focus:bg-white focus:ring-red-600 focus:border-red-500 hover:shadow-md border"
                             />
@@ -135,56 +136,47 @@ const FormAdd = () => {
                         </div>
                     </div>
                     <div className="mt-4 text-sm">
-                        <label htmlFor="position" className="block text-sm font-semibold">
+                        <span htmlFor="position" className="block text-sm font-semibold">
                             Position
-                        </label>
+                        </span>
                         <Select
                             id="position"
-                            name="position"
                             options={optionPosition}
                             className="rounded-md bg-red-100 w-full p-2 hover:shadow-md mt-2 focus:outline-none focus:ring-red-600 focus:border-red-500 border-0"
                         />
                     </div>
                     <div className="mt-4 text-sm">
-                        <label htmlFor="depart" className="block text-sm font-semibold">
+                        <span htmlFor="depart" className="block text-sm font-semibold">
                             Department
-                        </label>
+                        </span>
                         <Select
                             id="depart"
-                            name="depart"
                             options={optionDepart}
                             className="rounded-md bg-red-100 w-full p-2 hover:shadow-md mt-2 focus:outline-none focus:ring-red-600 focus:border-red-500 border-0"
                         />
                     </div>
                     <div className="mt-4 text-sm">
-                        <label htmlFor="group" className="block text-sm font-semibold">
+                        <span htmlFor="group" className="block text-sm font-semibold">
                             Work Group
-                        </label>
+                        </span>
                         <Select
                             id="workgroup"
-                            name="workgroup"
                             options={workGroup}
                             className="rounded-md bg-red-100 w-full p-2 hover:shadow-md mt-2 focus:outline-none focus:ring-red-600 focus:border-red-500 border-0"
                         />
                     </div>
                     <div className="mt-4 text-sm">
-                        <label htmlFor="role" className="block text-sm font-semibold">
+                        <span htmlFor="role" className="block text-sm font-semibold">
                             Role
-                        </label>
-                        <Select
-                            id="role"
-                            name="role"
-                            options={optionRole}
-                            className="rounded-md bg-red-100 w-full p-2 hover:shadow-md mt-2 focus:outline-none focus:ring-red-600 focus:border-red-500 border-0"
-                        />
+                        </span>
+                        <Select id="role" options={optionRole} className="rounded-md bg-red-100 w-full p-2 hover:shadow-md mt-2 focus:outline-none focus:ring-red-600 focus:border-red-500 border-0" />
                     </div>
                     <div className="my-4 text-sm">
-                        <label htmlFor="status" className="block text-sm font-semibold">
+                        <span htmlFor="status" className="block text-sm font-semibold">
                             Status
-                        </label>
+                        </span>
                         <Select
                             id="status"
-                            name="status"
                             options={optionStatus}
                             className="rounded-md bg-red-100 w-full p-2 hover:shadow-md mt-2 focus:outline-none focus:ring-red-600 focus:border-red-500 border-0"
                         />
