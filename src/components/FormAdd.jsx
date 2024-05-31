@@ -6,35 +6,71 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { optionDepart, optionPosition, optionRole, optionStatus, workGroup } from "../data/MyData";
 import { Link, useNavigate } from "react-router-dom";
+import { userlist } from "../data/db.json";
 
-const FormAdd = () => {
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [id, setId] = useState("");
-    const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
-    const [password, setPassword] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
-
+const FormAdd = ({
+    firstName,
+    setFirstName,
+    lastName,
+    setLastName,
+    id,
+    setId,
+    email,
+    setEmail,
+    phone,
+    setPhone,
+    password,
+    setPassword,
+    showPassword,
+    setShowPassword,
+    position,
+    setPosition,
+    department,
+    setDepartment,
+    work,
+    setWork,
+    role,
+    setRole,
+    status,
+    setStatus,
+}) => {
     const handleShowPasswordClick = () => {
         setShowPassword(!showPassword);
     };
 
+    const add = (user) => {
+        const id = userlist.length ? userlist[userlist.length - 1].id + 1 : 1;
+        const newUser = {
+            firstName,
+            lastName,
+            id,
+            email,
+            phone,
+            password,
+            position,
+            department,
+            work,
+            role,
+            status,
+        };
+        const listData = [...userlist, newUser];
+        setUserData(listData);
+        localStorage.setItem("userlist", JSON.stringify(listData));
+    };
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (!firstName) {
-        }
+        add(newUser);
+        setFirstName("");
 
         const isValid = firstName != "" && lastName != "" && id != "" && email != "" && phone != "" && password != "";
 
         Swal.fire({
             icon: isValid ? "success" : "error",
             title: isValid ? "Berhasil" : "Gagal",
-            text: isValid ? "Data berhasil ditambahkan" : "Data belum diisi!",
+            text: isValid ? "Data berhasil ditambahkan" : "Data belum lengkap!",
         }).then(() => {
-            if (isValid) {
-                <Link to={"/usermanage"}></Link>;
-            }
+            <Link to={"/usermanage"}></Link>;
         });
     };
 
@@ -58,7 +94,7 @@ const FormAdd = () => {
                                 id="fname"
                                 aria-label=""
                                 className="rounded-md bg-gray-100 focus:bg-white w-full p-2 hover:shadow-md mt-2 focus:outline-none focus:ring-red-600 focus:border-red-500 border"
-                                placeholder="Kirana"
+                                placeholder="First Name"
                                 onChange={(e) => setFirstName(e.target.value)}
                             />
                         </div>
@@ -71,7 +107,7 @@ const FormAdd = () => {
                                 value={lastName}
                                 id="lname"
                                 className="rounded-md bg-gray-100 focus:bg-white w-full p-2 hover:shadow-md mt-2 focus:outline-none focus:ring-red-600 focus:border-red-500 border"
-                                placeholder="Spakbor"
+                                placeholder="Last Name"
                                 onChange={(e) => setLastName(e.target.value)}
                             />
                         </div>
@@ -85,7 +121,7 @@ const FormAdd = () => {
                             value={id}
                             id="id"
                             className="rounded-md bg-gray-100 focus:bg-white w-full p-2 hover:shadow-md mt-2 focus:outline-none focus:ring-red-600 focus:border-red-500 border"
-                            placeholder="Kirana001"
+                            placeholder="ID"
                             onChange={(e) => setId(e.target.value)}
                         />
                     </div>
@@ -99,7 +135,7 @@ const FormAdd = () => {
                             id="email"
                             autoComplete="off"
                             className="rounded-md bg-gray-100 focus:bg-white w-full p-2 hover:shadow-md mt-2 focus:outline-none focus:ring-red-600 focus:border-red-500 border"
-                            placeholder="kirana123@gmail.com"
+                            placeholder="E-mail"
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
@@ -113,7 +149,7 @@ const FormAdd = () => {
                             id="phone"
                             autoComplete="off"
                             className="rounded-md bg-gray-100 focus:bg-white w-full p-2 hover:shadow-md mt-2 focus:outline-none focus:ring-red-600 focus:border-red-500 border"
-                            placeholder="01234567890"
+                            placeholder="Phone number"
                             onChange={(e) => setPhone(e.target.value)}
                         />
                     </div>
@@ -142,6 +178,11 @@ const FormAdd = () => {
                         <Select
                             id="position"
                             options={optionPosition}
+                            onChange={(e) => {
+                                if (e.target && e.target.value) {
+                                    setPosition(e.target.value);
+                                }
+                            }}
                             className="rounded-md bg-red-100 w-full p-2 hover:shadow-md mt-2 focus:outline-none focus:ring-red-600 focus:border-red-500 border-0"
                         />
                     </div>
@@ -152,6 +193,11 @@ const FormAdd = () => {
                         <Select
                             id="depart"
                             options={optionDepart}
+                            onChange={(e) => {
+                                if (e.target && e.target.value) {
+                                    setDepartment(e.target.value);
+                                }
+                            }}
                             className="rounded-md bg-red-100 w-full p-2 hover:shadow-md mt-2 focus:outline-none focus:ring-red-600 focus:border-red-500 border-0"
                         />
                     </div>
@@ -162,6 +208,11 @@ const FormAdd = () => {
                         <Select
                             id="workgroup"
                             options={workGroup}
+                            onChange={(e) => {
+                                if (e.target && e.target.value) {
+                                    setWork(e.target.value);
+                                }
+                            }}
                             className="rounded-md bg-red-100 w-full p-2 hover:shadow-md mt-2 focus:outline-none focus:ring-red-600 focus:border-red-500 border-0"
                         />
                     </div>
@@ -169,7 +220,16 @@ const FormAdd = () => {
                         <span htmlFor="role" className="block text-sm font-semibold">
                             Role
                         </span>
-                        <Select id="role" options={optionRole} className="rounded-md bg-red-100 w-full p-2 hover:shadow-md mt-2 focus:outline-none focus:ring-red-600 focus:border-red-500 border-0" />
+                        <Select
+                            id="role"
+                            options={optionRole}
+                            onChange={(e) => {
+                                if (e.target && e.target.value) {
+                                    setRole(e.target.value);
+                                }
+                            }}
+                            className="rounded-md bg-red-100 w-full p-2 hover:shadow-md mt-2 focus:outline-none focus:ring-red-600 focus:border-red-500 border-0"
+                        />
                     </div>
                     <div className="my-4 text-sm">
                         <span htmlFor="status" className="block text-sm font-semibold">
@@ -178,11 +238,16 @@ const FormAdd = () => {
                         <Select
                             id="status"
                             options={optionStatus}
+                            onChange={(e) => {
+                                if (e.target && e.target.value) {
+                                    setStatus(e.target.value);
+                                }
+                            }}
                             className="rounded-md bg-red-100 w-full p-2 hover:shadow-md mt-2 focus:outline-none focus:ring-red-600 focus:border-red-500 border-0"
                         />
                     </div>
                     <div className="my-8 flex justify-end items-center">
-                        <button type="submit" onClick={() => successAdd()} className="bg-green-300 text-green-800 hover:bg-green-500 hover:text-green-100 rounded-md px-8 py-2 mr-2">
+                        <button type="submit" className="bg-green-300 text-green-800 hover:bg-green-500 hover:text-green-100 rounded-md px-8 py-2 mr-2">
                             Add
                         </button>
                         <button onClick={handleBack} className="bg-gray-300 text-gray-800 hover:bg-gray-500 hover:text-gray-100 rounded-md px-8 py-2 ml-2">

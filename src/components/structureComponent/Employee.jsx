@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ModalForm from "./ModalForm";
 // import DataTable from "react-data-table-component";
-import { userList } from "../../data/MyData";
+import { userlist } from "../../data/db.json";
 import Swal from "sweetalert2";
 
 const Employee = () => {
@@ -13,7 +13,7 @@ const Employee = () => {
         setModalOpen(false);
     };
 
-    const [userData, setUserData] = useState(userList);
+    const [userData, setUserData] = useState(userlist);
     const [newUser, setNewUser] = useState("");
 
     const deleteAlert = (id) => {

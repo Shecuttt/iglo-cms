@@ -10,6 +10,8 @@ import Structure from "./pages/Structure";
 import EditUser from "./pages/EditUser";
 import ReadUser from "./pages/ReadUser";
 import SalesPlan from "./pages/SalesPlan";
+import Customer from "./pages/Customer";
+import ProductManage from "./pages/ProductManage";
 
 function App() {
     return (
@@ -20,6 +22,8 @@ function App() {
                 <Route path="/usermanage" element={<UserManage />} />
                 <Route path="/structure" element={<Structure />} />
                 <Route path="/salesplan" element={<SalesPlan />} />
+                <Route path="/customer" element={<Customer />} />
+                <Route path="/productmanage" element={<ProductManage />} />
                 <Route path="/userlog" element={<UserLog />} />
                 <Route path="/adduser" element={<AddUser />} />
                 <Route path="/edit" element={<EditUser />} />

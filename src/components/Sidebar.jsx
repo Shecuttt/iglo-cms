@@ -28,8 +28,8 @@ function Sidebar() {
             <a href="#" className="h-16 flex items-center pb-4 border-b-2 border-b-red-800">
                 <h1 className="text-red-800 font-bold mx-auto text-2xl">TECHTOLK</h1>
             </a>
-            <ul className="space-y-3 text-red-800 font-semibold py-4 sidebar-menu">
-                <li ref={dropdownRef}>
+            <ul className="space-y-3 text-red-800 font-semibold py-4">
+                <li ref={dropdownRef} className="relative">
                     <NavLink
                         to={"/"}
                         className={({ isActive }) => (isActive ? "flex items-center bg-red-700 text-red-50 rounded-lg px-4 py-3 shadow-md" : "flex items-center hover:bg-red-100 rounded-lg px-4 py-3")}
@@ -37,16 +37,28 @@ function Sidebar() {
                     >
                         <FontAwesomeIcon icon={faHouse} />
                         <span className="mx-4">Dashboard</span>
-                        <FontAwesomeIcon icon={faCaretDown} className="ml-auto py-2 pl-2" onClick={toggleDropdown} />
+                        <button className="ml-auto py-2 pl-2" onClick={toggleDropdown}>
+                            <FontAwesomeIcon icon={faCaretDown} />
+                        </button>
                     </NavLink>
-                    {isOpen && (
-                        <div className="absolute bg-white border rounded-lg mt-2">
-                            {/* Dropdown menu items go here */}
-                            <NavLink to={"/userlog"} className="block px-4 py-2 hover:bg-gray-100">
-                                Detail Activity
-                            </NavLink>
-                        </div>
-                    )}
+                    <div className={`absolute bg-red-50 rounded-lg mt-2 mx-3 overflow-hidden transition-all duration-700 ${isOpen ? "max-h-40" : "max-h-0"}`}>
+                        <NavLink
+                            to={"/userlog"}
+                            className={({ isActive }) =>
+                                isActive ? "flex items-center bg-red-700 text-red-50 rounded-lg px-4 py-3 shadow-md" : "flex items-center hover:bg-red-100 rounded-lg px-4 py-3"
+                            }
+                        >
+                            Detail Activity
+                        </NavLink>
+                        <NavLink
+                            to={"/productmanage"}
+                            className={({ isActive }) =>
+                                isActive ? "flex items-center bg-red-700 text-red-50 rounded-lg px-4 py-3 shadow-md" : "flex items-center hover:bg-red-100 rounded-lg px-4 py-3"
+                            }
+                        >
+                            Product Management
+                        </NavLink>
+                    </div>
                 </li>
                 <li className="group p-4">
                     <h5>User Management</h5>
@@ -76,13 +88,17 @@ function Sidebar() {
                             </NavLink>
                         </li>
                         <li>
-                            <a href="" className="p-2 hover:bg-red-100 rounded-md flex items-center sidebar-dropdown-toggle">
+                            <NavLink
+                                to={"/customer"}
+                                className={({ isActive }) => (isActive ? "p-2 bg-red-700 text-red-50 rounded-md flex items-center shadow-md" : "p-2 hover:bg-red-100 rounded-md flex items-center")}
+                                end
+                            >
                                 <FontAwesomeIcon icon={faUsers} />
                                 <span href="" className="mx-4">
                                     Customer
                                 </span>
                                 <i className="fa-solid fa-caret-down ml-auto"></i>
-                            </a>
+                            </NavLink>
                         </li>
                         <li>
                             <NavLink
