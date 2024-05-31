@@ -2,34 +2,36 @@ import React, { useState } from "react";
 
 const Modal = ({ show, onClose, onSubmit }) => {
     const [formData, setFormData] = useState({
-        image: "../../assets/person-1.jpg",
-        name: "CMS Admin App",
-        type: "Prototype",
-        version: "1.0.1",
-        company_name: "INDOCYBER GLOBAL TECHNOLOGY INDONESIA",
-        description:
-            "Selamat datang ke aplikasi Dasbor Admin IGLO, aplikasi yang dirancang khusus untuk memudahkan manajemen bisnis Anda. Dengan tampilan yang intuitif dan fitur yang lengkap, aplikasi ini memungkinkan Anda untuk mengawasi dan mengelola berbagai aspek bisnis Anda dengan mudah dan efisien. Dari manajemen stok hingga pelaporan keuangan, aplikasi ini akan membantu Anda untuk mengambil keputusan yang lebih cerdas dan tepat waktu. Bergabunglah dengan kami dan rasakan manfaatnya sendiri!",
-        responsible: "200",
+        name: "CMS",
+        type: "Product",
+        version: "1.0.0",
+        company_name: "IGLO",
+        description: "Nothing",
+        responsible: "1",
     });
+
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [preview, setPreview] = useState("");
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prev) => ({
-            ...prev,
+        setFormData((prevValues) => ({
+            ...prevValues,
             [name]: value,
         }));
     };
 
-    const handleImageChange = (e) => {
+    const handleFileChange = (e) => {
         const file = e.target.files[0];
-        setFormData((prev) => ({
-            ...prev,
-            image: file,
-        }));
+        setSelectedFile(file);
+        setPreview(URL.createObjectURL(file));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (selectedFile) {
+            formData.image = preview;
+        }
         onSubmit(formData);
         onClose();
     };
@@ -49,31 +51,50 @@ const Modal = ({ show, onClose, onSubmit }) => {
                         <div className="flex flex-col space-y-4">
                             <div>
                                 <label className="block text-gray-700">Image</label>
-                                <input type="file" name="image" accept="image/*" onChange={handleImageChange} />
+                                <input type="file" accept="image/*" onChange={handleFileChange} className="w-full p-2 border rounded" />
+                                {preview && (
+                                    <div className="mt-2">
+                                        <img src={preview} alt="Selected" className="h-32 w-32 object-cover rounded-full flex justify-center" />
+                                    </div>
+                                )}
                             </div>
-                            <div>
-                                <label className="block text-gray-700">Name</label>
-                                <input type="text" className="w-full p-2 border rounded" value={formData.name} onChange={handleChange} />
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-gray-700">Name</label>
+                                    <input type="text" name="name" value={formData.name} onChange={handleChange} className="w-full p-2 border rounded" />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-700">Version</label>
+                                    <input type="text" name="version" value={formData.version} onChange={handleChange} className="w-full p-2 border rounded" />
+                                </div>
                             </div>
-                            <div>
-                                <label className="block text-gray-700">Type</label>
-                                <input type="text" className="w-full p-2 border rounded" value={formData.type} onChange={handleChange} />
-                            </div>
-                            <div>
-                                <label className="block text-gray-700">Version</label>
-                                <input type="text" className="w-full p-2 border rounded" value={formData.version} onChange={handleChange} />
-                            </div>
-                            <div>
-                                <label className="block text-gray-700">Company Name</label>
-                                <input type="text" className="w-full p-2 border rounded" value={formData.company_name} onChange={handleChange} />
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-gray-700">Type</label>
+                                    <select name="type" value={formData.type} onChange={handleChange} className="w-full p-2 border rounded">
+                                        <option value="">Select Type</option>
+                                        <option value="PRODUCT">PRODUCT</option>
+                                        <option value="SERVICE">SERVICE</option>
+                                        <option value="OTHER">OTHER</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-gray-700">Company Name</label>
+                                    <select name="company_name" value={formData.company_name} onChange={handleChange} className="w-full p-2 border rounded">
+                                        <option value="">Select Company</option>
+                                        <option value="INDOCYBER GLOBAL TECHNOLOGY">INDOCYBER GLOBAL TECHNOLOGY</option>
+                                        <option value="TECH COMPANY A">TECH COMPANY A</option>
+                                        <option value="TECH COMPANY B">TECH COMPANY B</option>
+                                    </select>
+                                </div>
                             </div>
                             <div>
                                 <label className="block text-gray-700">Description</label>
-                                <textarea className="w-full p-2 border rounded" rows={3} value={formData.description} onChange={handleChange} />
+                                <textarea name="description" value={formData.description} onChange={handleChange} className="w-full p-2 border rounded" rows={5}></textarea>
                             </div>
                             <div>
                                 <label className="block text-gray-700">Responsible</label>
-                                <input type="text" className="w-full p-2 border rounded" value={formData.responsible} onChange={handleChange} />
+                                <input type="text" name="responsible" value={formData.responsible} onChange={handleChange} className="w-full p-2 border rounded" placeholder="Search Name" />
                             </div>
                             <div className="flex space-x-2 mt-4">
                                 <div className="flex-1 flex items-center justify-center border p-2 rounded cursor-pointer hover:bg-gray-100">

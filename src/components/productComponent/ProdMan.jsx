@@ -4,6 +4,38 @@ import Modal from "./Modal";
 const ProdMan = () => {
     const [showModal, setShowModal] = useState(false);
     const [products, setProducts] = useState([]);
+    const [sortConfig, setSortConfig] = useState({ key: null, direction: "ascending" });
+
+    const sortedProducts = React.useMemo(() => {
+        let sortableProducts = [...products];
+        if (sortConfig.key !== null) {
+            sortableProducts.sort((a, b) => {
+                if (a[sortConfig.key] < b[sortConfig.key]) {
+                    return sortConfig.direction === "ascending" ? -1 : 1;
+                }
+                if (a[sortConfig.key] > b[sortConfig.key]) {
+                    return sortConfig.direction === "ascending" ? 1 : -1;
+                }
+                return 0;
+            });
+        }
+        return sortableProducts;
+    }, [products, sortConfig]);
+
+    const requestSort = (key) => {
+        let direction = "ascending";
+        if (sortConfig.key === key && sortConfig.direction === "ascending") {
+            direction = "descending";
+        }
+        setSortConfig({ key, direction });
+    };
+
+    const getClassNamesFor = (key) => {
+        if (!sortConfig) {
+            return;
+        }
+        return sortConfig.key === key ? sortConfig.direction : undefined;
+    };
 
     const handleAddProduct = (product) => {
         setProducts((prev) => [...prev, product]);
@@ -27,26 +59,42 @@ const ProdMan = () => {
                 <table className="min-w-full bg-white border text-sm">
                     <thead>
                         <tr>
-                            <th className="px-4 py-2 border">Logo</th>
-                            <th className="px-4 py-2 border">Product Name</th>
-                            <th className="px-4 py-2 border">Version</th>
-                            <th className="px-4 py-2 border">Type</th>
-                            <th className="px-4 py-2 border">Description</th>
+                            <th className="px-4 py-2 border cursor-pointer" onClick={() => requestSort("image")}>
+                                Logo
+                            </th>
+                            <th className="px-4 py-2 border cursor-pointer" onClick={() => requestSort("name")}>
+                                Product Name
+                                <span className={getClassNamesFor("name")}></span>
+                            </th>
+                            <th className="px-4 py-2 border cursor-pointer" onClick={() => requestSort("version")}>
+                                Version
+                                <span className={getClassNamesFor("version")}></span>
+                            </th>
+                            <th className="px-4 py-2 border cursor-pointer" onClick={() => requestSort("type")}>
+                                Type
+                                <span className={getClassNamesFor("type")}></span>
+                            </th>
+                            <th className="px-4 py-2 border cursor-pointer" onClick={() => requestSort("description")}>
+                                Description
+                                <span className={getClassNamesFor("description")}></span>
+                            </th>
                             <th className="px-4 py-2 border">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {products.length > 0 ? (
-                            products.map((product, index) => (
+                        {sortedProducts.length > 0 ? (
+                            sortedProducts.map((product, index) => (
                                 <tr key={index}>
-                                    <td className="px-4 py-2 border">
-                                        <img src={product.image} className="w-12 h-12 overflow-hidden rounded-full"></img>
-                                    </td>
+                                    <td className="px-4 py-2 flex justify-center">{product.image && <img src={product.image} alt="Product" className="w-12 h-12 overflow-hidden rounded-full" />}</td>
                                     <td className="px-4 py-2 border">{product.name}</td>
                                     <td className="px-4 py-2 border">{product.version}</td>
                                     <td className="px-4 py-2 border">{product.type}</td>
                                     <td className="px-4 py-2 border">{product.description}</td>
-                                    <td className="px-4 py-2 border">{product.responsible}</td>
+                                    <td className="px-4 py-2 border">
+                                        <button onClick={() => setShowModal(true)} className="px-4 py-2 bg-red-700 text-white rounded-md hover:bg-red-800">
+                                            Edit
+                                        </button>
+                                    </td>
                                 </tr>
                             ))
                         ) : (
