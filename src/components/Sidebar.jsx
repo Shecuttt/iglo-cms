@@ -32,7 +32,9 @@ function Sidebar() {
                 <li ref={dropdownRef} className="relative">
                     <NavLink
                         to={"/"}
-                        className={({ isActive }) => (isActive ? "flex items-center bg-red-700 text-red-50 rounded-lg px-4 py-3 shadow-md" : "flex items-center hover:bg-red-100 rounded-lg px-4 py-3")}
+                        className={({ isActive }) =>
+                            isActive ? "relative flex items-center bg-red-700 text-red-50 rounded-lg px-4 py-3 shadow-md" : "flex items-center hover:bg-red-100 rounded-lg px-4 py-3"
+                        }
                         end
                     >
                         <FontAwesomeIcon icon={faHouse} />
@@ -41,24 +43,34 @@ function Sidebar() {
                             <FontAwesomeIcon icon={faCaretDown} />
                         </button>
                     </NavLink>
-                    <div className={`absolute bg-red-50 rounded-lg mt-2 mx-3 overflow-hidden transition-all duration-700 ${isOpen ? "max-h-40" : "max-h-0"}`}>
-                        <NavLink
-                            to={"/userlog"}
-                            className={({ isActive }) =>
-                                isActive ? "flex items-center bg-red-700 text-red-50 rounded-lg px-4 py-3 shadow-md" : "flex items-center hover:bg-red-100 rounded-lg px-4 py-3"
-                            }
-                        >
-                            Detail Activity
-                        </NavLink>
-                        <NavLink
-                            to={"/productmanage"}
-                            className={({ isActive }) =>
-                                isActive ? "flex items-center bg-red-700 text-red-50 rounded-lg px-4 py-3 shadow-md" : "flex items-center hover:bg-red-100 rounded-lg px-4 py-3"
-                            }
-                        >
-                            Product Management
-                        </NavLink>
-                    </div>
+                    {isOpen && (
+                        <div onMouseLeave={toggleDropdown} className={`absolute bg-red-50 rounded-lg mt-2 mx-3 overflow-hidden transition-all duration-700`}>
+                            <NavLink
+                                to={"/userlog"}
+                                className={({ isActive }) =>
+                                    isActive ? "flex items-center bg-red-700 text-red-50 rounded-lg px-4 py-3 shadow-md" : "flex items-center hover:bg-red-100 rounded-lg px-4 py-3"
+                                }
+                            >
+                                Detail Activity
+                            </NavLink>
+                            <NavLink
+                                to={"/productmanage"}
+                                className={({ isActive }) =>
+                                    isActive ? "flex items-center bg-red-700 text-red-50 rounded-lg px-4 py-3 shadow-md" : "flex items-center hover:bg-red-100 rounded-lg px-4 py-3"
+                                }
+                            >
+                                Product Management
+                            </NavLink>
+                            <NavLink
+                                to={"/companymanage"}
+                                className={({ isActive }) =>
+                                    isActive ? "flex items-center bg-red-700 text-red-50 rounded-lg px-4 py-3 shadow-md" : "flex items-center hover:bg-red-100 rounded-lg px-4 py-3"
+                                }
+                            >
+                                Company Management
+                            </NavLink>
+                        </div>
+                    )}
                 </li>
                 <li className="group p-4">
                     <h5>User Management</h5>

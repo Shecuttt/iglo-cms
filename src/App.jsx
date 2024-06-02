@@ -12,6 +12,7 @@ import ReadUser from "./pages/ReadUser";
 import SalesPlan from "./pages/SalesPlan";
 import Customer from "./pages/Customer";
 import ProductManage from "./pages/ProductManage";
+import CompanyManage from "./pages/CompanyManage";
 
 function App() {
     return (
@@ -24,6 +25,7 @@ function App() {
                 <Route path="/salesplan" element={<SalesPlan />} />
                 <Route path="/customer" element={<Customer />} />
                 <Route path="/productmanage" element={<ProductManage />} />
+                <Route path="/companymanage" element={<CompanyManage />} />
                 <Route path="/userlog" element={<UserLog />} />
                 <Route path="/adduser" element={<AddUser />} />
                 <Route path="/edit" element={<EditUser />} />
