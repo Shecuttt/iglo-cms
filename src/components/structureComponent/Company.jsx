@@ -1,119 +1,82 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Tree, TreeNode } from "react-organizational-chart";
+import CompanyModal from "./CompanyModal";
 
-const Company = () => (
-    <>
-        <div className="flex justify-center items-center mt-4">
-            <Tree
-                lineColor="red"
-                lineWidth="3px"
-                nodePadding="4rem"
-                label={
-                    <div className="py-4 px-8 inline-block rounded-lg bg-rose-300">
-                        <div className="flex items-center justify-center">
-                            <img
-                                src="https://images.unsplash.com/photo-1700585560129-2c03e2a3f511?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDIzfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D"
-                                alt="Profile Image"
-                                className="w-12 h-12 rounded-full mx-auto mb-2 overflow-hidden object-cover"
-                            />
-                        </div>
-                        <div className="mt-2 flex flex-col">
-                            <span className="text-2xl font-bold">Name</span>
-                            <span className="text-md">Position</span>
-                        </div>
-                    </div>
-                }
-            >
-                <TreeNode
-                    label={
-                        <div className="py-4 px-8 inline-block rounded-lg bg-red-200">
-                            <div className="flex items-center justify-center">
-                                <img
-                                    src="https://images.unsplash.com/photo-1700585560129-2c03e2a3f511?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDIzfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D"
-                                    alt="Profile Image"
-                                    className="w-12 h-12 rounded-full mx-auto mb-2 overflow-hidden object-cover"
-                                />
-                            </div>
-                            <div className="mt-2 flex flex-col">
-                                <span className="text-2xl font-bold">Name</span>
-                                <span className="text-md">Position</span>
-                            </div>
-                        </div>
+const Company = () => {
+    const [departments, setDepartments] = useState([]);
+    const [visible, setVisible] = useState(false);
+
+    useEffect(() => {
+        // Fetch your departments data here and set it in the state
+        // Example static data
+        const initialDepartments = [
+            { id: "1", name: "HR", children: [] },
+            { id: "2", name: "IT", children: [] },
+        ];
+        setDepartments(initialDepartments);
+    }, []);
+
+    const showCollectionCreateForm = () => {
+        setVisible(true);
+    };
+
+    const handleCancel = () => {
+        setVisible(false);
+    };
+
+    const handleCreate = (values) => {
+        const { departmentName, parentDepartment } = values;
+        const newDepartment = { id: `${Date.now()}`, name: departmentName, children: [] };
+
+        if (parentDepartment) {
+            const addDepartment = (nodes) => {
+                nodes.forEach((node) => {
+                    if (node.id === parentDepartment) {
+                        node.children.push(newDepartment);
+                    } else if (node.children.length) {
+                        addDepartment(node.children);
                     }
-                >
-                    <TreeNode
-                        label={
-                            <div className="py-4 px-8 inline-block rounded-lg bg-white">
-                                <div className="flex items-center justify-center">
-                                    <img
-                                        src="https://images.unsplash.com/photo-1700585560129-2c03e2a3f511?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDIzfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D"
-                                        alt="Profile Image"
-                                        className="w-12 h-12 rounded-full mx-auto mb-2 overflow-hidden object-cover"
-                                    />
-                                </div>
-                                <div className="mt-2 flex flex-col">
-                                    <span className="text-2xl font-bold">Name</span>
-                                    <span className="text-md">Position</span>
-                                </div>
-                            </div>
-                        }
-                    />
-                </TreeNode>
-                <TreeNode
-                    label={
-                        <div className="py-4 px-8 inline-block rounded-lg bg-red-200">
-                            <div className="flex items-center justify-center">
-                                <img
-                                    src="https://images.unsplash.com/photo-1700585560129-2c03e2a3f511?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDIzfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D"
-                                    alt="Profile Image"
-                                    className="w-12 h-12 rounded-full mx-auto mb-2 overflow-hidden object-cover"
-                                />
-                            </div>
-                            <div className="mt-2 flex flex-col">
-                                <span className="text-2xl font-bold">Name</span>
-                                <span className="text-md">Position</span>
-                            </div>
-                        </div>
-                    }
-                >
-                    <TreeNode
-                        label={
-                            <div className="py-4 px-8 inline-block rounded-lg bg-white">
-                                <div className="flex items-center justify-center">
-                                    <img
-                                        src="https://images.unsplash.com/photo-1700585560129-2c03e2a3f511?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDIzfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D"
-                                        alt="Profile Image"
-                                        className="w-12 h-12 rounded-full mx-auto mb-2 overflow-hidden object-cover"
-                                    />
-                                </div>
-                                <div className="mt-2 flex flex-col">
-                                    <span className="text-2xl font-bold">Name</span>
-                                    <span className="text-md">Position</span>
-                                </div>
-                            </div>
-                        }
-                    />
-                </TreeNode>
-                <TreeNode
-                    label={
-                        <div className="py-4 px-8 inline-block rounded-lg bg-red-200">
-                            <div className="flex items-center justify-center">
-                                <img
-                                    src="https://images.unsplash.com/photo-1700585560129-2c03e2a3f511?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDIzfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D"
-                                    alt="Profile Image"
-                                    className="w-12 h-12 rounded-full mx-auto mb-2 overflow-hidden object-cover"
-                                />
-                            </div>
-                            <div className="mt-2 flex flex-col">
-                                <span className="text-2xl font-bold">Name</span>
-                                <span className="text-md">Position</span>
-                            </div>
-                        </div>
-                    }
-                />
-            </Tree>
-        </div>
-    </>
-);
+                });
+            };
+            setDepartments((prevDepartments) => {
+                const updatedDepartments = [...prevDepartments];
+                addDepartment(updatedDepartments);
+                return updatedDepartments;
+            });
+        } else {
+            setDepartments((prevDepartments) => [...prevDepartments, newDepartment]);
+        }
+
+        setVisible(false);
+    };
+
+    const renderTreeNodes = (data) =>
+        data.map((department) => (
+            <TreeNode key={department.id} label={<div>{department.name}</div>}>
+                {department.children.length > 0 && renderTreeNodes(department.children)}
+            </TreeNode>
+        ));
+
+    return (
+        <>
+            <div className="flex items-center justify-end space-x-3 mb-4">
+                <div className="bg-red-600 hover:bg-red-800 text-white px-4 py-2 rounded-md shadow-sm active:outline-none">
+                    <button type="button">Add user</button>
+                </div>
+                <div className="bg-red-600 text-white px-4 py-2 rounded-md shadow-sm">
+                    <button type="button" onClick={showCollectionCreateForm}>
+                        Add Department
+                    </button>
+                </div>
+            </div>
+            <div className="flex justify-center items-center mt-4">
+                <Tree lineColor="red" lineWidth="3px" nodePadding="4rem" label={<div>Company</div>}>
+                    {renderTreeNodes(departments)}
+                </Tree>
+            </div>
+            <CompanyModal visible={visible} onCreate={handleCreate} onCancel={handleCancel} departments={departments} />
+        </>
+    );
+};
 
 export default Company;
