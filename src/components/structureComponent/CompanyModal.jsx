@@ -6,7 +6,7 @@ const CompanyModal = ({ visible, onCreate, onCancel, departments }) => {
     return (
         <Modal
             open={visible}
-            title="Create a new department"
+            title="Add a new department"
             okText="Create"
             cancelText="Cancel"
             onCancel={onCancel}
