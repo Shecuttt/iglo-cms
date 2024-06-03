@@ -2,104 +2,168 @@
     "userlist": [
         {
             "id": 1,
-            "photo": "https://images.unsplash.com/photo-1700585560129-2c03e2a3f511?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDIzfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D",
             "name": "Jhan Coeg",
             "email": "john.doe@gmail.com",
             "phone": "1234567890",
             "position": "Manager",
-            "department": "HR"
+            "department": "HR",
+            "role": "super admin",
+            "status": "Active",
+            "photo": "https://images.unsplash.com/photo-1555952517-2e8e729e0b44?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBlcnNvbnxlbnwwfDF8MHx8fDI%3D"
         },
         {
             "id": 2,
-            "photo": "https://images.unsplash.com/photo-1700585560129-2c03e2a3f511?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDIzfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D",
             "name": "Sarah Johnson",
             "email": "sarah.johnson@yahoo.com",
             "phone": "9876543210",
             "position": "Software Engineer",
-            "department": "IT"
+            "department": "IT",
+            "role": "administrator",
+            "status": "Active",
+            "photo": "https://images.unsplash.com/photo-1555952517-2e8e729e0b44?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBlcnNvbnxlbnwwfDF8MHx8fDI%3D"
         },
-
         {
             "id": 3,
-            "photo": "https://images.unsplash.com/photo-1700585560129-2c03e2a3f511?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDIzfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D",
             "name": "Michael Brown",
             "email": "michael.brown@hotmail.com",
             "phone": "5551234567",
             "position": "Marketing Manager",
-            "department": "Sales"
+            "department": "Sales",
+            "role": "user",
+            "status": "Active",
+            "photo": "https://images.unsplash.com/photo-1555952517-2e8e729e0b44?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBlcnNvbnxlbnwwfDF8MHx8fDI%3D"
         },
-
         {
             "id": 4,
-            "photo": "https://images.unsplash.com/photo-1700585560129-2c03e2a3f511?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDIzfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D",
             "name": "Emily Davis",
             "email": "emily.davis@aol.com",
             "phone": "8765432109",
             "position": "HR Generalist",
-            "department": "HR"
+            "department": "HR",
+            "role": "user",
+            "status": "Active",
+            "photo": "https://images.unsplash.com/photo-1555952517-2e8e729e0b44?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBlcnNvbnxlbnwwfDF8MHx8fDI%3D"
         },
-
         {
             "id": 5,
-            "photo": "https://images.unsplash.com/photo-1700585560129-2c03e2a3f511?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDIzfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D",
             "name": "William Lee",
             "email": "william.lee@gmx.com",
             "phone": "3456789012",
             "position": "Data Analyst",
-            "department": "Finance"
+            "department": "Finance",
+            "role": "administrator",
+            "status": "Active",
+            "photo": "https://images.unsplash.com/photo-1555952517-2e8e729e0b44?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBlcnNvbnxlbnwwfDF8MHx8fDI%3D"
         },
-
         {
             "id": 6,
-            "photo": "https://images.unsplash.com/photo-1700585560129-2c03e2a3f511?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDIzfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D",
             "name": "Hannah Taylor",
-            "email": "hannah.taylor@protonmail.com",
-            "phone": "2345678901",
+            "email": "hannah.taylor@outlook.com",
+            "phone": "5678901234",
             "position": "Graphic Designer",
-            "department": "Creative"
+            "department": "Marketing",
+            "role": "user",
+            "status": "Active",
+            "photo": "https://images.unsplash.com/photo-1555952517-2e8e729e0b44?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBlcnNvbnxlbnwwfDF8MHx8fDI%3D"
         },
         {
             "id": 7,
-            "name": "James Wilson",
-            "email": "james.wilson@gmail.com",
-            "phone": "1234567890",
-            "position": "Product Manager",
-            "department": "Product"
+            "name": "James Smith",
+            "email": "james.smith@gmail.com",
+            "phone": "9012345678",
+            "position": "IT Manager",
+            "department": "IT",
+            "role": "super admin",
+            "status": "Active",
+            "photo": "https://images.unsplash.com/photo-1555952517-2e8e729e0b44?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBlcnNvbnxlbnwwfDF8MHx8fDI%3D"
         },
-
         {
             "id": 8,
-            "name": "Jessica Thompson",
-            "email": "jessica.thompson@outlook.com",
-            "phone": "0987654321",
-            "position": "UX Designer",
-            "department": "Design"
+            "name": "Olivia Brown",
+            "email": "olivia.brown@yahoo.com",
+            "phone": "7890123456",
+            "position": "HR Manager",
+            "department": "HR",
+            "role": "administrator",
+            "status": "Active",
+            "photo": "https://images.unsplash.com/photo-1555952517-2e8e729e0b44?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBlcnNvbnxlbnwwfDF8MHx8fDI%3D"
         },
-
         {
             "id": 9,
-            "name": "Christopher Garcia",
-            "email": "christopher.garcia@yahoo.com",
-            "phone": "4561237890",
-            "position": "Sales Representative",
-            "department": "Sales"
+            "name": "Benjamin Lee",
+            "email": "benjamin.lee@hotmail.com",
+            "phone": "2345678901",
+            "position": "Software Developer",
+            "department": "IT",
+            "role": "user",
+            "status": "Active",
+            "photo": "https://images.unsplash.com/photo-1555952517-2e8e729e0b44?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBlcnNvbnxlbnwwfDF8MHx8fDI%3D"
         },
-
         {
             "id": 10,
-            "name": "Jessica Martinez",
-            "email": "jessica.martinez@hotmail.com",
-            "phone": "6541237890",
-            "position": "Customer Service Representative",
-            "department": "Customer Service"
+            "name": "Ava Johnson",
+            "email": "ava.johnson@aol.com",
+            "phone": "4567890123",
+            "position": "Marketing Assistant",
+            "department": "Marketing",
+            "role": "user",
+            "status": "Active",
+            "photo": "https://images.unsplash.com/photo-1555952517-2e8e729e0b44?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBlcnNvbnxlbnwwfDF8MHx8fDI%3D"
         },
         {
             "id": 11,
-            "name": "Jessica Martinez",
-            "email": "jessica.martinez@hotmail.com",
-            "phone": "6541237890",
-            "position": "Customer Service Representative",
-            "department": "Customer Service"
+            "name": "Ethan Davis",
+            "email": "ethan.davis@gmx.com",
+            "phone": "6789012345",
+            "position": "Data Scientist",
+            "department": "Finance",
+            "role": "administrator",
+            "status": "Active",
+            "photo": "https://images.unsplash.com/photo-1555952517-2e8e729e0b44?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBlcnNvbnxlbnwwfDF8MHx8fDI%3D"
+        },
+        {
+            "id": 12,
+            "name": "Lily Taylor",
+            "email": "lily.taylor@outlook.com",
+            "phone": "8901234567",
+            "position": "Graphic Designer",
+            "department": "Marketing",
+            "role": "user",
+            "status": "Active",
+            "photo": "https://images.unsplash.com/photo-1555952517-2e8e729e0b44?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBlcnNvbnxlbnwwfDF8MHx8fDI%3D"
+        },
+        {
+            "id": 13,
+            "name": "Logan Smith",
+            "email": "logan.smith@gmail.com",
+            "phone": "1234567890",
+            "position": "IT Engineer",
+            "department": "IT",
+            "role": "super admin",
+            "status": "Active",
+            "photo": "https://images.unsplash.com/photo-1555952517-2e8e729e0b44?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBlcnNvbnxlbnwwfDF8MHx8fDI%3D"
+        },
+        {
+            "id": 14,
+            "name": "Isabella Brown",
+            "email": "isabella.brown@yahoo.com",
+            "phone": "9876543210",
+            "position": "HR Assistant",
+            "department": "HR",
+            "role": "user",
+            "status": "Active",
+            "photo": "https://images.unsplash.com/photo-1555952517-2e8e729e0b44?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBlcnNvbnxlbnwwfDF8MHx8fDI%3D"
+        },
+        {
+            "id": 15,
+            "name": "Gabriel Lee",
+            "email": "gabriel.lee@hotmail.com",
+            "phone": "5551234567",
+            "position": "Software Engineer",
+            "department": "IT",
+            "role": "administrator",
+            "status": "Active",
+            "photo": "https://images.unsplash.com/photo-1555952517-2e8e729e0b44?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBlcnNvbnxlbnwwfDF8MHx8fDI%3D"
         }
     ]
 }
