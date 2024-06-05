@@ -87,7 +87,11 @@ const Management = () => {
             dataIndex: "status",
             key: "status",
             render: (text, record) => (
-                <span className={`capitalize rounded-full py-2 px-4 ${text === "Active" || "active" ? "bg-green-200 hover:bg-green-400 text-green-800" : "bg-red-200 hover:bg-red-400 text-red-800"}`}>
+                <span
+                    className={`capitalize rounded-full py-2 px-4 ${
+                        text === "Active" || text === "active" ? "bg-green-200 hover:bg-green-400 text-green-800" : "bg-red-200 hover:bg-red-400 text-red-800"
+                    }`}
+                >
                     {text}
                 </span>
             ),

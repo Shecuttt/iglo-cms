@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Calendar from "./Calendar";
+import Calendar from "./CalendarComponent";
 import Contact from "./Contact";
 import Document from "./Document";
 import Performance from "./Performance";
