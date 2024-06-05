@@ -1,14 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Breadcrumb, Table, Input, message } from "antd";
 import { Link } from "react-router-dom";
 import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import { UserContext } from "../../contexts/UserContext";
+import Swal from "sweetalert2";
 
 const Management = () => {
-    const { users } = useContext(UserContext);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchText, setSearchText] = useState("");
@@ -20,7 +19,6 @@ const Management = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                //run this on terminal: json-server --watch db.json --port 3001
                 const response = await axios.get("http://localhost:3001/userlist");
                 setData(response.data);
                 setLoading(false);
@@ -37,6 +35,28 @@ const Management = () => {
 
     const handlePagination = (page) => {
         setPage(page);
+    };
+
+    const confirmDel = async (record) => {
+        const result = await Swal.fire({
+            title: "Are you sure?",
+            text: `Delete ${record.name} ?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes",
+        });
+
+        if (result.isConfirmed) {
+            try {
+                await axios.delete(`http://localhost:3001/userlist/${record.id}`);
+                setData(data.filter((item) => item.id !== record.id));
+                Swal.fire("Deleted!", "The record has been deleted.", "success");
+            } catch (error) {
+                message.error("Error deleting data: " + error.message);
+            }
+        }
     };
 
     const columns = [
@@ -77,13 +97,13 @@ const Management = () => {
             key: "action",
             render: (text, record) => (
                 <div className="flex items-center space-x-2">
-                    <Link to={"/readonly"} className="rounded-full text-white bg-blue-600 hover:bg-blue-800 active:text-blue-600 active:bg-white flex items-center">
+                    <Link to={`/readonly/${record.id}`} className="rounded-full text-white bg-blue-600 hover:bg-blue-800 active:text-blue-600 active:bg-white flex items-center">
                         <FontAwesomeIcon icon={faEye} className="p-2 items-center" />
                     </Link>
-                    <Link to={"/edit"} className="rounded-full text-white bg-green-600 hover:bg-green-800 active:text-green-600 active:bg-white flex items-center">
+                    <Link to={`/edit/${record.id}`} className="rounded-full text-white bg-green-600 hover:bg-green-800 active:text-green-600 active:bg-white flex items-center">
                         <FontAwesomeIcon icon={faPenToSquare} className="p-2" />
                     </Link>
-                    <button onClick={() => confirmDel()} className="rounded-full text-white bg-red-600 hover:bg-red-800 active:text-red-600 active:bg-white flex items-center">
+                    <button onClick={() => confirmDel(record)} className="rounded-full text-white bg-red-600 hover:bg-red-800 active:text-red-600 active:bg-white flex items-center">
                         <FontAwesomeIcon icon={faTrash} className="p-2" />
                     </button>
                 </div>

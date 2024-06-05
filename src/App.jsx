@@ -17,8 +17,6 @@ import CompanyManage from "./pages/CompanyManage";
 import NotFound from "./components/NotFound";
 import Loading from "./components/Loading";
 
-import { UserProvider } from "./contexts/UserContext";
-
 function App() {
     const [loading, setLoading] = useState(true);
     const location = useLocation();
@@ -39,25 +37,11 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
                     <Route path="*" element={<NotFound />} />
-                    <Route
-                        path="/usermanage"
-                        element={
-                            <UserProvider>
-                                <UserManage />
-                            </UserProvider>
-                        }
-                    />
-                    <Route
-                        path="/adduser"
-                        element={
-                            <UserProvider>
-                                <AddUser />
-                            </UserProvider>
-                        }
-                    />
+                    <Route path="/usermanage" element={<UserManage />} />
+                    <Route path="/adduser" element={<AddUser />} />
                     <Route path="/userlog" element={<UserLog />} />
-                    <Route path="/edit" element={<EditUser />} />
-                    <Route path="/readonly" element={<ReadUser />} />
+                    <Route path="/edit/:id" element={<EditUser />} />
+                    <Route path="/readonly/:id" element={<ReadUser />} />
                     <Route path="/structure" element={<Structure />} />
                     <Route path="/salesplan" element={<SalesPlan />} />
                     <Route path="/customer" element={<Customer />} />

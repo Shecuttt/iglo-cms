@@ -1,16 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import TopNav from "../components/TopNav";
 import Sidebar from "../components/Sidebar";
 import { Form, Input, Button, Select, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../contexts/UserContext";
+import axios from "axios";
 
 const { Option } = Select;
 
 const AddUser = () => {
     const [imageUrl, setImageUrl] = useState("");
-    const { addUser } = useContext(UserContext);
     const navigate = useNavigate();
 
     const handleImageChange = ({ fileList }) => {};
@@ -21,10 +20,17 @@ const AddUser = () => {
         reader.readAsDataURL(img);
     };
 
-    const onFinish = (values) => {
+    const onFinish = async (values) => {
         values.foto = imageUrl;
-        addUser(values);
-        navigate("/usermanage");
+
+        try {
+            const response = await axios.post("http://localhost:3001/userlist", values); // Change the endpoint as needed
+            if (response.status === 201) {
+                navigate("/usermanage");
+            }
+        } catch (error) {
+            console.error("There was an error creating the user!", error);
+        }
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -41,7 +47,7 @@ const AddUser = () => {
                 <div className="my-8 mx-10">
                     <h1 className="text-2xl font-bold mb-4 ">Add Data</h1>
                     <Form name="addData" onFinish={onFinish} onFinishFailed={onFinishFailed} layout="vertical" className="bg-white p-8 rounded-lg">
-                        <Form.Item className="" label="Foto" name="foto" valuePropName="fileList" getValueFromEvent={normFile}>
+                        <Form.Item className="" label="Foto" name="foto" valuePropName="fileList" getValueFromEvent={normFile} rules={[{ required: true, message: "Please input your photo!" }]}>
                             <Upload
                                 name="avatar"
                                 listType="picture-card"
@@ -62,8 +68,8 @@ const AddUser = () => {
                                 )}
                             </Upload>
                         </Form.Item>
-                        <Form.Item label="Nama" name="nama" rules={[{ required: true, message: "Please input your name!" }]}>
-                            <Input />
+                        <Form.Item label="Nama" name="name" rules={[{ required: true, message: "Please input your name!" }]}>
+                            <Input className="capitalize" />
                         </Form.Item>
                         <Form.Item label="Employee ID" name="employeeId" rules={[{ required: true, message: "Please input your employee ID!" }]}>
                             <Input />
@@ -90,7 +96,7 @@ const AddUser = () => {
                                 <Option value="inactive">Inactive</Option>
                             </Select>
                         </Form.Item>
-                        <Form.Item>
+                        <Form.Item className="flex items-center justify-end">
                             <Button type="primary" htmlType="submit">
                                 Submit
                             </Button>
