@@ -1,111 +1,93 @@
-import React, { useState } from "react";
-import Modal from "./Modal";
+import React, { useState, useEffect } from "react";
+import { Table, Button, message } from "antd";
+import axios from "axios";
+import { PlusOutlined } from "@ant-design/icons";
+import ModalComponent from "./ModalComponent";
 
 const ProdMan = () => {
     const [showModal, setShowModal] = useState(false);
     const [products, setProducts] = useState([]);
-    const [sortConfig, setSortConfig] = useState({ key: null, direction: "ascending" });
+    const [loading, setLoading] = useState(true);
 
-    const sortedProducts = React.useMemo(() => {
-        let sortableProducts = [...products];
-        if (sortConfig.key !== null) {
-            sortableProducts.sort((a, b) => {
-                if (a[sortConfig.key] < b[sortConfig.key]) {
-                    return sortConfig.direction === "ascending" ? -1 : 1;
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get("http://localhost:3001/products");
+                if (Array.isArray(response.data)) {
+                    setProducts(response.data);
+                } else {
+                    console.error("Expected an array of products");
                 }
-                if (a[sortConfig.key] > b[sortConfig.key]) {
-                    return sortConfig.direction === "ascending" ? 1 : -1;
-                }
-                return 0;
-            });
-        }
-        return sortableProducts;
-    }, [products, sortConfig]);
+                message.success("Data fetched successfully!");
+            } catch (error) {
+                console.error("There was an error fetching the data!", error);
+                message.error("Failed to fetch data.");
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    const requestSort = (key) => {
-        let direction = "ascending";
-        if (sortConfig.key === key && sortConfig.direction === "ascending") {
-            direction = "descending";
-        }
-        setSortConfig({ key, direction });
+        fetchData();
+    }, []);
+
+    const handleProductAdded = (newProduct) => {
+        setProducts((prev) => [...prev, newProduct]);
     };
 
-    const getClassNamesFor = (key) => {
-        if (!sortConfig) {
-            return;
-        }
-        return sortConfig.key === key ? sortConfig.direction : undefined;
-    };
+    const columns = [
+        {
+            title: "Logo",
+            dataIndex: "image",
+            key: "image",
+            render: (text) => (text ? <img src={text} alt="Product" className="w-12 h-12 overflow-hidden object-cover rounded-full" /> : null),
+        },
+        {
+            title: "Product Name",
+            dataIndex: "name",
+            key: "name",
+            sorter: (a, b) => a.name.localeCompare(b.name),
+        },
+        {
+            title: "Version",
+            dataIndex: "version",
+            key: "version",
+            sorter: (a, b) => a.version.localeCompare(b.version),
+        },
+        {
+            title: "Type",
+            dataIndex: "type",
+            key: "type",
+            sorter: (a, b) => a.type.localeCompare(b.type),
+        },
+        {
+            title: "Description",
+            dataIndex: "description",
+            key: "description",
+        },
+        {
+            title: "Action",
+            key: "action",
+            render: (_, record) => (
+                <Button type="primary" onClick={() => setShowModal(true)}>
+                    Edit
+                </Button>
+            ),
+        },
+    ];
 
-    const handleAddProduct = (product) => {
-        setProducts((prev) => [...prev, product]);
-    };
     return (
         <>
             <div className="p-8">
                 <h1 className="font-bold text-red-800 text-xl uppercase">Product Management</h1>
             </div>
             <div className="mx-8 flex">
-                <button onClick={() => setShowModal(true)} className="flex px-4 py-2 bg-red-700 text-white rounded-md hover:bg-red-800">
-                    + Add Product
-                </button>
-                <div className="flex flex-row space-x-3 ml-auto">
-                    <button className="px-4 py-2 bg-red-700 text-white rounded-md hover:bg-red-800">Filters</button>
-                    <button className="px-4 py-2 bg-red-700 text-white rounded-md hover:bg-red-800">Import</button>
-                </div>
+                <Button type="primary" onClick={() => setShowModal(true)} icon={<PlusOutlined />}>
+                    Add Product
+                </Button>
             </div>
-            <Modal show={showModal} onClose={() => setShowModal(false)} onSubmit={handleAddProduct} />
+            <ModalComponent open={showModal} onClose={() => setShowModal(false)} onProductAdded={handleProductAdded} />
             <div className="m-8">
-                <table className="min-w-full bg-white border text-sm">
-                    <thead>
-                        <tr>
-                            <th className="px-4 py-2 border cursor-pointer" onClick={() => requestSort("image")}>
-                                Logo
-                            </th>
-                            <th className="px-4 py-2 border cursor-pointer" onClick={() => requestSort("name")}>
-                                Product Name
-                                <span className={getClassNamesFor("name")}></span>
-                            </th>
-                            <th className="px-4 py-2 border cursor-pointer" onClick={() => requestSort("version")}>
-                                Version
-                                <span className={getClassNamesFor("version")}></span>
-                            </th>
-                            <th className="px-4 py-2 border cursor-pointer" onClick={() => requestSort("type")}>
-                                Type
-                                <span className={getClassNamesFor("type")}></span>
-                            </th>
-                            <th className="px-4 py-2 border cursor-pointer" onClick={() => requestSort("description")}>
-                                Description
-                                <span className={getClassNamesFor("description")}></span>
-                            </th>
-                            <th className="px-4 py-2 border">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {sortedProducts.length > 0 ? (
-                            sortedProducts.map((product, index) => (
-                                <tr key={index}>
-                                    <td className="px-4 py-2 flex justify-center">{product.image && <img src={product.image} alt="Product" className="w-12 h-12 overflow-hidden rounded-full" />}</td>
-                                    <td className="px-4 py-2 border">{product.name}</td>
-                                    <td className="px-4 py-2 border">{product.version}</td>
-                                    <td className="px-4 py-2 border">{product.type}</td>
-                                    <td className="px-4 py-2 border">{product.description}</td>
-                                    <td className="px-4 py-2 border">
-                                        <button onClick={() => setShowModal(true)} className="px-4 py-2 bg-red-700 text-white rounded-md hover:bg-red-800">
-                                            Edit
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td className="px-4 py-2 border" colSpan="6">
-                                    No data available
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
+                <Table columns={columns} dataSource={products} rowKey="id" loading={loading} />
             </div>
         </>
     );

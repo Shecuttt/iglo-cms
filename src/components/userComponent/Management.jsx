@@ -19,7 +19,7 @@ const Management = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get("http://localhost:3001/userlist");
+                const response = await axios.get("http://iglo-cms-api.xyz/api/user-manage");
                 setData(response.data);
                 setLoading(false);
             } catch (error) {
@@ -40,7 +40,7 @@ const Management = () => {
     const confirmDel = async (record) => {
         const result = await Swal.fire({
             title: "Are you sure?",
-            text: `Delete ${record.name} ?`,
+            text: `Delete ${record.nama} ?`, // Merubah record.name menjadi record.nama
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -50,7 +50,7 @@ const Management = () => {
 
         if (result.isConfirmed) {
             try {
-                await axios.delete(`http://localhost:3001/userlist/${record.id}`);
+                await axios.delete(`https://api.postman.com/collections/28180235-40e355ba-3346-49f2-8f51-32e4c76e50fc?access_key=PMAT-01HZNSX9W8BH7TN8F6CZCFYVJQ/item/index/${record.id}`);
                 setData(data.filter((item) => item.id !== record.id));
                 Swal.fire("Deleted!", "The record has been deleted.", "success");
             } catch (error) {
@@ -68,8 +68,13 @@ const Management = () => {
         },
         {
             title: "Nama",
-            dataIndex: "name",
-            key: "name",
+            dataIndex: "nama",
+            key: "nama",
+        },
+        {
+            title: "ID Karyawan",
+            dataIndex: "id_karyawan",
+            key: "id_karyawan",
         },
         {
             title: "Email",
@@ -78,8 +83,8 @@ const Management = () => {
         },
         {
             title: "Role",
-            dataIndex: "role",
-            key: "role",
+            dataIndex: "nama_role",
+            key: "nama_role",
             render: (text, record) => <span className="capitalize">{text}</span>,
         },
         {
@@ -89,7 +94,7 @@ const Management = () => {
             render: (text, record) => (
                 <span
                     className={`capitalize rounded-full py-2 px-4 ${
-                        text === "Active" || text === "active" ? "bg-green-200 hover:bg-green-400 text-green-800" : "bg-red-200 hover:bg-red-400 text-red-800"
+                        text === "Aktif" || text === "aktif" ? "bg-green-200 hover:bg-green-400 text-green-800" : "bg-red-200 hover:bg-red-400 text-red-800"
                     }`}
                 >
                     {text}
@@ -115,9 +120,8 @@ const Management = () => {
         },
     ];
 
-    const filteredData = data.filter(
-        (item) => (item.name && item.name.toLowerCase().includes(searchText.toLowerCase())) || (item.email && item.email.toLowerCase().includes(searchText.toLowerCase()))
-    );
+    const filteredData =
+        data.length > 0 ? data.filter((item) => (item.nama?.toLowerCase() || "").includes(searchText.toLowerCase()) || (item.email?.toLowerCase() || "").includes(searchText.toLowerCase())) : [];
 
     return (
         <div className="p-8">

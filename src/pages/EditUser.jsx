@@ -17,48 +17,65 @@ const EditUser = () => {
     const [imageUrl, setImageUrl] = useState(null);
     const [loading, setLoading] = useState(true);
     const [fileList, setFileList] = useState([]);
+    const [role, setRole] = useState([]);
 
     useEffect(() => {
-        axios
-            .get(`http://localhost:3001/userlist/${id}`)
-            .then((response) => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`http://iglo-cms-api.xyz/api/user-manages/${id}`);
                 form.setFieldsValue(response.data);
                 if (response.data.foto) {
                     setImageUrl(response.data.foto);
                 }
                 setLoading(false);
-            })
-            .catch((error) => console.error("There was an error fetching the user!", error));
+            } catch (error) {
+                console.error("There was an error fetching the user!", error);
+            }
+        };
+
+        fetchData();
+
+        const fetchRole = async () => {
+            try {
+                const response = await axios.get("http://iglo-cms-api.xyz/api/user-manage/create");
+                if (Array.isArray(response.data.roles)) {
+                    setRole(response.data.roles);
+                } else {
+                    console.error("Unexpected data format:", response.data);
+                }
+            } catch (error) {
+                console.error("Failed to fetch roles:", error.message);
+            }
+        };
+        fetchRole();
     }, [id, form]);
 
-    const onFinish = (values) => {
+    const onFinish = async (values) => {
         setLoading(true);
         if (fileList.length > 0) {
             values.foto = fileList[0].originFileObj;
         }
-        axios
-            .put(`http://localhost:3001/userlist/${id}`, values)
-            .then(() => {
-                setLoading(false);
-                Swal.fire({
-                    title: "Success",
-                    text: "User updated successfully",
-                    icon: "success",
-                    confirmButtonText: "OK",
-                }).then(() => {
-                    history.push("/usermanage");
-                });
-            })
-            .catch((error) => {
-                setLoading(false);
-                console.error("There was an error updating the user!", error);
-                Swal.fire({
-                    title: "Error",
-                    text: "There was an error updating the user",
-                    icon: "error",
-                    confirmButtonText: "OK",
-                });
+        try {
+            await axios.put(`http://iglo-cms-api.xyz/api/user-manages/${id}`, values);
+            setLoading(false);
+            Swal.fire({
+                title: "Success",
+                text: "User updated successfully",
+                icon: "success",
+                confirmButtonText: "OK",
+            }).then(() => {
+                history.push("/usermanage");
             });
+        } catch (error) {
+            setLoading(false);
+            console.error("There was an error updating the user!", error);
+            Swal.fire({
+                title: "Error",
+                text: "There was an error updating the user",
+                icon: "error",
+                confirmButtonText: "OK",
+            });
+        }
     };
 
     const normFile = (e) => {
@@ -100,7 +117,7 @@ const EditUser = () => {
                     <Form form={form} layout="vertical" className="bg-white p-8 rounded-lg" onFinish={onFinish}>
                         <Form.Item className="" label="Foto" name="foto" valuePropName="fileList" getValueFromEvent={normFile}>
                             <Upload
-                                name="avatar"
+                                name="foto"
                                 listType="picture-card"
                                 showUploadList={false}
                                 beforeUpload={(file) => {
@@ -119,32 +136,25 @@ const EditUser = () => {
                                 )}
                             </Upload>
                         </Form.Item>
-                        <Form.Item label="Nama" name="name" rules={[{ required: true, message: "Please input your name!" }]}>
+                        <Form.Item label="Nama" name="nama" rules={[{ required: true, message: "Please input your name!" }]}>
                             <Input className="capitalize" />
                         </Form.Item>
-                        <Form.Item label="Employee ID" name="employeeId" rules={[{ required: true, message: "Please input your employee ID!" }]}>
+                        <Form.Item label="Employee ID" name="id_karyawan" rules={[{ required: true, message: "Please input your employee ID!" }]}>
                             <Input />
                         </Form.Item>
                         <Form.Item label="Email" name="email" rules={[{ required: true, message: "Please input your email!" }]}>
                             <Input />
                         </Form.Item>
-                        <Form.Item label="Phone Number" name="phoneNumber" rules={[{ required: true, message: "Please input your phone number!" }]}>
+                        <Form.Item label="Phone Number" name="telepon" rules={[{ required: true, message: "Please input your phone number!" }]}>
                             <Input />
                         </Form.Item>
-                        <Form.Item label="Password" name="password" rules={[{ required: true, message: "Please input your password!" }]}>
-                            <Input.Password />
-                        </Form.Item>
-                        <Form.Item label="Role" name="role" rules={[{ required: true, message: "Please select a role!" }]}>
+                        <Form.Item label="Role" name="nama_role" rules={[{ required: true, message: "Please select a role!" }]}>
                             <Select placeholder="Select a role">
-                                <Option value="admin">Admin</Option>
-                                <Option value="super admin">Super Admin</Option>
-                                <Option value="user">User</Option>
-                            </Select>
-                        </Form.Item>
-                        <Form.Item label="Status" name="status" rules={[{ required: true, message: "Please select a status!" }]}>
-                            <Select placeholder="Select a status">
-                                <Option value="active">Active</Option>
-                                <Option value="inactive">Inactive</Option>
+                                {role.map((roles) => (
+                                    <Option key={roles.id} value={roles.id}>
+                                        {roles.nama_role}
+                                    </Option>
+                                ))}
                             </Select>
                         </Form.Item>
                         <Form.Item className="flex items-center justify-end">
