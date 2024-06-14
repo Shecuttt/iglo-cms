@@ -20,7 +20,7 @@ const Company = () => {
     useEffect(() => {
         // Fetch your departments data here and set it in the state
         axios
-            .get("http://localhost:3001/departments")
+            .get("http://iglo-cms-api.xyz/api/user-manage/create")
             .then((response) => setDepartments(response.data))
             .catch((error) => console.error("There was an error fetching the departments!", error));
     }, []);

@@ -39,16 +39,30 @@ const TopNav = () => {
                                 <FontAwesomeIcon icon={faEnvelope} />
                             </button>
                             {isOpen && (
-                                <div className="absolute bg-white text-red-800 border rounded-lg overflow-hidden mt-2">
-                                    {/* Dropdown menu items go here */}
-                                    <NavLink to={"/"} className="block px-4 py-2 hover:bg-gray-100">
-                                        Item 1
+                                <div onMouseLeave={toggleDropdown} className={`absolute bg-white text-red-800 rounded-lg mt-2 mx-3 overflow-hidden transition-all duration-700`}>
+                                    <NavLink
+                                        to={"/userlog"}
+                                        className={({ isActive }) =>
+                                            isActive ? "flex items-center bg-red-700 text-red-50 rounded-lg px-4 py-3 shadow-md" : "flex items-center hover:bg-red-100 rounded-lg px-4 py-3"
+                                        }
+                                    >
+                                        Detail Activity
                                     </NavLink>
-                                    <NavLink to={"/"} className="block px-4 py-2 hover:bg-gray-100">
-                                        Item 2
+                                    <NavLink
+                                        to={"/productmanage"}
+                                        className={({ isActive }) =>
+                                            isActive ? "flex items-center bg-red-700 text-red-50 rounded-lg px-4 py-3 shadow-md" : "flex items-center hover:bg-red-100 rounded-lg px-4 py-3"
+                                        }
+                                    >
+                                        Product Management
                                     </NavLink>
-                                    <NavLink to={"/"} className="block px-4 py-2 hover:bg-gray-100">
-                                        Item 3
+                                    <NavLink
+                                        to={"/companymanage"}
+                                        className={({ isActive }) =>
+                                            isActive ? "flex items-center bg-red-700 text-red-50 rounded-lg px-4 py-3 shadow-md" : "flex items-center hover:bg-red-100 rounded-lg px-4 py-3"
+                                        }
+                                    >
+                                        Company Management
                                     </NavLink>
                                 </div>
                             )}

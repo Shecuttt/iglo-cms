@@ -6,6 +6,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Form, Input, Select } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
+import Loading from "../components/Loading"
 
 const { Option } = Select;
 
@@ -48,7 +49,7 @@ const ReadUser = () => {
     }, [id, form]);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <Loading />;
     }
 
     return (
