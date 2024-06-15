@@ -6,6 +6,7 @@ import {
   faUsers,
   faUserGroup,
   faUserGear,
+  faBars,
 } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 
@@ -39,9 +40,9 @@ function Sidebar() {
         } lg:translate-x-0 lg:w-64`}
       >
         <div className="">
-          {/* <button className="hidden p-4" onClick={toggleSidebar}>
+          <button className="hidden p-4" onClick={toggleSidebar}>
             <FontAwesomeIcon icon={faBars} />
-          </button> */}
+          </button>
           <a
             href="#"
             className="hidden h-16 lg:flex items-center pb-4 border-b-2 border-b-red-800"
