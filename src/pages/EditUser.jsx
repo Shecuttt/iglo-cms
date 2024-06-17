@@ -1,47 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import TopNav from "../components/TopNav";
 import Sidebar from "../components/Sidebar";
-import BackButton from "../components/BackButton";
-import axios from "axios";
-import { Form, Input, Select, Button, Upload, message } from "antd";
+import { Form, Input, Button, Select, Upload, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-import Swal from "sweetalert2";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 const { Option } = Select;
 
 const EditUser = () => {
   const { id } = useParams();
+  const [file, setFile] = useState(null);
+  const [role, setRole] = useState([]);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const [imageUrl, setImageUrl] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [fileList, setFileList] = useState([]);
-  const [role, setRole] = useState([]);
-  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `http://iglo-cms-api.xyz/api/user-manages/${id}`
-        );
-        const user = response.data;
-        setUserData(user);
-        form.setFieldsValue(user); // Set form fields with user data
-        if (user.foto) {
-          setImageUrl(user.foto);
-        }
-      } catch (error) {
-        console.error("There was an error fetching the user!", error);
-      }
-    };
-
-    fetchData();
-  }, [id, form]);
-
-  useEffect(() => {
-    const fetchRole = async () => {
+    const fetchRoles = async () => {
       try {
         const response = await axios.get(
           "http://iglo-cms-api.xyz/api/user-manage/create"
@@ -50,19 +26,40 @@ const EditUser = () => {
           setRole(response.data.roles);
         } else {
           console.error("Unexpected data format:", response.data);
+          message.error("Failed to fetch roles: unexpected data format");
         }
       } catch (error) {
         console.error("Failed to fetch roles:", error.message);
+        message.error("Failed to fetch roles: " + error.message);
       }
     };
-    fetchRole();
-  }, []);
+
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(
+          ` http://iglo-cms-api.xyz/api/user-manages/${id}/edit`
+        );
+        setUser(response.data);
+        form.setFieldsValue(response.data);
+      } catch (error) {
+        console.error("Failed to fetch user:", error.message);
+        message.error("Failed to fetch user: " + error.message);
+      }
+    };
+
+    fetchRoles();
+    fetchUser();
+  }, [id, form]);
+
+  const handleImageChange = (info) => {
+    const { file } = info;
+    setFile(file);
+  };
 
   const onFinish = async (values) => {
-    setLoading(true);
     const formData = new FormData();
-    if (fileList.length > 0) {
-      formData.append("foto", fileList[0].originFileObj);
+    if (file) {
+      formData.append("foto", file);
     }
     formData.append("nama", values.nama);
     formData.append("id_karyawan", values.id_karyawan);
@@ -71,7 +68,7 @@ const EditUser = () => {
     formData.append("id_role", values.id_role);
 
     try {
-      await axios.put(
+      const response = await axios.post(
         `http://iglo-cms-api.xyz/api/user-manages/${id}`,
         formData,
         {
@@ -80,82 +77,75 @@ const EditUser = () => {
           },
         }
       );
-      setLoading(false);
-      Swal.fire({
-        title: "Success",
-        text: "User updated successfully",
-        icon: "success",
-        confirmButtonText: "OK",
-      }).then(() => {
+      if (response.status) {
+        message.success("User updated successfully!");
         navigate("/usermanage");
-      });
+      }
     } catch (error) {
-      setLoading(false);
       console.error("There was an error updating the user!", error);
-      Swal.fire({
-        title: "Error",
-        text: "There was an error updating the user",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
+      message.error("Error submitting form: " + error.message);
+      setTimeout(() => {
+        message.destroy();
+      }, 3000);
     }
   };
 
-  const normFile = (e) => {
-    console.log("Upload event:", e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
-
-  const handleImageChange = ({ fileList }) => {
-    setFileList(fileList);
-    if (fileList.length > 0) {
-      const file = fileList[0].originFileObj;
-      setImageUrl(URL.createObjectURL(file));
-    } else {
-      setImageUrl(null);
-    }
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+    message.error("Form submission failed. Please check your inputs.");
   };
 
   return (
     <div className="flex">
-      {/* Sidebar */}
       <Sidebar />
-      {/* Main */}
       <main className="w-full bg-red-50">
         <TopNav />
-        <BackButton />
-        <div className="px-10 py-4">
+        <div className="my-8 mx-10">
+          <h1 className="text-2xl font-bold mb-4">Edit Data</h1>
           <Form
             form={form}
+            name="editData"
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
             layout="vertical"
             className="bg-white p-8 rounded-lg"
-            onFinish={onFinish}
+            encType="multipart/form-data"
           >
             <Form.Item
-              className=""
               label="Foto"
               name="foto"
               valuePropName="fileList"
-              getValueFromEvent={normFile}
+              getValueFromEvent={(e) => {
+                if (Array.isArray(e)) {
+                  return e;
+                }
+                return e && e.fileList;
+              }}
             >
               <Upload
                 name="foto"
                 listType="picture-card"
-                fileList={fileList}
                 showUploadList={false}
-                beforeUpload={() => false} // Prevent default upload behavior
+                beforeUpload={() => false}
                 onChange={handleImageChange}
               >
-                {imageUrl ? (
+                {file ? (
                   <img
-                    src={imageUrl}
+                    src={URL.createObjectURL(file)}
                     alt="avatar"
                     className="rounded-md object-cover overflow-hidden"
                   />
                 ) : (
+                  user &&
+                  user.foto && (
+                    <img
+                      src={user.foto}
+                      alt="avatar"
+                      className="rounded-md object-cover overflow-hidden"
+                    />
+                  )
+                )}
+                {!file && !user?.foto && (
                   <div>
                     <UploadOutlined />
                     <div className="mt-2">Upload</div>
@@ -168,7 +158,7 @@ const EditUser = () => {
               name="nama"
               rules={[{ required: true, message: "Please input your name!" }]}
             >
-              <Input className="capitalize" />
+              <Input />
             </Form.Item>
             <Form.Item
               label="Employee ID"
@@ -197,7 +187,7 @@ const EditUser = () => {
             </Form.Item>
             <Form.Item
               label="Role"
-              name="id_role" // Ensure this matches the user data structure
+              name="id_role"
               rules={[{ required: true, message: "Please select a role!" }]}
             >
               <Select placeholder="Select a role">
@@ -209,7 +199,7 @@ const EditUser = () => {
               </Select>
             </Form.Item>
             <Form.Item className="flex items-center justify-end">
-              <Button type="primary" htmlType="submit" loading={loading}>
+              <Button type="primary" htmlType="submit">
                 Submit
               </Button>
             </Form.Item>

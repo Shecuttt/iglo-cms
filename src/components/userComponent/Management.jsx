@@ -115,7 +115,7 @@ const Management = () => {
     {
       title: "Action",
       key: "action",
-      render: (text, record) => (
+      render: (record) => (
         <div className="flex items-center space-x-2">
           <Link
             to={`/readonly/${record.id}`}
