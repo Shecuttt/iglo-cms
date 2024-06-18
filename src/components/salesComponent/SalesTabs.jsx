@@ -6,6 +6,7 @@ import Contact from "./Contact";
 import Document from "./Document";
 import Reward from "./Reward";
 import Plans from "./Plans";
+import ScheduleCenter from "./ScheduleCenter";
 
 const { Item } = Menu;
 
@@ -49,6 +50,8 @@ const SalesTabs = () => {
         return <Reward />;
       case "plans":
         return <Plans />;
+      case "schedule-center":
+        return <ScheduleCenter />;
       default:
         return null;
     }

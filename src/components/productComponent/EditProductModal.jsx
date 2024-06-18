@@ -6,7 +6,7 @@ import axios from "axios";
 const { Option } = Select;
 const { TextArea } = Input;
 
-const ModalComponent = ({ open, onClose, onProductAdded }) => {
+const EditProductModal = ({ open, onClose, productData, onProductUpdated }) => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
   const [imageFileList, setImageFileList] = useState([]);
@@ -46,6 +46,22 @@ const ModalComponent = ({ open, onClose, onProductAdded }) => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (productData) {
+      form.setFieldsValue({
+        nama: productData.nama,
+        versi: productData.versi,
+        type: productData.type.id,
+        company: productData.company.id,
+        deskripsi: productData.deskripsi,
+        responsible: productData.responsible,
+      });
+
+      // Set initial file and image lists if applicable
+      // You may need to adjust this based on how your API handles file uploads
+    }
+  }, [productData]);
+
   const handleImageChange = ({ fileList }) => {
     setImageFileList(fileList);
   };
@@ -59,26 +75,23 @@ const ModalComponent = ({ open, onClose, onProductAdded }) => {
       const values = await form.validateFields();
       const formData = new FormData();
 
-      // Append image file
       if (imageFileList.length > 0) {
         formData.append("image", imageFileList[0].originFileObj);
       }
 
-      // Append other form data
       formData.append("nama", values.nama);
       formData.append("versi", values.versi);
-      formData.append("id_tipe", values.type); // Assuming 'type' corresponds to 'id_tipe'
-      formData.append("id_company", values.company); // Assuming 'company' corresponds to 'id_company'
+      formData.append("type", values.type);
+      formData.append("company", values.company);
       formData.append("deskripsi", values.deskripsi);
-      formData.append("id_um", values.responsible); // Assuming 'responsible' corresponds to 'id_um'
+      formData.append("responsible", values.responsible);
 
-      // Append document files
       fileList.forEach((file) => {
-        formData.append("documents[]", file.originFileObj);
+        formData.append("documents", file.originFileObj);
       });
 
-      const response = await axios.post(
-        "http://iglo-cms-api.xyz/api/product",
+      const response = await axios.put(
+        `http://iglo-cms-api.xyz/api/product/${productData.id}`,
         formData,
         {
           headers: {
@@ -87,7 +100,7 @@ const ModalComponent = ({ open, onClose, onProductAdded }) => {
         }
       );
 
-      onProductAdded(response.data);
+      onProductUpdated(response.data);
       onClose();
     } catch (error) {
       console.error("Failed to submit form:", error);
@@ -102,7 +115,7 @@ const ModalComponent = ({ open, onClose, onProductAdded }) => {
 
   return (
     <Modal
-      title="Add Product"
+      title="Edit Product"
       open={open}
       onCancel={onClose}
       onOk={handleSubmit}
@@ -235,4 +248,4 @@ const ModalComponent = ({ open, onClose, onProductAdded }) => {
   );
 };
 
-export default ModalComponent;
+export default EditProductModal;

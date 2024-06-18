@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { Table, Button, message } from "antd";
+import React, { useState, useEffect, useRef } from "react";
+import { Table, Button, message, Popconfirm } from "antd";
 import axios from "axios";
 import { PlusOutlined } from "@ant-design/icons";
 import ModalComponent from "./ModalComponent";
+import EditProductModal from "./EditProductModal";
 
 const ProdMan = () => {
   const [showModal, setShowModal] = useState(false);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const contextMenuOverlay = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,6 +38,33 @@ const ProdMan = () => {
     setProducts((prev) => [...prev, newProduct]);
   };
 
+  const handleEditProduct = (product) => {
+    setSelectedProduct(product);
+    setEditModalOpen(true);
+  };
+
+  const handleProductUpdated = (updatedProduct) => {
+    const updatedProducts = products.map((product) =>
+      product.id === updatedProduct.id ? updatedProduct : product
+    );
+    setProducts(updatedProducts);
+    setEditModalOpen(false);
+  };
+
+  const handleDeleteProduct = async (productId) => {
+    try {
+      await axios.delete(`http://iglo-cms-api.xyz/api/product/${productId}`);
+      const updatedProducts = products.filter(
+        (product) => product.id !== productId
+      );
+      setProducts(updatedProducts);
+      message.success("Product deleted successfully!");
+    } catch (error) {
+      console.error("Failed to delete product:", error);
+      message.error("Failed to delete product.");
+    }
+  };
+
   const columns = [
     {
       title: "Logo",
@@ -52,19 +83,19 @@ const ProdMan = () => {
       title: "Product Name",
       dataIndex: "nama",
       key: "nama",
-      sorter: (a, b) => a.name.localeCompare(b.name),
+      sorter: (a, b) => a.nama.localeCompare(b.nama),
     },
     {
       title: "Version",
       dataIndex: "versi",
       key: "versi",
-      sorter: (a, b) => a.version.localeCompare(b.version),
+      sorter: (a, b) => a.versi.localeCompare(b.versi),
     },
     {
       title: "Type",
-      dataIndex: "type",
-      key: "id_tipe",
-      sorter: (a, b) => a.type.localeCompare(b.type),
+      dataIndex: "type.nama_tipe",
+      key: "type",
+      sorter: (a, b) => a.type.nama_tipe.localeCompare(b.type.nama_tipe),
     },
     {
       title: "Description",
@@ -75,9 +106,19 @@ const ProdMan = () => {
       title: "Action",
       key: "action",
       render: (_, record) => (
-        <Button type="primary" onClick={() => setShowModal(true)}>
-          Edit
-        </Button>
+        <Button.Group>
+          <Button type="primary" onClick={() => handleEditProduct(record)}>
+            Edit
+          </Button>
+          <Popconfirm
+            title="Are you sure to delete this product?"
+            onConfirm={() => handleDeleteProduct(record.id)}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button type="danger">Delete</Button>
+          </Popconfirm>
+        </Button.Group>
       ),
     },
   ];
@@ -94,15 +135,29 @@ const ProdMan = () => {
           type="primary"
           onClick={() => setShowModal(true)}
           icon={<PlusOutlined />}
+          style={{ marginBottom: 16 }}
         >
           Add Product
         </Button>
       </div>
+
+      {/* Modal for adding a new product */}
       <ModalComponent
         open={showModal}
         onClose={() => setShowModal(false)}
         onProductAdded={handleProductAdded}
       />
+
+      {/* Modal for editing an existing product */}
+      {selectedProduct && (
+        <EditProductModal
+          open={editModalOpen}
+          onClose={() => setEditModalOpen(false)}
+          productData={selectedProduct}
+          onProductUpdated={handleProductUpdated}
+        />
+      )}
+
       <div className="m-8">
         <Table
           columns={columns}
