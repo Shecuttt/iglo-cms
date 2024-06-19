@@ -57,7 +57,7 @@ const Management = () => {
     if (result.isConfirmed) {
       try {
         await axios.delete(
-          `https://api.postman.com/collections/28180235-40e355ba-3346-49f2-8f51-32e4c76e50fc?access_key=PMAT-01HZNSX9W8BH7TN8F6CZCFYVJQ/item/index/${record.id}`
+          `http://iglo-cms-api.xyz/api/user-manages/${record.id}`
         );
         setData(data.filter((item) => item.id !== record.id));
         Swal.fire("Deleted!", "The record has been deleted.", "success");

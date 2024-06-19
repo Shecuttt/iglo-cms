@@ -15,7 +15,7 @@ const AddPersonalCustomerForm = ({ visible, onCancel, onCreate }) => {
 
   return (
     <Modal
-      visible={visible}
+      open={visible}
       title="Add Personal Customer"
       okText="Add"
       onCancel={onCancel}
