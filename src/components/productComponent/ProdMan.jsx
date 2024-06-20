@@ -12,13 +12,14 @@ const ProdMan = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://iglo-cms-api.xyz/api/product");
+        const response = await axios.get(
+          "https://iglo-cms-api.xyz/api/product"
+        );
         if (Array.isArray(response.data)) {
           setProducts(response.data);
         } else {
           console.error("Expected an array of products");
         }
-        message.success("Data fetched successfully!");
       } catch (error) {
         console.error("There was an error fetching the data!", error);
         message.error("Failed to fetch data.");
@@ -37,9 +38,9 @@ const ProdMan = () => {
       key: "image",
       render: (text, record) => (
         <img
-          src={`http://iglo-cms-api.xyz/product/${record.image}`}
+          src={`https://iglo-cms-api.xyz/api/product/${record.image}`}
           alt={record.nama}
-          style={{ width: "50px", height: "50px" }}
+          style={{ width: "50px", height: "50px", objectFit: "cover" }}
         />
       ),
     },

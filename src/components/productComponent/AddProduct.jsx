@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Upload, Select, Button, message } from "antd";
+import { Form, Input, Upload, Select, Button, message, Breadcrumb } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Sidebar from "../Sidebar";
 import TopNav from "../TopNav";
 
@@ -22,7 +22,7 @@ const AddProduct = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://iglo-cms-api.xyz/api/product/create"
+          "https://iglo-cms-api.xyz/api/product/create"
         );
         const { types, companies, userManages } = response.data;
 
@@ -69,7 +69,7 @@ const AddProduct = () => {
       });
 
       const response = await axios.post(
-        "http://iglo-cms-api.xyz/api/product",
+        "https://iglo-cms-api.xyz/api/product",
         formData,
         {
           headers: {
@@ -97,7 +97,21 @@ const AddProduct = () => {
       <main className="w-full bg-red-50">
         <TopNav />
         <div className="my-8 mx-10">
-          <h1>Add Product</h1>
+          <Breadcrumb
+            items={[
+              {
+                title: <Link to="/">Home</Link>,
+              },
+              {
+                title: <Link to={"/productmanage"}>Product Management</Link>,
+              },
+              {
+                title: <span>Add Product</span>,
+              },
+            ]}
+            className="mb-4"
+          />
+          <h1 className="text-2xl font-bold mb-4">Add Product</h1>
           <Form layout="vertical" form={form}>
             <Form.Item
               label="Image"

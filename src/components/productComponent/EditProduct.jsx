@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Upload, Select, Button, message } from "antd";
+import { Form, Input, Upload, Select, Button, message, Breadcrumb } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import Sidebar from "../Sidebar";
 import TopNav from "../TopNav";
 import Swal from "sweetalert2";
@@ -25,7 +25,7 @@ const EditProduct = () => {
       try {
         // Fetch data for companies, types, and responsible persons
         const response = await axios.get(
-          "http://iglo-cms-api.xyz/api/product/create"
+          "https://iglo-cms-api.xyz/api/product/create"
         );
         const { companies, types, userManages } = response.data;
 
@@ -35,7 +35,7 @@ const EditProduct = () => {
 
         // Fetch product data for the given id
         const productResponse = await axios.get(
-          `http://iglo-cms-api.xyz/api/product/${id}`
+          `https://iglo-cms-api.xyz/api/product/${id}`
         );
         const productData = productResponse.data;
 
@@ -56,9 +56,20 @@ const EditProduct = () => {
               uid: "-1",
               name: productData.image.split("/").pop(),
               status: "done",
-              url: `http://iglo-cms-api.xyz/${productData.image}`,
+              url: `https://iglo-cms-api.xyz/${productData.image}`,
             },
           ]);
+        }
+
+        if (productData.documents) {
+          setFileList(
+            productData.documents.map((doc, index) => ({
+              uid: index.toString(),
+              name: doc.split("/").pop(),
+              status: "done",
+              url: `https://iglo-cms-api.xyz/${doc}`,
+            }))
+          );
         }
       } catch (error) {
         message.error("Failed to fetch data");
@@ -94,10 +105,12 @@ const EditProduct = () => {
       formData.append("id_um", values.responsible);
 
       fileList.forEach((file) => {
-        formData.append("documents", file.originFileObj);
+        if (file.originFileObj) {
+          formData.append("documents", file.originFileObj);
+        }
       });
 
-      await axios.put(`http://iglo-cms-api.xyz/api/product/${id}`, formData, {
+      await axios.put(`https://iglo-cms-api.xyz/api/product/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -118,9 +131,9 @@ const EditProduct = () => {
 
   const handleDeleteProduct = async () => {
     try {
-      await axios.delete(`http://iglo-cms-api.xyz/api/product/${id}`);
+      await axios.delete(`https://iglo-cms-api.xyz/api/product/${id}`);
       message.success("Product deleted successfully!");
-      navigate("/products");
+      navigate("/productmanage");
     } catch (error) {
       console.error("Failed to delete product:", error);
       message.error("Failed to delete product.");
@@ -148,10 +161,21 @@ const EditProduct = () => {
       <Sidebar />
       <main className="w-full bg-red-50">
         <TopNav />
-        <div className="my-8 mx-10">
-          <h1 className="my-4 text-2xl font-semibold text-red-800">
-            Edit Product
-          </h1>
+        <div className="p-8">
+          <Breadcrumb
+            items={[
+              {
+                title: <Link to={"/"}>Home</Link>,
+              },
+              {
+                title: <Link to={"/productmanage"}>Product Manage</Link>,
+              },
+              {
+                title: <span>Edit Product</span>,
+              },
+            ]}
+          />
+          <h1 className="my-4 text-2xl font-bold">Edit Product</h1>
           <Form layout="vertical" form={form}>
             <Form.Item
               label="Image"
