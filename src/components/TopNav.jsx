@@ -2,11 +2,10 @@ import { faEnvelope, faBell } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
 import { Menu, Dropdown, Button } from "antd";
-import { DownOutlined } from "@ant-design/icons";
 
 import CRM from "../assets/logo-ecrm.png";
+import MyProfile from "./MyProfile";
 
 const TopNav = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,11 +19,7 @@ const TopNav = () => {
       items={[
         {
           key: "0",
-          label: <NavLink to="/userlog">Detail Activity</NavLink>,
-        },
-        {
-          key: "1",
-          label: <NavLink to="/logout">Logout</NavLink>,
+          label: <MyProfile />,
         },
       ]}
     />
@@ -50,7 +45,7 @@ const TopNav = () => {
             </li>
             <li className="px-1">
               <Dropdown
-                overlay={item}
+                menu={item}
                 className="bg-transparent border-0 py-6"
                 trigger={["click"]}
               >

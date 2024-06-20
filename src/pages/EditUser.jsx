@@ -20,7 +20,7 @@ const EditUser = () => {
     const fetchRoles = async () => {
       try {
         const response = await axios.get(
-          "http://iglo-cms-api.xyz/api/user-manage/create"
+          "https://iglo-cms-api.xyz/api/user-manage/create"
         );
         if (Array.isArray(response.data.roles)) {
           setRole(response.data.roles);
@@ -37,7 +37,7 @@ const EditUser = () => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(
-          ` http://iglo-cms-api.xyz/api/user-manages/${id}/edit`
+          ` https://iglo-cms-api.xyz/api/user-manages/${id}/edit`
         );
         setUser(response.data);
         form.setFieldsValue(response.data);
@@ -69,7 +69,7 @@ const EditUser = () => {
 
     try {
       const response = await axios.post(
-        `http://iglo-cms-api.xyz/api/user-manages/${id}`,
+        `https://iglo-cms-api.xyz/api/user-manages/${id}`,
         formData,
         {
           headers: {

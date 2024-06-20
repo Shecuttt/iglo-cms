@@ -14,6 +14,7 @@ import {
   faPenToSquare,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 const CustomerList = () => {
   // State untuk menangani data tabel
@@ -155,10 +156,17 @@ const CustomerList = () => {
 
   return (
     <div className="p-8">
-      <Breadcrumb style={{ marginBottom: "16px" }}>
-        <Breadcrumb.Item>Home</Breadcrumb.Item>
-        <Breadcrumb.Item>Customer List</Breadcrumb.Item>
-      </Breadcrumb>
+      <Breadcrumb
+        items={[
+          {
+            title: <Link to={"/"}>Home</Link>,
+          },
+          {
+            title: "Customer List",
+          },
+        ]}
+        style={{ marginBottom: "16px" }}
+      />
       <div className="flex justify-end space-x-2 mb-4">
         <Button
           type="primary"

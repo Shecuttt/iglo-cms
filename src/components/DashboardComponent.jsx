@@ -1,40 +1,40 @@
 import React, { useEffect, useState } from "react";
-import { Card, Col, Row, Statistic, List, Avatar, message } from "antd";
+import {
+  Card,
+  Col,
+  Row,
+  Statistic,
+  List,
+  Avatar,
+  message,
+  Skeleton,
+} from "antd";
 import {
   UserOutlined,
   BankOutlined,
   ShoppingOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { Line } from "@ant-design/charts";
 import axios from "axios";
 
 const DashboardComponent = () => {
   const navigate = useNavigate();
   const [recentUsers, setRecentUsers] = useState([]);
   const [recentProducts, setRecentProducts] = useState([]);
-  const [salesData, setSalesData] = useState({
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
-    datasets: [
-      {
-        label: "Sales",
-        data: [65, 59, 80, 81, 56, 55, 40],
-        borderColor: "rgba(75,192,192,1)",
-        fill: false,
-      },
-    ],
-  });
+
   const [data, setData] = useState({
     users: 0,
     companies: 0,
     products: 0,
   });
 
+  const [loading, setLoading] = useState(true); // Initialize loading state
+
   useEffect(() => {
     const fetchRecentUsers = async () => {
       try {
         const response = await axios.get(
-          "http://iglo-cms-api.xyz/api/user-manage"
+          "https://iglo-cms-api.xyz/api/user-manage"
         );
         const data = response.data;
 
@@ -48,7 +48,9 @@ const DashboardComponent = () => {
 
     const fetchRecentProducts = async () => {
       try {
-        const response = await axios.get("http://iglo-cms-api.xyz/api/product");
+        const response = await axios.get(
+          "https://iglo-cms-api.xyz/api/product"
+        );
         const data = response.data;
 
         // Get the last 3 products from the data array
@@ -76,9 +78,11 @@ const DashboardComponent = () => {
           companies: companiesResponse.data.length,
           products: productsResponse.data.length,
         });
+        setLoading(false); // Data loaded, set loading to false
       } catch (error) {
         console.error("Failed fetching total data: ", error);
         message.error("Error fetching total!");
+        setLoading(false); // In case of error, stop loading
       }
     };
 
@@ -97,11 +101,13 @@ const DashboardComponent = () => {
             hoverable
             onClick={() => navigate("/usermanage")}
           >
-            <Statistic
-              value={data.users}
-              prefix={<UserOutlined className="mr-2" />}
-              suffix="Users"
-            />
+            <Skeleton loading={loading} active>
+              <Statistic
+                value={data.users}
+                prefix={<UserOutlined className="mr-2" />}
+                suffix="Users"
+              />
+            </Skeleton>
           </Card>
         </Col>
         <Col span={8}>
@@ -111,11 +117,13 @@ const DashboardComponent = () => {
             hoverable
             onClick={() => navigate("/companymanage")}
           >
-            <Statistic
-              value={data.companies}
-              prefix={<BankOutlined className="mr-2" />}
-              suffix="Companies"
-            />
+            <Skeleton loading={loading} active>
+              <Statistic
+                value={data.companies}
+                prefix={<BankOutlined className="mr-2" />}
+                suffix="Companies"
+              />
+            </Skeleton>
           </Card>
         </Col>
         <Col span={8}>
@@ -125,58 +133,64 @@ const DashboardComponent = () => {
             hoverable
             onClick={() => navigate("/productmanage")}
           >
-            <Statistic
-              value={data.products}
-              prefix={<ShoppingOutlined className="mr-2" />}
-              suffix="Products"
-            />
+            <Skeleton loading={loading} active>
+              <Statistic
+                value={data.products}
+                prefix={<ShoppingOutlined className="mr-2" />}
+                suffix="Products"
+              />
+            </Skeleton>
           </Card>
         </Col>
       </Row>
       <Row gutter={16} style={{ marginTop: 16 }}>
-        <Col span={12}>
+        <Col span={16}>
           <Card title="Sales Data" bordered={false}>
-            <Line data={salesData} />
+            <Skeleton loading={loading} active />
           </Card>
         </Col>
-        <Col span={12}>
+        <Col span={8}>
           <Card title="Recent Users" bordered={false}>
-            <List
-              itemLayout="horizontal"
-              dataSource={recentUsers}
-              renderItem={(user) => (
-                <List.Item>
-                  <List.Item.Meta
-                    avatar={<Avatar icon={<UserOutlined />} />}
-                    title={user.nama}
-                    description={user.email}
-                  />
-                </List.Item>
-              )}
-            />
+            <Skeleton loading={loading} active>
+              <List
+                itemLayout="horizontal"
+                dataSource={recentUsers}
+                renderItem={(user) => (
+                  <List.Item>
+                    <List.Item.Meta
+                      avatar={<Avatar icon={<UserOutlined />} />}
+                      title={user.nama}
+                      description={user.email}
+                    />
+                  </List.Item>
+                )}
+              />
+            </Skeleton>
           </Card>
           <Card
             title="Recent Products"
             bordered={false}
             style={{ marginTop: 16 }}
           >
-            <List
-              itemLayout="horizontal"
-              dataSource={recentProducts}
-              renderItem={(product) => (
-                <List.Item>
-                  <List.Item.Meta
-                    avatar={
-                      <Avatar
-                        src={`http://iglo-cms-api.xyz/${product.image}`}
-                      />
-                    }
-                    title={product.nama}
-                    description={product.deskripsi}
-                  />
-                </List.Item>
-              )}
-            />
+            <Skeleton loading={loading} active>
+              <List
+                itemLayout="horizontal"
+                dataSource={recentProducts}
+                renderItem={(product) => (
+                  <List.Item>
+                    <List.Item.Meta
+                      avatar={
+                        <Avatar
+                          src={`https://iglo-cms-api.xyz/${product.image}`}
+                        />
+                      }
+                      title={product.nama}
+                      description={product.deskripsi}
+                    />
+                  </List.Item>
+                )}
+              />
+            </Skeleton>
           </Card>
         </Col>
       </Row>

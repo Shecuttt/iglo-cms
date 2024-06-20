@@ -18,7 +18,7 @@ const AddUser = () => {
     const fetchRole = async () => {
       try {
         const response = await axios.get(
-          "http://iglo-cms-api.xyz/api/user-manage/create"
+          "https://iglo-cms-api.xyz/api/user-manage/create"
         );
         if (Array.isArray(response.data.roles)) {
           setRole(response.data.roles);
@@ -51,7 +51,7 @@ const AddUser = () => {
 
     try {
       const response = await axios.post(
-        "http://iglo-cms-api.xyz/api/user-manage",
+        "https://iglo-cms-api.xyz/api/user-manage",
         formData,
         {
           headers: {

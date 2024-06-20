@@ -24,7 +24,7 @@ const Management = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://iglo-cms-api.xyz/api/user-manage"
+          "https://iglo-cms-api.xyz/api/user-manage"
         );
         setData(response.data);
         setLoading(false);
@@ -57,7 +57,7 @@ const Management = () => {
     if (result.isConfirmed) {
       try {
         await axios.delete(
-          `http://iglo-cms-api.xyz/api/user-manages/${record.id}`
+          `https://iglo-cms-api.xyz/api/user-manages/${record.id}`
         );
         setData(data.filter((item) => item.id !== record.id));
         Swal.fire("Deleted!", "The record has been deleted.", "success");
