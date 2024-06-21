@@ -169,8 +169,8 @@ const Activity = () => {
   );
 
   return (
-    <Layout className="min-h-screen">
-      <Sider width={144}>
+    <Layout className="p-2 rounded-md">
+      <Sider width={144} className="min-h-screen overflow-hidden">
         <Menu
           mode="inline"
           defaultSelectedKeys={["Proposal"]}

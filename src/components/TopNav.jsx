@@ -2,7 +2,8 @@ import { faEnvelope, faBell } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useState } from "react";
-import { Menu, Dropdown, Button } from "antd";
+import { Menu, Dropdown, Button, Avatar } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 
 import CRM from "../assets/logo-ecrm.png";
 import MyProfile from "./MyProfile";
@@ -45,17 +46,16 @@ const TopNav = () => {
             </li>
             <li className="px-1">
               <Dropdown
-                menu={item}
-                className="bg-transparent border-0 py-6"
+                overlay={item}
+                className="bg-transparent hover:bg-white/20 border-0 py-6"
                 trigger={["click"]}
               >
                 <Button
                   className="flex items-center p-4 rounded-lg hover:bg-white/20 hover:text-black"
                   onClick={handleMenuClick}
                 >
-                  <img
-                    src="https://images.unsplash.com/photo-1570158268183-d296b2892211?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjJ8fHBvcnRyYWl0fGVufDB8fDB8fHww"
-                    alt="Profile Image"
+                  <Avatar
+                    icon={<UserOutlined />}
                     className="w-8 h-8 rounded-full mr-2 overflow-hidden object-cover"
                   />
                   <div className="flex flex-col text-white hover:text-black">

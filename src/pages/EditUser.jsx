@@ -10,7 +10,7 @@ const { Option } = Select;
 
 const EditUser = () => {
   const { id } = useParams();
-  const [file, setFile] = useState(null);
+  const [fileList, setFileList] = useState([]);
   const [role, setRole] = useState([]);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ const EditUser = () => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(
-          ` https://iglo-cms-api.xyz/api/user-manages/${id}/edit`
+          `https://iglo-cms-api.xyz/api/user-manages/${id}`
         );
         setUser(response.data);
         form.setFieldsValue(response.data);
@@ -51,15 +51,12 @@ const EditUser = () => {
     fetchUser();
   }, [id, form]);
 
-  const handleImageChange = (info) => {
-    const { file } = info;
-    setFile(file);
-  };
+  const handleImageChange = ({ fileList }) => setFileList(fileList);
 
   const onFinish = async (values) => {
     const formData = new FormData();
-    if (file) {
-      formData.append("foto", file);
+    if (fileList.length > 0) {
+      formData.append("foto", fileList[0].originFileObj);
     }
     formData.append("nama", values.nama);
     formData.append("id_karyawan", values.id_karyawan);
@@ -68,7 +65,7 @@ const EditUser = () => {
     formData.append("id_role", values.id_role);
 
     try {
-      const response = await axios.post(
+      const response = await axios.put(
         `https://iglo-cms-api.xyz/api/user-manages/${id}`,
         formData,
         {
@@ -111,41 +108,14 @@ const EditUser = () => {
             className="bg-white p-8 rounded-lg"
             encType="multipart/form-data"
           >
-            <Form.Item
-              label="Foto"
-              name="foto"
-              valuePropName="fileList"
-              getValueFromEvent={(e) => {
-                if (Array.isArray(e)) {
-                  return e;
-                }
-                return e && e.fileList;
-              }}
-            >
+            <Form.Item label="Foto" name="foto">
               <Upload
-                name="foto"
                 listType="picture-card"
-                showUploadList={false}
-                beforeUpload={() => false}
+                fileList={fileList}
                 onChange={handleImageChange}
+                beforeUpload={() => false}
               >
-                {file ? (
-                  <img
-                    src={URL.createObjectURL(file)}
-                    alt="avatar"
-                    className="rounded-md object-cover overflow-hidden"
-                  />
-                ) : (
-                  user &&
-                  user.foto && (
-                    <img
-                      src={user.foto}
-                      alt="avatar"
-                      className="rounded-md object-cover overflow-hidden"
-                    />
-                  )
-                )}
-                {!file && !user?.foto && (
+                {fileList.length === 0 && (
                   <div>
                     <UploadOutlined />
                     <div className="mt-2">Upload</div>

@@ -37,12 +37,9 @@ function Sidebar() {
       <aside
         className={`h-svh sticky flex flex-col justify-stretch text-sm left-0 top-0 bg-white p-4 transition-transform duration-300 ${
           isCollapsed ? "-translate-x-full" : "translate-x-0"
-        } lg:translate-x-0 lg:w-64`}
+        } lg:translate-x-0 lg:w-60`}
       >
         <div className="">
-          <button className="hidden p-4" onClick={toggleSidebar}>
-            <FontAwesomeIcon icon={faBars} />
-          </button>
           <a
             href="#"
             className="hidden h-16 lg:flex items-center pb-4 border-b-2 border-b-red-800"

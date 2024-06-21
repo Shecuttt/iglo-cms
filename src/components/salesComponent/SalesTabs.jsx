@@ -7,6 +7,7 @@ import Document from "./Document";
 import Reward from "./Reward";
 import Plans from "./Plans";
 import ScheduleCenter from "./ScheduleCenter";
+import { DownOutlined } from "@ant-design/icons";
 
 const { Item } = Menu;
 
@@ -59,7 +60,10 @@ const SalesTabs = () => {
 
   return (
     <div>
-      <Menu mode="horizontal" className="flex justify-start space-x-8 border-0">
+      <Menu
+        mode="horizontal"
+        className="ml-4 flex justify-start space-x-8 border-0"
+      >
         <Dropdown
           overlay={<Menu items={items} onClick={handleMenuClick} />}
           trigger={["hover"]}
@@ -70,6 +74,7 @@ const SalesTabs = () => {
             onClick={() => setActiveTab("activity")}
           >
             Activity
+            <DownOutlined className="ml-2" />
           </Item>
         </Dropdown>
         <Item
@@ -101,7 +106,7 @@ const SalesTabs = () => {
           Reward
         </Item>
       </Menu>
-      <div className="p-4">{renderContent()}</div>
+      <div className="">{renderContent()}</div>
     </div>
   );
 };
