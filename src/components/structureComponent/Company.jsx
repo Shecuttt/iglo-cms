@@ -18,13 +18,15 @@ const Company = () => {
   const [editedName, setEditedName] = useState("");
 
   useEffect(() => {
-    // Fetch your departments data here and set it in the state
+    // Fetch departments data from API
     axios
-      .get("http://localhost:3001/departments")
+      .get("https://iglo-cms-api.xyz/api/organization-structures")
       .then((response) => {
         const data = response.data;
         if (Array.isArray(data)) {
-          setDepartments(data);
+          // Transform the data into a hierarchical structure
+          const structuredData = buildHierarchy(data);
+          setDepartments(structuredData);
         } else {
           console.error("Unexpected data format:", data);
         }
@@ -33,6 +35,22 @@ const Company = () => {
         console.error("There was an error fetching the departments!", error)
       );
   }, []);
+
+  const buildHierarchy = (data) => {
+    const map = {};
+    const roots = [];
+    data.forEach((item) => {
+      map[item.nama_department] = { ...item, children: [] };
+    });
+    data.forEach((item) => {
+      if (item.parent_department) {
+        map[item.parent_department].children.push(map[item.nama_department]);
+      } else {
+        roots.push(map[item.nama_department]);
+      }
+    });
+    return roots;
+  };
 
   const showCollectionCreateForm = () => {
     setVisible(true);
@@ -46,14 +64,15 @@ const Company = () => {
     const { departmentName, parentDepartment } = values;
     const newDepartment = {
       id: `${Date.now()}`,
-      name: departmentName,
+      nama_department: departmentName,
+      parent_department: parentDepartment,
       children: [],
     };
 
     if (parentDepartment) {
       const addDepartment = (nodes) => {
         nodes.forEach((node) => {
-          if (node.id === parentDepartment) {
+          if (node.nama_department === parentDepartment) {
             node.children.push(newDepartment);
           } else if (node.children.length) {
             addDepartment(node.children);
@@ -70,7 +89,10 @@ const Company = () => {
     }
 
     axios
-      .post("http://localhost:3001/departments", newDepartment)
+      .post(
+        "https://iglo-cms-api.xyz/api/organization-structures/create",
+        newDepartment
+      )
       .then((response) =>
         console.log("Department added successfully:", response)
       )
@@ -176,7 +198,9 @@ const Company = () => {
             >
               <div className="w-48 p-4 m-2">
                 <div className="flex items-center border-b border-black pb-4">
-                  <span className="font-semibold">{department.name}</span>
+                  <span className="font-semibold">
+                    {department.nama_department}
+                  </span>
                   <button
                     className="ml-auto hover:text-red-600"
                     onClick={() => handleAddChildName(department.id)}
@@ -238,50 +262,7 @@ const Company = () => {
         </div>
       </div>
       <div className="flex justify-center items-center mt-4">
-        <Tree
-          lineColor="red"
-          lineWidth="3px"
-          nodePadding="4rem"
-          label={
-            <div className="rounded-lg p-4 m-2 bg-red-300 w-48 text-center mx-auto">
-              <div className="flex items-center border-b border-black pb-4">
-                <span className="font-semibold">Company</span>
-                <button
-                  className="ml-auto hover:text-red-600"
-                  onClick={handleAddName}
-                >
-                  <FontAwesomeIcon icon={faPlus} />
-                </button>
-              </div>
-              <ul className="mt-4 text-left">
-                {userNames.map((name, index) => (
-                  <li key={index} className="mt-1">
-                    {name}
-                  </li>
-                ))}
-                {isAdding && (
-                  <li className="mt-1 flex items-center">
-                    <Input
-                      value={newName}
-                      onPressEnter={handleNameSubmit}
-                      onChange={(e) => setNewName(e.target.value)}
-                      placeholder="Enter name"
-                    />
-                    <button className="ml-2 hover:text-red-500">
-                      <FontAwesomeIcon
-                        icon={faX}
-                        onClick={handleNameCancel}
-                        className="text-xs"
-                      />
-                    </button>
-                  </li>
-                )}
-              </ul>
-            </div>
-          }
-        >
-          {renderTreeNodes(departments)}
-        </Tree>
+        <Tree>{renderTreeNodes(departments)}</Tree>
       </div>
       <CompanyModal
         visible={visible}

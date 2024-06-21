@@ -8,6 +8,7 @@ import Reward from "./Reward";
 import Plans from "./Plans";
 import ScheduleCenter from "./ScheduleCenter";
 import { DownOutlined } from "@ant-design/icons";
+import TaskEntry from "./TaskEntry";
 
 const { Item } = Menu;
 
@@ -53,6 +54,9 @@ const SalesTabs = () => {
         return <Plans />;
       case "schedule-center":
         return <ScheduleCenter />;
+      case "task-entry":
+        return <TaskEntry />;
+
       default:
         return null;
     }

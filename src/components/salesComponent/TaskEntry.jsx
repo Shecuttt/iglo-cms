@@ -1,7 +1,7 @@
 import React from "react";
 
 const TaskEntry = () => {
-    return <div>TaskEntry</div>;
+  return <>LAWOK</>;
 };
 
 export default TaskEntry;

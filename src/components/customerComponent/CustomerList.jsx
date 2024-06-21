@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Breadcrumb, Button, Table, Popconfirm, message, Modal } from "antd";
+import {
+  Breadcrumb,
+  Button,
+  Table,
+  Popconfirm,
+  message,
+  Modal,
+  Dropdown,
+  Menu,
+} from "antd";
 import {
   PlusOutlined,
   SettingOutlined,
@@ -132,6 +141,54 @@ const CustomerList = () => {
     },
   ];
 
+  //item untuk dropdown menu filter
+  const filterItems = [
+    {
+      key: "1",
+      label: "Clear All",
+    },
+    {
+      type: "divider",
+    },
+    {
+      key: "2",
+      label: "Field",
+    },
+    {
+      key: "3",
+      label: "Field 2",
+    },
+    {
+      key: "4",
+      label: "Field 3",
+    },
+  ];
+
+  //item untuk dropdown menu settings
+  const settingsItems = [
+    {
+      key: "1",
+      label: "Select All",
+      disabled: true,
+    },
+    {
+      key: "divider",
+      type: "divider",
+    },
+    {
+      key: "2",
+      label: "Export to Excel",
+    },
+    {
+      key: "3",
+      label: "Export to PDF",
+    },
+    {
+      key: "4",
+      label: "Print",
+    },
+  ];
+
   // Handler untuk aksi pada tombol Action (Read, Edit, Delete)
   const handleAction = (action, record) => {
     switch (action) {
@@ -145,7 +202,7 @@ const CustomerList = () => {
         break;
       case "delete":
         // Aksi untuk menghapus customer
-        const newData = dataSource.filter((item) => item.key !== record);
+        const newData = dataSource.filter((item) => item.key !== record.key);
         setDataSource(newData);
         message.success(`Customer ${record.name} deleted successfully`);
         break;
@@ -175,13 +232,29 @@ const CustomerList = () => {
         >
           Add Customer
         </Button>
-        <Button icon={<SettingOutlined />} style={{ marginLeft: "8px" }}>
-          Setting
-        </Button>
-        <Button icon={<FilterOutlined />} style={{ marginLeft: "8px" }}>
-          Filter
-        </Button>
-        <Button icon={<ExportOutlined />} style={{ marginLeft: "8px" }}>
+        <Dropdown
+          overlay={<Menu items={settingsItems} />}
+          placement="bottomRight"
+          arrow
+        >
+          <Button icon={<SettingOutlined />} style={{ marginLeft: "8px" }}>
+            Setting
+          </Button>
+        </Dropdown>
+        <Dropdown
+          overlay={<Menu items={filterItems} />}
+          placement="bottomLeft"
+          arrow
+        >
+          <Button icon={<FilterOutlined />} style={{ marginLeft: "8px" }}>
+            Filter
+          </Button>
+        </Dropdown>
+        <Button
+          disabled
+          icon={<ExportOutlined />}
+          style={{ marginLeft: "8px" }}
+        >
           Export
         </Button>
       </div>
@@ -202,6 +275,7 @@ const CustomerList = () => {
         onCancel={() => handleCancel("select")}
         footer={[
           <Button
+            disabled
             key="personal"
             onClick={() => handleCustomerTypeSelect("Personal")}
           >

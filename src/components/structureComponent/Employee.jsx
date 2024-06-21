@@ -94,8 +94,8 @@ const Employee = () => {
     },
     {
       title: "Name",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "nama",
+      key: "nama",
     },
     {
       title: "Email",
@@ -104,8 +104,8 @@ const Employee = () => {
     },
     {
       title: "Phone",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
+      dataIndex: "telepon",
+      key: "telepon",
     },
     {
       title: "Position",
