@@ -79,7 +79,7 @@ const AddProduct = () => {
       );
 
       message.success("Product added successfully");
-      navigate("/products"); // Redirect to the products list page after successful addition
+      navigate("/productmanage");
     } catch (error) {
       console.error("Failed to submit form:", error);
       if (error.response && error.response.data) {
@@ -96,7 +96,7 @@ const AddProduct = () => {
       <Sidebar />
       <main className="w-full bg-red-50">
         <TopNav />
-        <div className="my-8 mx-10">
+        <div className="my-8 mx-10 p-4 bg-white rounded-lg">
           <Breadcrumb
             items={[
               {

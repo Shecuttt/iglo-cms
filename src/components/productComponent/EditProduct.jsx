@@ -23,7 +23,7 @@ const EditProduct = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch data for companies, types, and responsible persons
+        // Fetching types, companies, and user manages
         const response = await axios.get(
           "https://iglo-cms-api.xyz/api/product/create"
         );
@@ -33,47 +33,51 @@ const EditProduct = () => {
         setTypes(types);
         setResponsible(userManages);
 
-        // Fetch product data for the given id
+        // Fetching product data
         const productResponse = await axios.get(
           `https://iglo-cms-api.xyz/api/product/${id}`
         );
         const productData = productResponse.data;
 
-        // Handle cases where productData may not contain certain fields
+        // Log productData to see its exact structure
+        console.log(productData);
+
+        // Setting form values with product data
         form.setFieldsValue({
-          nama: productData.nama || "",
-          versi: productData.versi || "",
-          type: productData.id_tipe,
-          company: productData.id_company,
-          deskripsi: productData.deskripsi || "",
-          responsible: productData.id_um,
+          nama: productData.product.nama || "",
+          versi: productData.product.versi || "",
+          type: productData.product.type?.id, // Optional chaining
+          company: productData.product.company?.id, // Optional chaining
+          deskripsi: productData.product.deskripsi || "",
+          responsible: productData.product.user_manage?.id, // Optional chaining
         });
 
-        // Set the initial file lists if they exist
-        if (productData.image) {
+        // Setting image file list
+        if (productData.product.image) {
           setImageFileList([
             {
               uid: "-1",
-              name: productData.image.split("/").pop(),
+              name: productData.product.image.split("/").pop(),
               status: "done",
-              url: `https://iglo-cms-api.xyz/${productData.image}`,
+              url: `https://iglo-cms-api.xyz/api/product/${productData.product.image}`,
             },
           ]);
         }
 
-        if (productData.documents) {
+        // Setting document file list
+        if (productData.product.documents) {
           setFileList(
-            productData.documents.map((doc, index) => ({
+            productData.product.documents.map((doc, index) => ({
               uid: index.toString(),
               name: doc.split("/").pop(),
               status: "done",
-              url: `https://iglo-cms-api.xyz/${doc}`,
+              url: `https://iglo-cms-api.xyz/api/product/${doc}`,
             }))
           );
         }
       } catch (error) {
         message.error("Failed to fetch data");
-        console.error(error);
+        console.error("Fetch data error:", error);
       }
     };
 
@@ -117,7 +121,7 @@ const EditProduct = () => {
       });
 
       message.success("Product updated successfully");
-      navigate("/products"); // Redirect to the products list page after successful update
+      navigate("/productmanage");
     } catch (error) {
       console.error("Failed to submit form:", error);
       if (error.response && error.response.data) {
@@ -161,7 +165,7 @@ const EditProduct = () => {
       <Sidebar />
       <main className="w-full bg-red-50">
         <TopNav />
-        <div className="p-8">
+        <div className="my-8 mx-10 p-4 bg-white rounded-lg">
           <Breadcrumb
             items={[
               {

@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Breadcrumb,
   Button,
   Table,
-  Popconfirm,
-  message,
   Modal,
   Dropdown,
   Menu,
+  message,
 } from "antd";
 import {
   PlusOutlined,
@@ -15,8 +14,11 @@ import {
   FilterOutlined,
   ExportOutlined,
 } from "@ant-design/icons";
-import AddPersonalCustomerForm from "./AddPersonalCustomerForm";
+import axios from "axios";
 import AddCorporateCustomerForm from "./AddCorporateCustomerForm";
+import EditCorporateForm from "./EditCorporateForm";
+import ReadCorporateForm from "./ReadCorporateForm";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEye,
@@ -24,35 +26,38 @@ import {
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const CustomerList = () => {
-  // State untuk menangani data tabel
-  const [dataSource, setDataSource] = useState([
-    {
-      key: "1",
-      no: "1",
-      name: "John Doe",
-      email: "john.doe@example.com",
-      phone: "1234567890",
-      status: "Aktif",
-    },
-    {
-      key: "2",
-      no: "2",
-      name: "Jane Smith",
-      email: "jane.smith@example.com",
-      phone: "9876543210",
-      status: "Nonaktif",
-    },
-    // Tambahkan data customer lainnya sesuai kebutuhan
-  ]);
+  const [dataSource, setDataSource] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // State untuk modal tambah customer
   const [selectModalVisible, setSelectModalVisible] = useState(false);
   const [personalModalVisible, setPersonalModalVisible] = useState(false);
   const [corporateModalVisible, setCorporateModalVisible] = useState(false);
 
-  // Handlers untuk modal tambah customer
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [readModalVisible, setReadModalVisible] = useState(false);
+  const [editData, setEditData] = useState({});
+  const [readData, setReadData] = useState({});
+
+  useEffect(() => {
+    fetchCustomers();
+  }, []);
+
+  const fetchCustomers = async () => {
+    try {
+      const response = await axios.get(
+        "https://iglo-cms-api.xyz/api/customers"
+      );
+      setDataSource(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching customer data:", error);
+      setLoading(false);
+    }
+  };
+
   const handleAddCustomer = () => {
     setSelectModalVisible(true);
   };
@@ -73,18 +78,11 @@ const CustomerList = () => {
       setPersonalModalVisible(false);
     } else if (type === "corporate") {
       setCorporateModalVisible(false);
+    } else if (type === "edit") {
+      setEditModalVisible(false);
+    } else if (type === "read") {
+      setReadModalVisible(false);
     }
-  };
-
-  const handleCreatePersonalCustomer = (values) => {
-    const newData = {
-      key: (dataSource.length + 1).toString(),
-      no: (dataSource.length + 1).toString(),
-      ...values,
-    };
-    setDataSource([...dataSource, newData]);
-    setPersonalModalVisible(false);
-    message.success(`Personal Customer ${values.name} added successfully`);
   };
 
   const handleCreateCorporateCustomer = (values) => {
@@ -98,50 +96,102 @@ const CustomerList = () => {
     message.success(`Corporate Customer ${values.name} added successfully`);
   };
 
-  // Column configuration untuk tabel
+  const handleEditCorporateCustomer = (values) => {
+    const updatedData = dataSource.map((item) =>
+      item.key === values.key ? { ...item, ...values } : item
+    );
+    setDataSource(updatedData);
+    setEditModalVisible(false);
+    message.success(`Corporate Customer ${values.name} updated successfully`);
+  };
+
+  const handleUpdate = (updatedCustomer) => {
+    setDataSource((prev) =>
+      prev.map((item) =>
+        item.id === updatedCustomer.id ? updatedCustomer : item
+      )
+    );
+    setEditModalVisible(false);
+    message.success(`Corporate Customer ${values.name} updated successfully`);
+  };
+
+  const handleDeleteCorporateCustomer = (record) => {
+    Swal.fire({
+      title: `Are you sure you want to delete ${record.name}?`,
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          // Perform delete operation
+          await axios.delete(
+            `https://iglo-cms-api.xyz/api/customers/${record.id}`
+          );
+          const updatedData = dataSource.filter(
+            (item) => item.id !== record.id
+          );
+          setDataSource(updatedData);
+          Swal.fire("Deleted!", "The customer has been deleted.", "success");
+        } catch (error) {
+          console.error("Error deleting customer:", error);
+          Swal.fire("Failed!", "Failed to delete the customer.", "error");
+        }
+      }
+    });
+  };
+
   const columns = [
-    { title: "No", dataIndex: "no", key: "no" },
+    {
+      title: "No",
+      dataIndex: "no",
+      key: "no",
+      render: (text, record, index) => index + 1,
+    },
     { title: "Name", dataIndex: "name", key: "name" },
     { title: "Email", dataIndex: "email", key: "email" },
     { title: "Phone", dataIndex: "phone", key: "phone" },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (text, record) => (
-        <span
-          className={`capitalize rounded-full py-2 px-4 ${
-            text === "Aktif" || text === "aktif"
-              ? "bg-green-200 hover:bg-green-400 text-green-800"
-              : text === "Nonaktif" || text === "nonaktif"
-              ? "bg-red-200 hover:bg-red-400 text-red-800"
-              : ""
-          }`}
-        >
-          {text}
-        </span>
-      ),
-    },
+    { title: "Code Name", dataIndex: "code_name", key: "code_name" },
     {
       title: "Action",
       key: "action",
       render: (record) => (
         <div className="flex items-center space-x-2">
-          <button className="rounded-full text-white bg-blue-600 hover:bg-blue-800 active:text-blue-600 active:bg-white flex items-center">
+          <button
+            className="rounded-full text-white bg-blue-600 hover:bg-blue-800 active:text-blue-600 active:bg-white flex items-center"
+            onClick={() => {
+              setReadData(record);
+              setReadModalVisible(true);
+            }}
+          >
             <FontAwesomeIcon icon={faEye} className="p-2 items-center" />
           </button>
-          <button className="rounded-full text-white bg-green-600 hover:bg-green-800 active:text-green-600 active:bg-white flex items-center">
-            <FontAwesomeIcon icon={faPenToSquare} className="p-2" />
+          <button
+            className="rounded-full text-white bg-green-600 hover:bg-green-800 active:text-green-600 active:bg-white flex items-center"
+            onClick={() => {
+              setEditData(record);
+              setEditModalVisible(true);
+            }}
+          >
+            <FontAwesomeIcon
+              icon={faPenToSquare}
+              className="p-2 items-center"
+            />
           </button>
-          <button className="rounded-full text-white bg-red-600 hover:bg-red-800 active:text-red-600 active:bg-white flex items-center">
-            <FontAwesomeIcon icon={faTrash} className="p-2" />
+          <button
+            className="rounded-full text-white bg-red-600 hover:bg-red-800 active:text-red-600 active:bg-white flex items-center"
+            onClick={() => handleDeleteCorporateCustomer(record)}
+          >
+            <FontAwesomeIcon icon={faTrash} className="p-2 items-center" />
           </button>
         </div>
       ),
     },
   ];
 
-  //item untuk dropdown menu filter
   const filterItems = [
     {
       key: "1",
@@ -164,7 +214,6 @@ const CustomerList = () => {
     },
   ];
 
-  //item untuk dropdown menu settings
   const settingsItems = [
     {
       key: "1",
@@ -188,28 +237,6 @@ const CustomerList = () => {
       label: "Print",
     },
   ];
-
-  // Handler untuk aksi pada tombol Action (Read, Edit, Delete)
-  const handleAction = (action, record) => {
-    switch (action) {
-      case "read":
-        // Aksi untuk membaca detail customer
-        message.info(`Read customer ${record.name}`);
-        break;
-      case "edit":
-        // Aksi untuk mengedit customer
-        message.info(`Edit customer ${record.name}`);
-        break;
-      case "delete":
-        // Aksi untuk menghapus customer
-        const newData = dataSource.filter((item) => item.key !== record.key);
-        setDataSource(newData);
-        message.success(`Customer ${record.name} deleted successfully`);
-        break;
-      default:
-        break;
-    }
-  };
 
   return (
     <div className="p-8">
@@ -261,12 +288,12 @@ const CustomerList = () => {
       <Table
         dataSource={dataSource}
         columns={columns}
-        pagination={{ pageSize: 10 }} // Pengaturan pagination
+        pagination={{ pageSize: 10 }}
+        loading={loading}
         onChange={(pagination, filters, sorter) => {
           console.log("pagination:", pagination);
           console.log("filters:", filters);
           console.log("sorter:", sorter);
-          // Logika sorting bisa ditambahkan di sini
         }}
       />
       <Modal
@@ -291,15 +318,24 @@ const CustomerList = () => {
       >
         <p>Please select customer type:</p>
       </Modal>
-      <AddPersonalCustomerForm
-        visible={personalModalVisible}
-        onCancel={() => handleCancel("personal")}
-        onCreate={handleCreatePersonalCustomer}
-      />
+
       <AddCorporateCustomerForm
-        visible={corporateModalVisible}
+        open={corporateModalVisible}
         onCancel={() => handleCancel("corporate")}
         onCreate={handleCreateCorporateCustomer}
+      />
+
+      <EditCorporateForm
+        open={editModalVisible}
+        onCancel={() => handleCancel("edit")}
+        onUpdate={handleUpdate}
+        data={editData}
+      />
+
+      <ReadCorporateForm
+        open={readModalVisible}
+        onCancel={() => handleCancel("read")}
+        data={readData}
       />
     </div>
   );

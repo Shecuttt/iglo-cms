@@ -85,27 +85,16 @@
       "name": "PT. DEF"
     }
   ],
-  "documentTemplates": [
+  "tasks": [
     {
-      "id": 1,
-      "name": "Surat Tugas",
-      "sharing": "Admin",
-      "modified": "2024-20-06",
-      "size": 20000
+      "id": "3e4c",
+      "category": "unassigned",
+      "task": "wkwkwk"
     },
     {
-      "id": 2,
-      "name": "Surat Perintah",
-      "sharing": "Husni",
-      "modified": "2024-21-06",
-      "size": 20001
-    },
-    {
-      "id": 3,
-      "name": "Surat Perjanjian",
-      "sharing": "Admin",
-      "modified": "2024-22-06",
-      "size": 20002
+      "id": "834c",
+      "category": "unassigned",
+      "task": "a"
     }
   ]
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Form,
   Input,
@@ -6,24 +6,65 @@ import {
   Button,
   message,
   Modal,
-  Table,
   Row,
   Col,
   DatePicker,
-  Upload,
 } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import axios from "axios";
 
 const { Option } = Select;
 
 const AddCorporateCustomerForm = ({ visible, onCancel, onCreate }) => {
   const [form] = Form.useForm();
+  const [industryTypes, setIndustryTypes] = useState([]);
+  const [companyScales, setCompanyScales] = useState([]);
 
-  const handleCreate = () => {
-    form.validateFields().then((values) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://iglo-cms-api.xyz/api/customers/create"
+        );
+        setIndustryTypes(response.data.industri_types);
+        setCompanyScales(response.data.company_scales);
+      } catch (error) {
+        message.error("Failed to fetch data from API");
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleCreate = async () => {
+    try {
+      const values = await form.validateFields();
+      const formData = new FormData();
+
+      // Append all form values to FormData object
+      Object.keys(values).forEach((key) => {
+        if (key === "join_iglo") {
+          formData.append(key, values[key].format("YYYY-MM-DD"));
+        } else {
+          formData.append(key, values[key]);
+        }
+      });
+
+      // Perform API request using FormData
+      await axios.post("https://iglo-cms-api.xyz/api/customers", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
       form.resetFields();
       onCreate(values);
-    });
+    } catch (error) {
+      console.error(
+        "Error:",
+        error.response ? error.response.data : error.message
+      );
+      message.error("Failed to add customer");
+    }
   };
 
   return (
@@ -50,7 +91,7 @@ const AddCorporateCustomerForm = ({ visible, onCancel, onCreate }) => {
           </Col>
           <Col span={12}>
             <Form.Item
-              name="codeName"
+              name="code_name"
               label="Code Name"
               rules={[{ required: true, message: "Please enter code name" }]}
             >
@@ -62,24 +103,36 @@ const AddCorporateCustomerForm = ({ visible, onCancel, onCreate }) => {
         <Row gutter={16}>
           <Col span={12}>
             <Form.Item
-              name="industryType"
+              name="id_industry_type"
               label="Industry Type"
               rules={[
-                { required: true, message: "Please enter industry type" },
+                { required: true, message: "Please select industry type" },
               ]}
             >
-              <Input />
+              <Select placeholder="Select industry type">
+                {industryTypes.map((type) => (
+                  <Option key={type.id} value={type.id}>
+                    {type.nama_industri_type}
+                  </Option>
+                ))}
+              </Select>
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item
-              name="companyScale"
+              name="id_company_scale"
               label="Company Scale"
               rules={[
-                { required: true, message: "Please enter company scale" },
+                { required: true, message: "Please select company scale" },
               ]}
             >
-              <Input />
+              <Select placeholder="Select company scale">
+                {companyScales.map((scale) => (
+                  <Option key={scale.id} value={scale.id}>
+                    {scale.nama_company_scale}
+                  </Option>
+                ))}
+              </Select>
             </Form.Item>
           </Col>
         </Row>
@@ -130,7 +183,7 @@ const AddCorporateCustomerForm = ({ visible, onCancel, onCreate }) => {
                 { required: true, message: "Please enter establishment year" },
               ]}
             >
-              <Input />
+              <Input type="number" maxLength={4} placeholder="Year" />
             </Form.Item>
           </Col>
         </Row>
@@ -138,7 +191,7 @@ const AddCorporateCustomerForm = ({ visible, onCancel, onCreate }) => {
         <Row gutter={16}>
           <Col span={12}>
             <Form.Item
-              name="NIB"
+              name="nib"
               label="NIB"
               rules={[{ required: true, message: "Please enter NIB" }]}
             >
@@ -147,7 +200,7 @@ const AddCorporateCustomerForm = ({ visible, onCancel, onCreate }) => {
           </Col>
           <Col span={12}>
             <Form.Item
-              name="NPWP"
+              name="npwp"
               label="NPWP"
               rules={[{ required: true, message: "Please enter NPWP" }]}
             >
@@ -168,7 +221,7 @@ const AddCorporateCustomerForm = ({ visible, onCancel, onCreate }) => {
           </Col>
           <Col span={12}>
             <Form.Item
-              name="joiningDate"
+              name="join_iglo"
               label="Joining Date at IGLO"
               rules={[
                 { required: true, message: "Please select joining date" },
@@ -179,49 +232,17 @@ const AddCorporateCustomerForm = ({ visible, onCancel, onCreate }) => {
           </Col>
         </Row>
 
-        <Form.Item label="Company Structure Organization">
-          <Button type="dashed" icon={<UploadOutlined />}>
-            Add
-          </Button>
-          <Button
-            type="dashed"
-            danger
-            icon={<UploadOutlined />}
-            style={{ marginLeft: 8 }}
-          >
-            Delete
-          </Button>
-          <Table
-            dataSource={[]}
-            columns={[
-              { title: "Titles", dataIndex: "title", key: "title" },
-              { title: "Name", dataIndex: "name", key: "name" },
-              {
-                title: "Occupation",
-                dataIndex: "occupation",
-                key: "occupation",
-              },
-              { title: "Email", dataIndex: "email", key: "email" },
-              { title: "Phone", dataIndex: "phone", key: "phone" },
-              {
-                title: "Doc Signature",
-                dataIndex: "docSignature",
-                key: "docSignature",
-              },
-              { title: "IMG", dataIndex: "img", key: "img" },
-            ]}
-            pagination={false}
-          />
-        </Form.Item>
-
-        <Form.Item>
-          <Button type="primary" onClick={handleCreate}>
-            Add Company
-          </Button>
-          <Button style={{ marginLeft: 8 }} onClick={onCancel}>
-            Close
-          </Button>
-        </Form.Item>
+        <Row gutter={16}>
+          <Col span={24}>
+            <Form.Item
+              name="file_document"
+              label="Link"
+              rules={[{ required: false, message: "Please enter link" }]}
+            >
+              <Input placeholder="https://link-to-your-gdrive.com" />
+            </Form.Item>
+          </Col>
+        </Row>
       </Form>
     </Modal>
   );

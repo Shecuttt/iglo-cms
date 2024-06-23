@@ -28,6 +28,7 @@ const Document = () => {
   const [fileList, setFileList] = useState([]);
   const [form] = Form.useForm();
   const [uploadForm] = Form.useForm();
+  const [uploadedFile, setUploadedFile] = useState(null);
 
   useEffect(() => {
     fetchDocuments();
@@ -51,7 +52,12 @@ const Document = () => {
 
   const showModal = (record) => {
     setSelectedDocument(record);
-    form.setFieldsValue(record);
+    const initialValues = {
+      nama_file: record.nama_file,
+      id_user_manage: record.id_user_manage,
+    };
+
+    form.setFieldsValue(initialValues);
     setIsModalVisible(true);
   };
 
@@ -59,28 +65,6 @@ const Document = () => {
     setIsModalVisible(false);
     setSelectedDocument(null);
     form.resetFields();
-  };
-
-  const handleEdit = (values) => {
-    if (selectedDocument) {
-      axios
-        .put(
-          `https://iglo-cms-api.xyz/api/document-templates/${selectedDocument.id}`,
-          {
-            nama_file: values.nama_file,
-            id_user_manage: values.id_user_manage,
-          }
-        )
-        .then(() => {
-          message.success("Document updated successfully!");
-          fetchDocuments();
-          handleCancel();
-        })
-        .catch((error) => {
-          console.error("There was an error updating the document!", error);
-          message.error("Failed to update document.");
-        });
-    }
   };
 
   const handleDelete = (record) => {
@@ -138,9 +122,10 @@ const Document = () => {
             "Content-Type": "multipart/form-data",
           },
         })
-        .then(() => {
+        .then((response) => {
           message.success("Document template uploaded successfully!");
           setIsUploadModalVisible(false);
+          setUploadedFile(response.data); // Simpan informasi file yang sudah diupload
           fetchDocuments();
         })
         .catch((error) => {
@@ -150,6 +135,28 @@ const Document = () => {
     } else {
       message.error("Please select a file to upload.");
     }
+  };
+
+  const handleDownload = (record) => {
+    // Misalkan endpoint untuk mengunduh file adalah di 'https://iglo-cms-api.xyz/api/download-file/'
+    const downloadUrl = `https://iglo-cms-api.xyz/api/download-template/${record.id}`;
+    axios({
+      url: downloadUrl,
+      method: "GET",
+      responseType: "blob", // penting untuk menangani response dalam bentuk blob (binary large object)
+    })
+      .then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", record.nama_file); // Nama file yang akan diunduh
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch((error) => {
+        console.error("Error downloading file:", error);
+        message.error("Failed to download file.");
+      });
   };
 
   const columns = [
@@ -169,15 +176,13 @@ const Document = () => {
       key: "action",
       render: (text, record) => (
         <div className="flex space-x-2">
-          <Button icon={<EditOutlined />} onClick={() => showModal(record)} />
-          <Button
-            icon={<DownloadOutlined />}
-            onClick={() => console.log("Download:", record)}
-          />
           <Button
             icon={<DeleteOutlined />}
-            danger
             onClick={() => handleDelete(record)}
+          />
+          <Button
+            icon={<DownloadOutlined />}
+            onClick={() => handleDownload(record)}
           />
         </div>
       ),
@@ -214,49 +219,6 @@ const Document = () => {
           pagination={false}
         />
       </Layout>
-
-      <Modal
-        title="Edit Document"
-        open={isModalVisible}
-        onCancel={handleCancel}
-        footer={[
-          <Button key="cancel" onClick={handleCancel}>
-            Cancel
-          </Button>,
-          <Button
-            key="delete"
-            type="primary"
-            danger
-            onClick={() => handleDelete(selectedDocument)}
-          >
-            <DeleteOutlined /> Delete
-          </Button>,
-          <Button key="submit" type="primary" onClick={() => form.submit()}>
-            Submit
-          </Button>,
-        ]}
-      >
-        <Form form={form} layout="vertical" onFinish={handleEdit}>
-          <Form.Item
-            name="nama_file"
-            label="Name"
-            rules={[
-              { required: true, message: "Please enter the document name" },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="id_user_manage"
-            label="User Manage ID"
-            rules={[
-              { required: true, message: "Please enter the user manage ID" },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-        </Form>
-      </Modal>
 
       <Modal
         title="Upload Document Template"

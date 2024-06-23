@@ -37,11 +37,13 @@ const ProdMan = () => {
       dataIndex: "image",
       key: "image",
       render: (text, record) => (
-        <img
-          src={`https://iglo-cms-api.xyz/api/product/${record.image}`}
-          alt={record.nama}
-          style={{ width: "50px", height: "50px", objectFit: "cover" }}
-        />
+        <>
+          <img
+            src={`https://iglo-cms-api.xyz/api/product/${record.image}`}
+            alt={record.nama}
+            style={{ width: "50px", height: "50px", objectFit: "cover" }}
+          />
+        </>
       ),
     },
     {
@@ -83,7 +85,7 @@ const ProdMan = () => {
   ];
 
   return (
-    <div className="p-8">
+    <div className="my-8 mx-10 p-4 bg-white rounded-lg">
       <Breadcrumb
         items={[
           {
