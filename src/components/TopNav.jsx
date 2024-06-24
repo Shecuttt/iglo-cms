@@ -1,3 +1,4 @@
+// TopNav.jsx
 import { faEnvelope, faBell } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
@@ -7,8 +8,10 @@ import { UserOutlined } from "@ant-design/icons";
 
 import CRM from "../assets/logo-ecrm.png";
 import MyProfile from "./MyProfile";
+import { useAuth } from "../components/AuthContext";
 
 const TopNav = () => {
+  const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleMenuClick = () => {
@@ -59,8 +62,10 @@ const TopNav = () => {
                     className="w-8 h-8 rounded-full mr-2 overflow-hidden object-cover"
                   />
                   <div className="flex flex-col text-white hover:text-black">
-                    <span className="text-sm">Kirana</span>
-                    <span className="text-xs font-light">Super Admin</span>
+                    <span className="text-sm">{user ? user.nama : "User"}</span>
+                    <span className="text-xs font-light">
+                      {user ? user.email : "Email"}
+                    </span>
                   </div>
                 </Button>
               </Dropdown>

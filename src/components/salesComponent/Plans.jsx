@@ -10,7 +10,7 @@ import {
   Button,
 } from "antd";
 import moment from "moment";
-import SalesTablePlans from "./SalesTablePlans";
+import SalesTable from "./SalesTable";
 
 const { Content } = Layout;
 const { RangePicker } = DatePicker;
@@ -56,8 +56,8 @@ const Plans = () => {
             <Input />
           </Form.Item>
           <h3 className="text-lg font-bold mb-3">Target for 12 Months</h3>
-          <SalesTablePlans />
-          <div className="flex justify-end">
+          <SalesTable />
+          <div className="flex justify-end mt-4">
             <Button type="primary" htmlType="submit">
               Save
             </Button>

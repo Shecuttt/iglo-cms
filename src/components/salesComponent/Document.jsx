@@ -17,6 +17,7 @@ import {
   DeleteOutlined,
 } from "@ant-design/icons";
 import axios from "axios";
+import { useAuth } from "../AuthContext";
 
 const Document = () => {
   const [data, setData] = useState([]);
@@ -29,6 +30,7 @@ const Document = () => {
   const [form] = Form.useForm();
   const [uploadForm] = Form.useForm();
   const [uploadedFile, setUploadedFile] = useState(null);
+  const { user } = useAuth();
 
   useEffect(() => {
     fetchDocuments();
@@ -251,15 +253,6 @@ const Document = () => {
             >
               <Button icon={<UploadOutlined />}>Click to Upload</Button>
             </Upload>
-          </Form.Item>
-          <Form.Item
-            name="id_user_manage"
-            label="User Manage ID"
-            rules={[
-              { required: true, message: "Please enter the user manage ID" },
-            ]}
-          >
-            <Input />
           </Form.Item>
         </Form>
       </Modal>

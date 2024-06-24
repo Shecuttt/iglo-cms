@@ -143,35 +143,9 @@ const DashboardComponent = () => {
           </Card>
         </Col>
       </Row>
-      <Row gutter={16} style={{ marginTop: 16 }}>
-        <Col span={16}>
-          <Card title="Sales Data" bordered={false}>
-            <Skeleton loading={loading} active />
-          </Card>
-        </Col>
-        <Col span={8}>
-          <Card title="Recent Users" bordered={false}>
-            <Skeleton loading={loading} active>
-              <List
-                itemLayout="horizontal"
-                dataSource={recentUsers}
-                renderItem={(user) => (
-                  <List.Item>
-                    <List.Item.Meta
-                      avatar={<Avatar icon={<UserOutlined />} />}
-                      title={user.nama}
-                      description={user.email}
-                    />
-                  </List.Item>
-                )}
-              />
-            </Skeleton>
-          </Card>
-          <Card
-            title="Recent Products"
-            bordered={false}
-            style={{ marginTop: 16 }}
-          >
+      <Row gutter={24} style={{ marginTop: 16 }}>
+        <Col span={12}>
+          <Card title="Recent Products" bordered={false}>
             <Skeleton loading={loading} active>
               <List
                 itemLayout="horizontal"
@@ -186,6 +160,25 @@ const DashboardComponent = () => {
                       }
                       title={product.nama}
                       description={product.deskripsi}
+                    />
+                  </List.Item>
+                )}
+              />
+            </Skeleton>
+          </Card>
+        </Col>
+        <Col span={12}>
+          <Card title="Recent Users" bordered={false}>
+            <Skeleton loading={loading} active>
+              <List
+                itemLayout="horizontal"
+                dataSource={recentUsers}
+                renderItem={(user) => (
+                  <List.Item>
+                    <List.Item.Meta
+                      avatar={<Avatar icon={<UserOutlined />} />}
+                      title={user.nama}
+                      description={user.email}
                     />
                   </List.Item>
                 )}

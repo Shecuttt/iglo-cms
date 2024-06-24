@@ -1,5 +1,6 @@
+// App.jsx
 import React, { useEffect, useState } from "react";
-import { Routes, Route, useLocation, BrowserRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 import UserManage from "./pages/UserManage";
 import Dashboard from "./pages/Dashboard";
@@ -21,9 +22,11 @@ import AddCorporateCustomerForm from "./components/customerComponent/AddCorporat
 import EditProduct from "./components/productComponent/EditProduct";
 import AddProduct from "./components/productComponent/AddProduct";
 
+import { AuthProvider } from "./components/AuthContext";
+import PrivateRoute from "./components/PrivateRoute";
+
 function App() {
   const [loading, setLoading] = useState(true);
-  const location = useLocation();
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -31,36 +34,78 @@ function App() {
     }, 2000);
 
     return () => clearTimeout(timeout);
-  }, [location]); // Menambahkan location sebagai dependensi
+  }, []);
 
   return (
-    <>
+    <AuthProvider>
       {loading ? (
         <Loading />
       ) : (
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="*" element={<NotFound />} />
-          <Route path="/usermanage" element={<UserManage />} />
-          <Route path="/adduser" element={<AddUser />} />
-          <Route path="/userlog" element={<UserLog />} />
-          <Route path="/edit/:id" element={<EditUser />} />
-          <Route path="/readonly/:id" element={<ReadUser />} />
-          <Route path="/structure" element={<Structure />} />
-          <Route path="/salesplan" element={<SalesPlan />} />
-          <Route path="/customer" element={<Customer />} />
-          <Route path="/productmanage" element={<ProductManage />} />
-          <Route path="/productmanage/edit/:id" element={<EditProduct />} />
-          <Route path="/productmanage/add" element={<AddProduct />} />
-          <Route path="/companymanage" element={<CompanyManage />} />
-
-          <Route path="/addpersonal" element={<AddPersonalCustomerForm />} />
-          <Route path="/addcorporate" element={<AddCorporateCustomerForm />} />
-
-          <Route path="/login" element={<Login />} />
-        </Routes>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<PrivateRoute element={Dashboard} />} />
+            <Route path="*" element={<NotFound />} />
+            <Route
+              path="/usermanage"
+              element={<PrivateRoute element={UserManage} />}
+            />
+            <Route
+              path="/adduser"
+              element={<PrivateRoute element={AddUser} />}
+            />
+            <Route
+              path="/userlog"
+              element={<PrivateRoute element={UserLog} />}
+            />
+            <Route
+              path="/edit/:id"
+              element={<PrivateRoute element={EditUser} />}
+            />
+            <Route
+              path="/readonly/:id"
+              element={<PrivateRoute element={ReadUser} />}
+            />
+            <Route
+              path="/structure"
+              element={<PrivateRoute element={Structure} />}
+            />
+            <Route
+              path="/salesplan"
+              element={<PrivateRoute element={SalesPlan} />}
+            />
+            <Route
+              path="/customer"
+              element={<PrivateRoute element={Customer} />}
+            />
+            <Route
+              path="/productmanage"
+              element={<PrivateRoute element={ProductManage} />}
+            />
+            <Route
+              path="/productmanage/edit/:id"
+              element={<PrivateRoute element={EditProduct} />}
+            />
+            <Route
+              path="/productmanage/add"
+              element={<PrivateRoute element={AddProduct} />}
+            />
+            <Route
+              path="/companymanage"
+              element={<PrivateRoute element={CompanyManage} />}
+            />
+            <Route
+              path="/addpersonal"
+              element={<PrivateRoute element={AddPersonalCustomerForm} />}
+            />
+            <Route
+              path="/addcorporate"
+              element={<PrivateRoute element={AddCorporateCustomerForm} />}
+            />
+            <Route path="/login" element={<Login />} />
+          </Routes>
+        </BrowserRouter>
       )}
-    </>
+    </AuthProvider>
   );
 }
 

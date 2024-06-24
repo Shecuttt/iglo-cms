@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Table, Select, InputNumber, Button } from "antd";
+import { Table, Select, Input, InputNumber, Button } from "antd";
+import { width } from "@fortawesome/free-brands-svg-icons/fa42Group";
 
 const { Option } = Select;
 
-const SalesTablePlans = () => {
+const SalesTable = () => {
   const [dataSource, setDataSource] = useState([]);
 
   const handleAmountChange = (value, record, monthIndex) => {
@@ -42,13 +43,17 @@ const SalesTablePlans = () => {
       title: "Target",
       dataIndex: "target",
       key: "target",
+      fixed: "left",
+      width: 150,
       render: (text, record) => (
-        <InputNumber
+        <Input
           style={{ width: "100%" }}
           value={record.target}
-          onChange={(value) => {
+          onChange={(e) => {
             const newData = dataSource.map((item) =>
-              item.key === record.key ? { ...item, target: value } : item
+              item.key === record.key
+                ? { ...item, target: e.target.value }
+                : item
             );
             setDataSource(newData);
           }}
@@ -71,6 +76,8 @@ const SalesTablePlans = () => {
       title: "Frequency",
       dataIndex: "frequency",
       key: "frequency",
+      fixed: "right",
+      width: 170,
       render: (text, record) => (
         <Select
           style={{ width: "100%" }}
@@ -87,6 +94,7 @@ const SalesTablePlans = () => {
       title: "Total",
       dataIndex: "total",
       key: "total",
+      fixed: "right",
       render: (text, record) => (
         <InputNumber style={{ width: "100%" }} value={record.total} disabled />
       ),
@@ -102,9 +110,14 @@ const SalesTablePlans = () => {
       >
         Add Row
       </Button>
-      <Table dataSource={dataSource} columns={columns} pagination={false} />
+      <Table
+        dataSource={dataSource}
+        columns={columns}
+        pagination={false}
+        scroll={{ x: 1500 }} // Adjust the value as per the requirement to enable horizontal scrolling
+      />
     </div>
   );
 };
 
-export default SalesTablePlans;
+export default SalesTable;
