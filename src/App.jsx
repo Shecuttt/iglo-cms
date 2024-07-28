@@ -43,63 +43,77 @@ function App() {
       ) : (
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<PrivateRoute element={Dashboard} />} />
+            <Route path="/" element={<Dashboard />} />
             <Route path="*" element={<NotFound />} />
             <Route
               path="/usermanage"
-              element={<PrivateRoute element={UserManage} />}
+              // element={<PrivateRoute element={UserManage} />}
+              element={<UserManage />}
             />
             <Route
               path="/adduser"
-              element={<PrivateRoute element={AddUser} />}
+              // element={<PrivateRoute element={AddUser} />}
+              element={<AddUser />}
             />
             <Route
               path="/userlog"
-              element={<PrivateRoute element={UserLog} />}
+              // element={<PrivateRoute element={UserLog} />}
+              element={<UserLog />}
             />
             <Route
               path="/edit/:id"
-              element={<PrivateRoute element={EditUser} />}
+              // element={<PrivateRoute element={EditUser} />}
+              element={<EditUser />}
             />
             <Route
               path="/readonly/:id"
-              element={<PrivateRoute element={ReadUser} />}
+              // element={<PrivateRoute element={ReadUser} />}
+              element={<ReadUser />}
             />
             <Route
               path="/structure"
-              element={<PrivateRoute element={Structure} />}
+              // element={<PrivateRoute element={Structure} />}
+              element={<Structure />}
             />
             <Route
               path="/salesplan"
-              element={<PrivateRoute element={SalesPlan} />}
+              // element={<PrivateRoute element={SalesPlan} />}
+              element={<SalesPlan />}
             />
             <Route
               path="/customer"
-              element={<PrivateRoute element={Customer} />}
+              // element={<PrivateRoute element={Customer} />}
+              element={<Customer />}
             />
             <Route
               path="/productmanage"
-              element={<PrivateRoute element={ProductManage} />}
+              // element={<PrivateRoute element={ProductManage} />}
+              element={<ProductManage />}
             />
             <Route
               path="/productmanage/edit/:id"
-              element={<PrivateRoute element={EditProduct} />}
+              // element={<PrivateRoute element={EditProduct} />}
+              element={<EditProduct />}
             />
             <Route
               path="/productmanage/add"
-              element={<PrivateRoute element={AddProduct} />}
+              // element={<PrivateRoute element={AddProduct} />}
+              element={<AddProduct />}
             />
             <Route
               path="/companymanage"
-              element={<PrivateRoute element={CompanyManage} />}
+              // element={<PrivateRoute element={CompanyManage} />}
+              element={<CompanyManage />}
             />
             <Route
               path="/addpersonal"
-              element={<PrivateRoute element={AddPersonalCustomerForm} />}
+              // element={<PrivateRoute element={AddPersonalCustomerForm} />}
+              element={<AddPersonalCustomerForm />}
             />
             <Route
               path="/addcorporate"
-              element={<PrivateRoute element={AddCorporateCustomerForm} />}
+              // element={<PrivateRoute element={AddCorporateCustomerForm} />}
+              element={<AddCorporateCustomerForm />}
             />
             <Route path="/login" element={<Login />} />
           </Routes>

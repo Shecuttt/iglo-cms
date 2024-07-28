@@ -20,7 +20,7 @@ const Company = () => {
   useEffect(() => {
     // Fetch departments data from API
     axios
-      .get("https://iglo-cms-api.xyz/api/organization-structures")
+      .get("http://localhost:3001/departments")
       .then((response) => {
         const data = response.data;
         if (Array.isArray(data)) {
@@ -89,10 +89,7 @@ const Company = () => {
     }
 
     axios
-      .post(
-        "https://iglo-cms-api.xyz/api/organization-structures/create",
-        newDepartment
-      )
+      .post("http://localhost:3001/departments", newDepartment)
       .then((response) =>
         console.log("Department added successfully:", response)
       )
