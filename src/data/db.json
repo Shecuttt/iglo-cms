@@ -8,59 +8,6 @@
   ],
   "users": [
     {
-      "id": "ae5e",
-      "name": "a",
-      "departmentId": "1717561646937"
-    },
-    {
-      "id": "2777",
-      "name": "as",
-      "departmentId": "1717561646937"
-    },
-    {
-      "id": "4d73",
-      "name": "asas",
-      "departmentId": "1717561646937"
-    },
-    {
-      "id": "312b",
-      "name": "a",
-      "departmentId": "1717561646937"
-    },
-    {
-      "id": "0488",
-      "name": "a",
-      "departmentId": "1717561646937"
-    },
-    {
-      "id": "a9cc",
-      "name": "a",
-      "departmentId": "1717561646937"
-    },
-    {
-      "id": "0596",
-      "name": "a",
-      "departmentId": "1717561646937"
-    },
-    {
-      "id": "7ce5",
-      "name": "a",
-      "departmentId": "1717561632103"
-    },
-    {
-      "id": "7390",
-      "name": "Husni"
-    },
-    {
-      "id": "3e3e",
-      "name": "husni"
-    },
-    {
-      "id": "d58e",
-      "name": "a",
-      "departmentId": 2
-    },
-    {
       "id": "b8b2",
       "name": "xixixi",
       "departmentId": "1722052402628"
@@ -106,6 +53,36 @@
       "id": "834c",
       "category": "unassigned",
       "task": "a"
+    }
+  ],
+  "admin": [
+    {
+      "foto": "x",
+      "nama": "admin",
+      "id_karyawan": "123123",
+      "email": "admin@mail.com",
+      "telepon": "081234567890",
+      "nama_role": "Admin",
+      "status": "aktif"
+    },
+    {
+      "foto": "y",
+      "nama": "user",
+      "id_karyawan": "456456",
+      "email": "user@mail.com",
+      "telepon": "089876543210",
+      "nama_role": "User",
+      "status": "aktif"
+    }
+  ],
+  "role": [
+    {
+      "id_role": 1,
+      "nama_role": "Admin"
+    },
+    {
+      "id_role": 2,
+      "nama_role": "User"
     }
   ]
 }

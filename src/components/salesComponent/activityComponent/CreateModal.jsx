@@ -28,47 +28,47 @@ const CreateModal = ({ isVisible, onCancel, onCreate, form }) => {
   const [clientName, setClientName] = useState([]);
   const [companies, setCompanies] = useState([]);
 
-  useEffect(() => {
-    const fetchProductData = async () => {
-      await axios
-        .get("https://iglo-cms-api.xyz/api/product")
-        .then((response) => {
-          setApiProductData(response.data);
-        })
-        .catch((error) => {
-          console.error("Error fetching data: ", error);
-        });
-    };
-    const fetchResponsibleData = async () => {
-      await axios
-        .get("https://iglo-cms-api.xyz/api/user-manage")
-        .then((response) => {
-          setResponsibleData(response.data);
-        })
-        .catch((error) => {
-          console.error("Error fetching data: ", error);
-        });
-    };
-    const fetchOptionData = async () => {
-      try {
-        const response = await axios.get(
-          "https://iglo-cms-api.xyz/api/sales_plan_heads/create"
-        );
-        const data = response.data;
+  // useEffect(() => {
+  //   const fetchProductData = async () => {
+  //     await axios
+  //       .get("https://iglo-cms-api.xyz/api/product")
+  //       .then((response) => {
+  //         setApiProductData(response.data);
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error fetching data: ", error);
+  //       });
+  //   };
+  //   const fetchResponsibleData = async () => {
+  //     await axios
+  //       .get("https://iglo-cms-api.xyz/api/user-manage")
+  //       .then((response) => {
+  //         setResponsibleData(response.data);
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error fetching data: ", error);
+  //       });
+  //   };
+  //   const fetchOptionData = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         "https://iglo-cms-api.xyz/api/sales_plan_heads/create"
+  //       );
+  //       const data = response.data;
 
-        setTypes(data.type);
-        setDealType(data.deal_type);
-        setClientName(data.client);
-        setCompanies(data.company);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    };
+  //       setTypes(data.type);
+  //       setDealType(data.deal_type);
+  //       setClientName(data.client);
+  //       setCompanies(data.company);
+  //     } catch (error) {
+  //       console.error("Error fetching data: ", error);
+  //     }
+  //   };
 
-    fetchProductData();
-    fetchResponsibleData();
-    fetchOptionData();
-  }, []);
+  //   fetchProductData();
+  //   fetchResponsibleData();
+  //   fetchOptionData();
+  // }, []);
 
   const handleAddRow = () => {
     const newRow = {
@@ -96,18 +96,21 @@ const CreateModal = ({ isVisible, onCancel, onCreate, form }) => {
         <Select
           style={{ width: "100%" }}
           placeholder="Select a product"
-          onChange={(value) => {
-            const newData = tableData.map((item) =>
-              item.key === record.key ? { ...item, id_product: value } : item
-            );
-            setTableData(newData);
-          }}
+          // onChange={(value) => {
+          //   const newData = tableData.map((item) =>
+          //     item.key === record.key ? { ...item, id_product: value } : item
+          //   );
+          //   setTableData(newData);
+          // }}
         >
-          {apiProductData.map((product) => (
+          {/* {apiProductData.map((product) => (
             <Option key={product.id} value={product.id}>
               {product.nama}
             </Option>
-          ))}
+          ))} */}
+          <Option key={1} value={1}>
+            Product 1
+          </Option>
         </Select>
       ),
     },
@@ -161,11 +164,14 @@ const CreateModal = ({ isVisible, onCancel, onCreate, form }) => {
           rules={[{ required: true, message: "Please select the type!" }]}
         >
           <Select>
-            {types.map((type) => (
+            {/* {types.map((type) => (
               <Option key={type.id} value={type.id}>
                 {type.nama_tipe}
               </Option>
-            ))}
+            ))} */}
+            <Option key={1} value={1}>
+              Type 1
+            </Option>
           </Select>
         </Form.Item>
         <Form.Item
@@ -205,11 +211,14 @@ const CreateModal = ({ isVisible, onCancel, onCreate, form }) => {
           rules={[{ required: true, message: "Please select the deal type!" }]}
         >
           <Select>
-            {dealType.map((deal) => (
+            {/* {dealType.map((deal) => (
               <Option key={deal.id} value={deal.id}>
                 {deal.nama_deal_type}
               </Option>
-            ))}
+            ))} */}
+            <Option key={1} value={1}>
+              Deal Type 1
+            </Option>
           </Select>
         </Form.Item>
         <Form.Item label="Client">
@@ -220,11 +229,14 @@ const CreateModal = ({ isVisible, onCancel, onCreate, form }) => {
               rules={[{ required: true, message: "Please input the contact!" }]}
             >
               <Select placeholder="Select contact">
-                {clientName.map((client) => (
+                {/* {clientName.map((client) => (
                   <Option key={client.id} value={client.id}>
                     {client.name}
                   </Option>
-                ))}
+                ))} */}
+                <Option key={1} value={1}>
+                  Client 1
+                </Option>
               </Select>
             </Form.Item>
             <Form.Item
@@ -233,11 +245,14 @@ const CreateModal = ({ isVisible, onCancel, onCreate, form }) => {
               rules={[{ required: true, message: "Please input the company!" }]}
             >
               <Select placeholder="Select company">
-                {companies.map((company) => (
+                {/* {companies.map((company) => (
                   <Option key={company.id} value={company.id}>
                     {company.nama_company}
                   </Option>
-                ))}
+                ))} */}
+                <Option key={1} value={1}>
+                  Company 1
+                </Option>
               </Select>
             </Form.Item>
           </Input.Group>
@@ -250,11 +265,14 @@ const CreateModal = ({ isVisible, onCancel, onCreate, form }) => {
           ]}
         >
           <Select>
-            {responsibleData.map((responsible) => (
+            {/* {responsibleData.map((responsible) => (
               <Option key={responsible.id} value={responsible.id}>
                 {responsible.nama}
               </Option>
-            ))}
+            ))} */}
+            <Option key={1} value={1}>
+              Responsible 1
+            </Option>
           </Select>
         </Form.Item>
         <div className="flex items-center justify-end">

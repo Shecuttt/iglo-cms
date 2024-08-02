@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Breadcrumb, Table, Input, message } from "antd";
+import { Breadcrumb, Table, Input, message, Button } from "antd";
 import { Link } from "react-router-dom";
 import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,20 +20,18 @@ const Management = () => {
     pageSize: 10,
   });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://iglo-cms-api.xyz/api/user-manage"
-        );
-        setData(response.data);
-        setLoading(false);
-      } catch (error) {
-        message.error("Error fetching data:" + error.message);
-      }
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get("http://localhost:3001/admin");
+  //       setData(response.data);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       message.error("Error fetching data:" + error.message);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
 
   const handleSearch = (e) => {
     setSearchText(e.target.value);
@@ -54,17 +52,17 @@ const Management = () => {
       confirmButtonText: "Yes",
     });
 
-    if (result.isConfirmed) {
-      try {
-        await axios.delete(
-          `https://iglo-cms-api.xyz/api/user-manages/${record.id}`
-        );
-        setData(data.filter((item) => item.id !== record.id));
-        Swal.fire("Deleted!", "The record has been deleted.", "success");
-      } catch (error) {
-        message.error("Error deleting data: " + error.message);
-      }
-    }
+    // if (result.isConfirmed) {
+    //   try {
+    //     await axios.delete(
+    //       `https://iglo-cms-api.xyz/api/user-manages/${record.id}`
+    //     );
+    //     setData(data.filter((item) => item.id !== record.id));
+    //     Swal.fire("Deleted!", "The record has been deleted.", "success");
+    //   } catch (error) {
+    //     message.error("Error deleting data: " + error.message);
+    //   }
+    // }
   };
 
   const columns = [
@@ -140,30 +138,30 @@ const Management = () => {
     },
   ];
 
-  const filteredData =
-    data.length > 0
-      ? data.filter(
-          (item) =>
-            (item.nama?.toLowerCase() || "").includes(
-              searchText.toLowerCase()
-            ) ||
-            (item.email?.toLowerCase() || "").includes(searchText.toLowerCase())
-        )
-      : [];
+  // const filteredData =
+  //   data.length > 0
+  //     ? data.filter(
+  //         (item) =>
+  //           (item.nama?.toLowerCase() || "").includes(
+  //             searchText.toLowerCase()
+  //           ) ||
+  //           (item.email?.toLowerCase() || "").includes(searchText.toLowerCase())
+  //       )
+  //     : [];
+
+  const staticData = [
+    {
+      no: 1,
+      nama: "John Doe",
+      id_karyawan: "12345",
+      email: "johndoe@example.com",
+      nama_role: "Admin",
+      status: "Aktif",
+    },
+  ];
 
   return (
     <div className="p-8">
-      <Breadcrumb
-        items={[
-          {
-            title: <Link to="/">Home</Link>,
-          },
-          {
-            title: "User Management",
-          },
-        ]}
-        className="mb-4"
-      />
       <h1 className="text-2xl font-bold mb-4">User Management</h1>
       <div className="flex justify-between items-center mb-4">
         <Input
@@ -174,18 +172,15 @@ const Management = () => {
           className="w-1/3"
         />
         <Link to="/adduser">
-          <button
-            className="bg-red-700 py-2 px-4 rounded-md text-white text-sm hover:bg-red-900"
-            icon={<PlusOutlined />}
-          >
-            Tambah Data
-          </button>
+          <Button type="primary" danger>
+            Tambah data
+          </Button>
         </Link>
       </div>
       <Table
         columns={columns}
-        dataSource={filteredData}
-        loading={loading}
+        dataSource={staticData}
+        // loading={loading}
         pagination={page}
         onChange={handlePagination}
         rowKey="id"

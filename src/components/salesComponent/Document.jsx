@@ -32,25 +32,25 @@ const Document = () => {
   const [uploadedFile, setUploadedFile] = useState(null);
   const { user } = useAuth();
 
-  useEffect(() => {
-    fetchDocuments();
-  }, []);
+  // useEffect(() => {
+  //   fetchDocuments();
+  // }, []);
 
-  const fetchDocuments = () => {
-    axios
-      .get("https://iglo-cms-api.xyz/api/document-templates")
-      .then((response) => {
-        const documents = response.data.map((doc) => ({
-          ...doc,
-          key: doc.id,
-        }));
-        setData(documents);
-        setFilteredData(documents);
-      })
-      .catch((error) => {
-        console.error("There was an error fetching the documents!", error);
-      });
-  };
+  // const fetchDocuments = () => {
+  //   axios
+  //     .get("https://iglo-cms-api.xyz/api/document-templates")
+  //     .then((response) => {
+  //       const documents = response.data.map((doc) => ({
+  //         ...doc,
+  //         key: doc.id,
+  //       }));
+  //       setData(documents);
+  //       setFilteredData(documents);
+  //     })
+  //     .catch((error) => {
+  //       console.error("There was an error fetching the documents!", error);
+  //     });
+  // };
 
   const showModal = (record) => {
     setSelectedDocument(record);
@@ -69,18 +69,18 @@ const Document = () => {
     form.resetFields();
   };
 
-  const handleDelete = (record) => {
-    axios
-      .delete(`https://iglo-cms-api.xyz/api/document-templates/${record.id}`)
-      .then(() => {
-        message.success("Document deleted successfully!");
-        fetchDocuments();
-      })
-      .catch((error) => {
-        console.error("There was an error deleting the document!", error);
-        message.error("Failed to delete document.");
-      });
-  };
+  // const handleDelete = (record) => {
+  //   axios
+  //     .delete(`https://iglo-cms-api.xyz/api/document-templates/${record.id}`)
+  //     .then(() => {
+  //       message.success("Document deleted successfully!");
+  //       fetchDocuments();
+  //     })
+  //     .catch((error) => {
+  //       console.error("There was an error deleting the document!", error);
+  //       message.error("Failed to delete document.");
+  //     });
+  // };
 
   const toLowerCaseSafe = (value) => {
     return value && typeof value === "string" ? value.toLowerCase() : "";
@@ -113,53 +113,53 @@ const Document = () => {
     setFileList(fileList);
   };
 
-  const handleUploadSubmit = (values) => {
-    const formData = new FormData();
-    if (fileList.length > 0) {
-      formData.append("file", fileList[0].originFileObj);
-      formData.append("id_user_manage", values.id_user_manage);
-      axios
-        .post("https://iglo-cms-api.xyz/api/document-templates", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((response) => {
-          message.success("Document template uploaded successfully!");
-          setIsUploadModalVisible(false);
-          setUploadedFile(response.data); // Simpan informasi file yang sudah diupload
-          fetchDocuments();
-        })
-        .catch((error) => {
-          console.error("There was an error uploading the document!", error);
-          message.error("Failed to upload document template.");
-        });
-    } else {
-      message.error("Please select a file to upload.");
-    }
-  };
+  // const handleUploadSubmit = (values) => {
+  //   const formData = new FormData();
+  //   if (fileList.length > 0) {
+  //     formData.append("file", fileList[0].originFileObj);
+  //     formData.append("id_user_manage", values.id_user_manage);
+  //     axios
+  //       .post("https://iglo-cms-api.xyz/api/document-templates", formData, {
+  //         headers: {
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //       })
+  //       .then((response) => {
+  //         message.success("Document template uploaded successfully!");
+  //         setIsUploadModalVisible(false);
+  //         setUploadedFile(response.data); // Simpan informasi file yang sudah diupload
+  //         fetchDocuments();
+  //       })
+  //       .catch((error) => {
+  //         console.error("There was an error uploading the document!", error);
+  //         message.error("Failed to upload document template.");
+  //       });
+  //   } else {
+  //     message.error("Please select a file to upload.");
+  //   }
+  // };
 
-  const handleDownload = (record) => {
-    // Misalkan endpoint untuk mengunduh file adalah di 'https://iglo-cms-api.xyz/api/download-file/'
-    const downloadUrl = `https://iglo-cms-api.xyz/api/download-template/${record.id}`;
-    axios({
-      url: downloadUrl,
-      method: "GET",
-      responseType: "blob", // penting untuk menangani response dalam bentuk blob (binary large object)
-    })
-      .then((response) => {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", record.nama_file); // Nama file yang akan diunduh
-        document.body.appendChild(link);
-        link.click();
-      })
-      .catch((error) => {
-        console.error("Error downloading file:", error);
-        message.error("Failed to download file.");
-      });
-  };
+  // const handleDownload = (record) => {
+  //   // Misalkan endpoint untuk mengunduh file adalah di 'https://iglo-cms-api.xyz/api/download-file/'
+  //   const downloadUrl = `https://iglo-cms-api.xyz/api/download-template/${record.id}`;
+  //   axios({
+  //     url: downloadUrl,
+  //     method: "GET",
+  //     responseType: "blob", // penting untuk menangani response dalam bentuk blob (binary large object)
+  //   })
+  //     .then((response) => {
+  //       const url = window.URL.createObjectURL(new Blob([response.data]));
+  //       const link = document.createElement("a");
+  //       link.href = url;
+  //       link.setAttribute("download", record.nama_file); // Nama file yang akan diunduh
+  //       document.body.appendChild(link);
+  //       link.click();
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error downloading file:", error);
+  //       message.error("Failed to download file.");
+  //     });
+  // };
 
   const columns = [
     {
@@ -180,14 +180,22 @@ const Document = () => {
         <div className="flex space-x-2">
           <Button
             icon={<DeleteOutlined />}
-            onClick={() => handleDelete(record)}
+            // onClick={() => handleDelete(record)}
           />
           <Button
             icon={<DownloadOutlined />}
-            onClick={() => handleDownload(record)}
+            // onClick={() => handleDownload(record)}
           />
         </div>
       ),
+    },
+  ];
+
+  const staticData = [
+    {
+      key: "1",
+      nama_file: "Document 1",
+      size: "100 KB",
     },
   ];
 
@@ -196,19 +204,17 @@ const Document = () => {
       <Layout className="p-6 m-4">
         <div className="flex justify-between mb-4">
           <span className="font-bold text-2xl text-black">Document</span>
-          <div>
+          <div className="flex justify-end space-x-3">
             <Button
               type="primary"
               icon={<UploadOutlined />}
               onClick={handleUploadModal}
-              className="mr-2"
             >
               Upload Template
             </Button>
             <Input
               placeholder="Search File and Folders"
               prefix={<SearchOutlined />}
-              className="w-1/3"
               value={searchText}
               onChange={handleSearch}
             />
@@ -216,7 +222,8 @@ const Document = () => {
         </div>
         <Table
           columns={columns}
-          dataSource={filteredData}
+          // dataSource={filteredData}
+          dataSource={staticData}
           className="bg-white"
           pagination={false}
         />
@@ -233,13 +240,17 @@ const Document = () => {
           <Button
             key="submit"
             type="primary"
-            onClick={() => uploadForm.submit()}
+            // onClick={() => uploadForm.submit()}
           >
             Submit
           </Button>,
         ]}
       >
-        <Form form={uploadForm} layout="vertical" onFinish={handleUploadSubmit}>
+        <Form
+          form={uploadForm}
+          layout="vertical"
+          //  onFinish={handleUploadSubmit}
+        >
           <Form.Item
             name="file"
             label="Select File"

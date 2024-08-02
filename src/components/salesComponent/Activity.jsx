@@ -19,21 +19,21 @@ const Activity = () => {
   const [data, setData] = useState([]);
   const [tableData, setTableData] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://iglo-cms-api.xyz/api/sales_plan_heads"
-        );
-        setData(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        message.error("Failed to fetch data.");
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         "https://iglo-cms-api.xyz/api/sales_plan_heads"
+  //       );
+  //       setData(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //       message.error("Failed to fetch data.");
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   const handleMenuClick = ({ key }) => {
     setSelectedMenu(key);
@@ -136,8 +136,17 @@ const Activity = () => {
     { title: "Title", dataIndex: "nama", key: "nama" },
   ];
 
+  const staticData = [
+    {
+      id: 1,
+      nama: "Proposal 1",
+      start_date: "2022-01-01",
+      end_date: "2022-02-01",
+    },
+  ];
+
   return (
-    <Layout className="p-2 rounded-md">
+    <Layout className="rounded-md">
       <Sider width={144} className="min-h-screen overflow-hidden">
         <Menu
           mode="inline"
@@ -149,8 +158,12 @@ const Activity = () => {
             Create
           </Menu.Item>
           <Menu.Item key="Proposal">Proposal</Menu.Item>
-          <Menu.Item key="Portfolio">Portfolio</Menu.Item>
-          <Menu.Item key="Invoice">Invoice</Menu.Item>
+          <Menu.Item disabled key="Portfolio">
+            Portfolio
+          </Menu.Item>
+          <Menu.Item disabled key="Invoice">
+            Invoice
+          </Menu.Item>
         </Menu>
       </Sider>
       <Layout className="p-6">
@@ -170,7 +183,7 @@ const Activity = () => {
               </Space>
               <Table
                 columns={columns}
-                dataSource={data}
+                dataSource={staticData}
                 pagination={{ pageSize: 5 }}
                 style={{ fontSize: 12, lineHeight: 16 }}
                 className="text-xs"

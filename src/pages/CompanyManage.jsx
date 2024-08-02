@@ -1,18 +1,13 @@
 import React from "react";
-import Sidebar from "../components/Sidebar";
-import TopNav from "../components/TopNav";
 import CompanyData from "../components/companyComponent/CompanyData";
+import Layout from "../components/Layout";
 
 const CompanyManage = () => {
-    return (
-        <div className="flex">
-            <Sidebar />
-            <main className="w-full bg-red-50">
-                <TopNav />
-                <CompanyData />
-            </main>
-        </div>
-    );
+  return (
+    <Layout>
+      <CompanyData />
+    </Layout>
+  );
 };
 
 export default CompanyManage;

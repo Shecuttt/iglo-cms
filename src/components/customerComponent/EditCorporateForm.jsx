@@ -12,34 +12,34 @@ const EditCorporateForm = ({ open, onCancel, onUpdate, data }) => {
   const [industryName, setIndustryName] = useState("");
   const [companyScaleName, setCompanyScaleName] = useState("");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://iglo-cms-api.xyz/api/customers/create"
-        );
-        setIndustryTypes(response.data.industri_types);
-        setCompanyScales(response.data.company_scales);
-        // Set initial names based on data
-        const initialIndustry = response.data.industri_types.find(
-          (type) => type.id === data.id_industry_type
-        );
-        const initialCompanyScale = response.data.company_scales.find(
-          (scale) => scale.id === data.id_company_scale
-        );
-        setIndustryName(
-          initialIndustry ? initialIndustry.nama_industri_type : ""
-        );
-        setCompanyScaleName(
-          initialCompanyScale ? initialCompanyScale.nama_company_scale : ""
-        );
-      } catch (error) {
-        message.error("Failed to fetch data from API");
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         "https://iglo-cms-api.xyz/api/customers/create"
+  //       );
+  //       setIndustryTypes(response.data.industri_types);
+  //       setCompanyScales(response.data.company_scales);
+  //       // Set initial names based on data
+  //       const initialIndustry = response.data.industri_types.find(
+  //         (type) => type.id === data.id_industry_type
+  //       );
+  //       const initialCompanyScale = response.data.company_scales.find(
+  //         (scale) => scale.id === data.id_company_scale
+  //       );
+  //       setIndustryName(
+  //         initialIndustry ? initialIndustry.nama_industri_type : ""
+  //       );
+  //       setCompanyScaleName(
+  //         initialCompanyScale ? initialCompanyScale.nama_company_scale : ""
+  //       );
+  //     } catch (error) {
+  //       message.error("Failed to fetch data from API");
+  //     }
+  //   };
 
-    fetchData();
-  }, [data]);
+  //   fetchData();
+  // }, [data]);
 
   const initialData = {
     ...data,
@@ -104,13 +104,16 @@ const EditCorporateForm = ({ open, onCancel, onUpdate, data }) => {
         >
           <Select
             placeholder="Select industry type"
-            onChange={(value, option) => setIndustryName(option.children)}
+            // onChange={(value, option) => setIndustryName(option.children)}
           >
-            {industryTypes.map((type) => (
-              <Option key={type.id} value={type.id}>
-                {type.nama_industri_type}
-              </Option>
-            ))}
+            {/* {industryTypes.map((type) => ( */}
+            {/* <Option key={type.id} value={type.id}> */}
+            {/* {type.nama_industri_type} */}
+            {/* </Option> */}
+            {/* ))} */}
+            <Option key={1} value={1}>
+              Type 1
+            </Option>
           </Select>
         </Form.Item>
         <Form.Item
@@ -120,13 +123,22 @@ const EditCorporateForm = ({ open, onCancel, onUpdate, data }) => {
         >
           <Select
             placeholder="Select company scale"
-            onChange={(value, option) => setCompanyScaleName(option.children)}
+            // onChange={(value, option) => setCompanyScaleName(option.children)}
           >
-            {companyScales.map((scale) => (
-              <Option key={scale.id} value={scale.id}>
-                {scale.nama_company_scale}
-              </Option>
-            ))}
+            {/* {companyScales.map((scale) => ( */}
+            {/* <Option key={scale.id} value={scale.id}> */}
+            {/* {scale.nama_company_scale} */}
+            {/* </Option> */}
+            {/* ))} */}
+            <Option key={1} value={1}>
+              Small
+            </Option>
+            <Option key={2} value={2}>
+              Medium
+            </Option>
+            <Option key={3} value={3}>
+              Large
+            </Option>
           </Select>
         </Form.Item>
         <Form.Item

@@ -10,9 +10,10 @@ import {
   message,
   Popconfirm,
 } from "antd";
-import axios from "axios";
 
 const { Meta } = Card;
+
+const TASKS_KEY = "tasks";
 
 const TaskEntry = () => {
   const [tasks, setTasks] = useState([]);
@@ -22,19 +23,22 @@ const TaskEntry = () => {
   const [editingTaskId, setEditingTaskId] = useState(null);
 
   useEffect(() => {
-    fetchTasks();
+    fetchTasksFromLocalStorage();
   }, []);
 
-  const fetchTasks = async () => {
-    try {
-      const response = await axios.get(
-        "https://iglo-cms-api.xyz/api/task_entry"
-      );
-      setTasks(response.data);
-    } catch (error) {
-      console.error("Error fetching tasks:", error);
-      message.error("Failed to fetch tasks");
+  useEffect(() => {
+    saveTasksToLocalStorage();
+  }, [tasks]);
+
+  const fetchTasksFromLocalStorage = () => {
+    const storedTasks = JSON.parse(localStorage.getItem(TASKS_KEY));
+    if (storedTasks) {
+      setTasks(storedTasks);
     }
+  };
+
+  const saveTasksToLocalStorage = () => {
+    localStorage.setItem(TASKS_KEY, JSON.stringify(tasks));
   };
 
   const showModal = (task) => {
@@ -50,39 +54,32 @@ const TaskEntry = () => {
     setIsModalVisible(true);
   };
 
-  const handleOk = async () => {
+  const handleOk = () => {
     if (!judulTask.trim()) {
       message.error("Task title cannot be empty");
       return;
     }
 
-    try {
-      if (editingTaskId) {
-        // Edit existing task
-        await axios.put(
-          `https://iglo-cms-api.xyz/api/task_entry/${editingTaskId}`,
-          {
-            judul_task: judulTask,
-            keterangan: keterangan,
-          }
-        );
-        message.success("Task updated successfully");
-      } else {
-        // Add new task
-        await axios.post("https://iglo-cms-api.xyz/api/task_entry", {
-          judul_task: judulTask,
-          keterangan: keterangan,
-        });
-        message.success("Task added successfully");
-      }
-      setIsModalVisible(false);
-      setJudulTask("");
-      setKeterangan("");
-      fetchTasks(); // Refresh task list
-    } catch (error) {
-      console.error("Error adding/updating task:", error);
-      message.error("Failed to add/update task");
+    const newTask = {
+      id: Date.now(),
+      judul_task: judulTask,
+      keterangan: keterangan,
+    };
+
+    if (editingTaskId) {
+      // Edit existing task
+      const updatedTasks = tasks.map((task) =>
+        task.id === editingTaskId ? newTask : task
+      );
+      setTasks(updatedTasks);
+    } else {
+      // Add new task
+      setTasks([...tasks, newTask]);
     }
+
+    setIsModalVisible(false);
+    setJudulTask("");
+    setKeterangan("");
   };
 
   const handleCancel = () => {
@@ -91,15 +88,9 @@ const TaskEntry = () => {
     setKeterangan("");
   };
 
-  const handleDelete = async (taskId) => {
-    try {
-      await axios.delete(`https://iglo-cms-api.xyz/api/task_entry/${taskId}`);
-      message.success("Task deleted successfully");
-      fetchTasks(); // Refresh task list
-    } catch (error) {
-      console.error("Error deleting task:", error);
-      message.error("Failed to delete task");
-    }
+  const handleDelete = (taskId) => {
+    const filteredTasks = tasks.filter((task) => task.id !== taskId);
+    setTasks(filteredTasks);
   };
 
   const renderTasks = () => {
@@ -136,7 +127,7 @@ const TaskEntry = () => {
   };
 
   return (
-    <div className="p-4 mt-3 bg-red-50">
+    <div className="p-4 mt-3">
       <Row gutter={16}>
         <Col span={24}>
           <Card

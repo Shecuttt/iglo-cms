@@ -9,20 +9,20 @@ const Employee = () => {
   const [editingEmployee, setEditingEmployee] = useState(null);
   const [form] = Form.useForm();
 
-  useEffect(() => {
-    fetchEmployees();
-  }, []);
+  // useEffect(() => {
+  //   fetchEmployees();
+  // }, []);
 
-  const fetchEmployees = async () => {
-    try {
-      const response = await axios.get(
-        "http://iglo-cms-api.xyz/api/user-manage"
-      );
-      setEmployees(response.data);
-    } catch (error) {
-      console.error("There was an error fetching the employees!", error);
-    }
-  };
+  // const fetchEmployees = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       "http://iglo-cms-api.xyz/api/user-manage"
+  //     );
+  //     setEmployees(response.data);
+  //   } catch (error) {
+  //     console.error("There was an error fetching the employees!", error);
+  //   }
+  // };
 
   const handleOpenModal = (employee = null) => {
     setEditingEmployee(employee);
@@ -79,6 +79,19 @@ const Employee = () => {
     });
   };
 
+  const staticEmployData = [
+    {
+      id: 1,
+      nama: "John Doe",
+      email: "johndoe@example.com",
+      telepon: "08123456789",
+      position: "Software Engineer",
+      department: "Engineering",
+      foto: "https://via.placeholder.com/150",
+    },
+    // Add more employees here
+  ];
+
   const columns = [
     {
       title: "Photo",
@@ -88,7 +101,7 @@ const Employee = () => {
         <img
           src={text}
           alt="employee"
-          className="rounded-full w-12 h-12 object-cover"
+          className="rounded-full lg:w-12 lg:h-12 object-cover"
         />
       ),
     },
@@ -134,22 +147,19 @@ const Employee = () => {
   return (
     <>
       <div className="flex items-center justify-end space-x-3 mb-4">
-        <button
-          className="text-white bg-red-700 rounded-md py-2 px-3 hover:bg-red-800"
-          type="primary"
-          onClick={() => handleOpenModal()}
-        >
-          Add user
-        </button>
-        <button
-          disabled
-          className="text-white bg-red-700 rounded-md py-2 px-3 hover:bg-red-800"
-          type="primary"
-        >
+        <Button danger type="default" onClick={() => handleOpenModal()}>
+          Add employee
+        </Button>
+        <Button disabled type="default">
           Import
-        </button>
+        </Button>
       </div>
-      <Table dataSource={employees} columns={columns} rowKey="id" />
+      <Table
+        className="overflow-x-auto"
+        dataSource={staticEmployData}
+        columns={columns}
+        rowKey="id"
+      />
       <Modal
         title={editingEmployee ? "Edit Employee" : "Add Employee"}
         open={modalOpen}

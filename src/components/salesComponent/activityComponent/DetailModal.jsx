@@ -36,61 +36,61 @@ const DetailModal = ({
   const [clientName, setClientName] = useState([]);
   const [companies, setCompanies] = useState([]);
 
-  useEffect(() => {
-    const fetchProductData = async () => {
-      try {
-        const response = await axios.get(
-          "https://iglo-cms-api.xyz/api/product"
-        );
-        setApiProductData(response.data);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    };
-    const fetchResponsibleData = async () => {
-      try {
-        const response = await axios.get(
-          "https://iglo-cms-api.xyz/api/user-manage"
-        );
-        setResponsibleData(response.data);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    };
-    const fetchOptionData = async () => {
-      try {
-        const response = await axios.get(
-          "https://iglo-cms-api.xyz/api/sales_plan_heads/create"
-        );
-        const data = response.data;
+  // useEffect(() => {
+  //   const fetchProductData = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         "https://iglo-cms-api.xyz/api/product"
+  //       );
+  //       setApiProductData(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching data: ", error);
+  //     }
+  //   };
+  //   const fetchResponsibleData = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         "https://iglo-cms-api.xyz/api/user-manage"
+  //       );
+  //       setResponsibleData(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching data: ", error);
+  //     }
+  //   };
+  //   const fetchOptionData = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         "https://iglo-cms-api.xyz/api/sales_plan_heads/create"
+  //       );
+  //       const data = response.data;
 
-        setTypes(data.type.map((type) => ({ ...type, name: type.nama_tipe })));
-        setDealType(
-          data.deal_type.map((deal) => ({ ...deal, name: deal.nama_deal_type }))
-        );
-        setClientName(data.client);
-        setCompanies(data.company);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    };
+  //       setTypes(data.type.map((type) => ({ ...type, name: type.nama_tipe })));
+  //       setDealType(
+  //         data.deal_type.map((deal) => ({ ...deal, name: deal.nama_deal_type }))
+  //       );
+  //       setClientName(data.client);
+  //       setCompanies(data.company);
+  //     } catch (error) {
+  //       console.error("Error fetching data: ", error);
+  //     }
+  //   };
 
-    const fetchTableData = async () => {
-      try {
-        const response = await axios.get(
-          "https://iglo-cms-api.xyz/api/sales_plan_heads"
-        );
-        setTableData(response.data);
-      } catch (error) {
-        console.error("Error fetching table data: ", error);
-      }
-    };
+  //   const fetchTableData = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         "https://iglo-cms-api.xyz/api/sales_plan_heads"
+  //       );
+  //       setTableData(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching table data: ", error);
+  //     }
+  //   };
 
-    fetchTableData();
-    fetchProductData();
-    fetchResponsibleData();
-    fetchOptionData();
-  }, []);
+  //   fetchTableData();
+  //   fetchProductData();
+  //   fetchResponsibleData();
+  //   fetchOptionData();
+  // }, []);
 
   useEffect(() => {
     if (record) {

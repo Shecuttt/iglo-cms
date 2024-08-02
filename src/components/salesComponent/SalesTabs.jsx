@@ -28,6 +28,7 @@ const items = [
   {
     key: "customer-handling",
     label: "Customer Handling",
+    disabled: true,
   },
 ];
 
@@ -63,11 +64,8 @@ const SalesTabs = () => {
   };
 
   return (
-    <div>
-      <Menu
-        mode="horizontal"
-        className="ml-4 flex justify-start space-x-8 border-0"
-      >
+    <>
+      <Menu mode="horizontal" className="flex justify-start border-0 px-4 py-2">
         <Dropdown
           overlay={<Menu items={items} onClick={handleMenuClick} />}
           trigger={["hover"]}
@@ -83,6 +81,7 @@ const SalesTabs = () => {
         </Dropdown>
         <Item
           key="performance"
+          disabled
           className="text-red-500 cursor-pointer"
           onClick={() => setActiveTab("performance")}
         >
@@ -90,6 +89,7 @@ const SalesTabs = () => {
         </Item>
         <Item
           key="contact"
+          disabled
           className="text-red-500 cursor-pointer"
           onClick={() => setActiveTab("contact")}
         >
@@ -104,6 +104,7 @@ const SalesTabs = () => {
         </Item>
         <Item
           key="reward"
+          disabled
           className="text-red-500 cursor-pointer"
           onClick={() => setActiveTab("reward")}
         >
@@ -111,7 +112,7 @@ const SalesTabs = () => {
         </Item>
       </Menu>
       <div className="">{renderContent()}</div>
-    </div>
+    </>
   );
 };
 

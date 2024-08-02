@@ -14,26 +14,26 @@ import axios from "axios";
 
 const { Option } = Select;
 
-const AddCorporateCustomerForm = ({ visible, onCancel, onCreate }) => {
+const AddCorporateCustomerForm = ({ open, onCancel, onCreate }) => {
   const [form] = Form.useForm();
   const [industryTypes, setIndustryTypes] = useState([]);
   const [companyScales, setCompanyScales] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://iglo-cms-api.xyz/api/customers/create"
-        );
-        setIndustryTypes(response.data.industri_types);
-        setCompanyScales(response.data.company_scales);
-      } catch (error) {
-        message.error("Failed to fetch data from API");
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         "https://iglo-cms-api.xyz/api/customers/create"
+  //       );
+  //       setIndustryTypes(response.data.industri_types);
+  //       setCompanyScales(response.data.company_scales);
+  //     } catch (error) {
+  //       message.error("Failed to fetch data from API");
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   const handleCreate = async () => {
     try {
@@ -50,11 +50,11 @@ const AddCorporateCustomerForm = ({ visible, onCancel, onCreate }) => {
       });
 
       // Perform API request using FormData
-      await axios.post("https://iglo-cms-api.xyz/api/customers", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      // await axios.post("https://iglo-cms-api.xyz/api/customers", formData, {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //   },
+      // });
 
       form.resetFields();
       onCreate(values);
@@ -69,7 +69,7 @@ const AddCorporateCustomerForm = ({ visible, onCancel, onCreate }) => {
 
   return (
     <Modal
-      open={visible}
+      open={open}
       title="Add Corporate Customer"
       okText="Add"
       onCancel={onCancel}
@@ -109,12 +109,17 @@ const AddCorporateCustomerForm = ({ visible, onCancel, onCreate }) => {
                 { required: true, message: "Please select industry type" },
               ]}
             >
-              <Select placeholder="Select industry type">
+              {/* <Select placeholder="Select industry type">
                 {industryTypes.map((type) => (
                   <Option key={type.id} value={type.id}>
                     {type.nama_industri_type}
                   </Option>
                 ))}
+              </Select> */}
+              <Select placeholder="Select industry type">
+                <Option key={1} value={1}>
+                  Tipe 1
+                </Option>
               </Select>
             </Form.Item>
           </Col>
@@ -126,12 +131,23 @@ const AddCorporateCustomerForm = ({ visible, onCancel, onCreate }) => {
                 { required: true, message: "Please select company scale" },
               ]}
             >
-              <Select placeholder="Select company scale">
+              {/* <Select placeholder="Select company scale">
                 {companyScales.map((scale) => (
                   <Option key={scale.id} value={scale.id}>
                     {scale.nama_company_scale}
                   </Option>
                 ))}
+              </Select> */}
+              <Select placeholder="Select company scale">
+                <Option key={1} value={1}>
+                  Small
+                </Option>
+                <Option key={2} value={2}>
+                  Medium
+                </Option>
+                <Select key={3} value={3}>
+                  Large
+                </Select>
               </Select>
             </Form.Item>
           </Col>

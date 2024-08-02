@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Breadcrumb,
-  Button,
-  Table,
-  Modal,
-  Dropdown,
-  Menu,
-  message,
-} from "antd";
+import { Button, Table, Modal, Dropdown, Menu, message } from "antd";
 import {
   PlusOutlined,
   SettingOutlined,
@@ -25,7 +17,6 @@ import {
   faPenToSquare,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const CustomerList = () => {
@@ -41,22 +32,22 @@ const CustomerList = () => {
   const [editData, setEditData] = useState({});
   const [readData, setReadData] = useState({});
 
-  useEffect(() => {
-    fetchCustomers();
-  }, []);
+  // useEffect(() => {
+  //   fetchCustomers();
+  // }, []);
 
-  const fetchCustomers = async () => {
-    try {
-      const response = await axios.get(
-        "https://iglo-cms-api.xyz/api/customers"
-      );
-      setDataSource(response.data);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching customer data:", error);
-      setLoading(false);
-    }
-  };
+  // const fetchCustomers = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       "https://iglo-cms-api.xyz/api/customers"
+  //     );
+  //     setDataSource(response.data);
+  //     setLoading(false);
+  //   } catch (error) {
+  //     console.error("Error fetching customer data:", error);
+  //     setLoading(false);
+  //   }
+  // };
 
   const handleAddCustomer = () => {
     setSelectModalVisible(true);
@@ -238,19 +229,19 @@ const CustomerList = () => {
     },
   ];
 
+  const staticData = [
+    {
+      key: "1",
+      no: "1",
+      name: "John Doe",
+      email: "john.doe@example.com",
+      phone: "1234567890",
+      code_name: "john_doe",
+    },
+  ];
+
   return (
     <div className="p-8">
-      <Breadcrumb
-        items={[
-          {
-            title: <Link to={"/"}>Home</Link>,
-          },
-          {
-            title: "Customer List",
-          },
-        ]}
-        style={{ marginBottom: "16px" }}
-      />
       <div className="flex justify-end space-x-2 mb-4">
         <Button
           type="primary"
@@ -286,10 +277,10 @@ const CustomerList = () => {
         </Button>
       </div>
       <Table
-        dataSource={dataSource}
+        dataSource={staticData}
         columns={columns}
         pagination={{ pageSize: 10 }}
-        loading={loading}
+        // loading={loading}
         onChange={(pagination, filters, sorter) => {
           console.log("pagination:", pagination);
           console.log("filters:", filters);

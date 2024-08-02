@@ -10,34 +10,34 @@ const ReadCorporateForm = ({ open, onCancel, data }) => {
   const [industryName, setIndustryName] = useState("");
   const [companyScaleName, setCompanyScaleName] = useState("");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://iglo-cms-api.xyz/api/customers/create"
-        );
-        setIndustryTypes(response.data.industri_types);
-        setCompanyScales(response.data.company_scales);
-        // Set initial names based on data
-        const initialIndustry = response.data.industri_types.find(
-          (type) => type.id === data.id_industry_type
-        );
-        const initialCompanyScale = response.data.company_scales.find(
-          (scale) => scale.id === data.id_company_scale
-        );
-        setIndustryName(
-          initialIndustry ? initialIndustry.nama_industri_type : ""
-        );
-        setCompanyScaleName(
-          initialCompanyScale ? initialCompanyScale.nama_company_scales : ""
-        );
-      } catch (error) {
-        message.error("Failed to fetch data from API");
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         "https://iglo-cms-api.xyz/api/customers/create"
+  //       );
+  //       setIndustryTypes(response.data.industri_types);
+  //       setCompanyScales(response.data.company_scales);
+  //       // Set initial names based on data
+  //       const initialIndustry = response.data.industri_types.find(
+  //         (type) => type.id === data.id_industry_type
+  //       );
+  //       const initialCompanyScale = response.data.company_scales.find(
+  //         (scale) => scale.id === data.id_company_scale
+  //       );
+  //       setIndustryName(
+  //         initialIndustry ? initialIndustry.nama_industri_type : ""
+  //       );
+  //       setCompanyScaleName(
+  //         initialCompanyScale ? initialCompanyScale.nama_company_scales : ""
+  //       );
+  //     } catch (error) {
+  //       message.error("Failed to fetch data from API");
+  //     }
+  //   };
 
-    fetchData();
-  }, [data]);
+  //   fetchData();
+  // }, [data]);
 
   const initialData = {
     ...data,
@@ -65,10 +65,12 @@ const ReadCorporateForm = ({ open, onCancel, data }) => {
           <Input disabled />
         </Form.Item>
         <Form.Item name="id_industry_type" label="Industry Type">
-          <Input value={industryName} disabled />
+          {/* <Input value={industryName} disabled /> */}
+          <Input disabled />
         </Form.Item>
         <Form.Item name="id_company_scale" label="Company Scale">
-          <Input value={companyScaleName} disabled />
+          {/* <Input value={companyScaleName} disabled /> */}
+          <Input disabled />
         </Form.Item>
         <Form.Item name="establish" label="Establish">
           <Input type="number" disabled />

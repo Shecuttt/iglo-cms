@@ -1,18 +1,13 @@
 import React from "react";
-import Sidebar from "../components/Sidebar";
-import TopNav from "../components/TopNav";
 import ProdMan from "../components/productComponent/ProdMan";
+import Layout from "../components/Layout";
 
 const ProductManage = () => {
-    return (
-        <div className="flex">
-            <Sidebar />
-            <main className="w-full bg-red-50">
-                <TopNav />
-                <ProdMan />
-            </main>
-        </div>
-    );
+  return (
+    <Layout>
+      <ProdMan />
+    </Layout>
+  );
 };
 
 export default ProductManage;

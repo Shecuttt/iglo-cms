@@ -250,20 +250,6 @@ const ScheduleCenter = () => {
 
   return (
     <div className="p-4">
-      <Breadcrumb
-        items={[
-          {
-            title: <Link to="/salesplan">Sales Plan</Link>,
-          },
-          {
-            title: "Activity",
-          },
-          {
-            title: "Schedule Center",
-          },
-        ]}
-        className="mb-4"
-      />
       <h1 className="text-2xl font-bold mb-4">Schedule Center</h1>
       <Modal
         title="Add Event"

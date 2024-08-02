@@ -1,20 +1,13 @@
 import React from "react";
-import Sidebar from "../components/Sidebar";
-import TopNav from "../components/TopNav";
-import Tabs from "../components/structureComponent/Tabs";
+import Layout from "../components/Layout";
+import TabsMenu from "../components/structureComponent/TabsMenu";
 
 const Structure = () => {
-    return (
-        <div className="flex">
-            {/* Sidebar */}
-            <Sidebar />
-            {/* Main */}
-            <main className="w-full bg-red-50">
-                <TopNav />
-                <Tabs />
-            </main>
-        </div>
-    );
+  return (
+    <Layout>
+      <TabsMenu />
+    </Layout>
+  );
 };
 
 export default Structure;
